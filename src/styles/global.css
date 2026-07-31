@@ -1,0 +1,251 @@
+@import "tailwindcss";
+
+/* Self-hosted brand fonts (Figma: Syne + Plus Jakarta Sans).
+   Syne is used at weight 400 (Regular: H1/H2/Intro/quote mark) and
+   500 (Medium: H4/nav "Sarah Roberts"/intro-medium button) — no other
+   Syne weight appears in the design. Plus Jakarta Sans is used at 400
+   (Regular/Italic: body), 500 (Medium: sub-heading label), and 600
+   (SemiBold: numbered-item headings). */
+@import "@fontsource/syne/400.css";
+@import "@fontsource/syne/500.css";
+@import "@fontsource/plus-jakarta-sans/400.css";
+@import "@fontsource/plus-jakarta-sans/400-italic.css";
+@import "@fontsource/plus-jakarta-sans/500.css";
+@import "@fontsource/plus-jakarta-sans/600.css";
+
+/*
+  Design tokens pulled directly from the Figma design system file
+  (sarahlroberts.com-design-system) via the Figma MCP get_variable_defs /
+  get_design_context calls. Do not hand-edit values here without checking
+  the source file first — this is meant to mirror it 1:1.
+*/
+:root {
+  /* Colour — Text/*, Surface/*, brand blue scale */
+  --color-text-primary: #283132;
+  --color-text-secondary: #5e6566;
+  --color-text-soft: #898f90;
+  --color-text-brand: #2b35ab;
+  --color-text-invert: #ffffff;
+
+  --color-surface-primary: #f8f6f4;
+  --color-bg: #f5f5f5;
+  --color-bg-alt: #ececec;
+  --color-border: #dddddd;
+  --color-card: #ffffff;
+  --color-card-hover: #fafafa;
+
+  --color-brand-50: #eff0f9;
+  --color-brand-100: #e1e2f3;
+  --color-brand-200: #c2c5e7;
+  --color-brand-300: #a4a8db;
+  --color-brand-400: #868ccf;
+  --color-brand-500: #686fc3;
+  --color-brand-600: #4952b7;
+  --color-brand-700: #2b35ab; /* brand */
+  --color-brand-800: #222985; /* hover */
+  --color-brand-900: #181e60;
+  --color-brand-1000: #0f133c;
+
+  --color-grey-0: #ffffff;
+  --color-grey-100: #fafafa;
+  --color-grey-200: #f5f5f5;
+  --color-grey-300: #dddddd;
+  --color-grey-400: #898f90;
+  --color-grey-500: #5e6566;
+  --color-grey-600: #283132;
+
+  /* Type — font families */
+  --font-heading: "Syne", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+
+  /* Type — scale. h1 is the one size Figma's "Mobile" variable mode
+     actually overrides in the case study frames. Intro was 20px on desktop
+     in Figma, but that read too large on a real laptop screen, so it's
+     pinned to the 18px mobile value at every width instead. h2–h4 aren't
+     used in the template itself and don't vary, so they're kept constant
+     at the value read from the design-system file. */
+  --font-size-h1: 32px;
+  --line-height-h1: 48px;
+  --font-size-h2: 48px;
+  --line-height-h2: 56px;
+  --font-size-h3: 32px;
+  --line-height-h3: 40px;
+  --font-size-h4: 24px;
+  --line-height-h4: 32px;
+  --font-size-intro: 18px;
+  --line-height-intro: 28px;
+  --font-size-subheading: 16px;
+  --line-height-subheading: 28px;
+  --font-size-body: 16px;
+  --line-height-body: 28px;
+  --font-size-caption: 14px;
+  --line-height-caption: 20px;
+  --font-size-quote-mark: 72px;
+
+  /* Spacing */
+  --spacing-2xs: 4px;
+  --spacing-xs: 6px;
+  --spacing-sm: 8px;
+  --spacing-xmd: 16px;
+  --spacing-md: 24px;
+  --spacing-lg: 40px;
+  --spacing-xlg: 64px;
+  --spacing-2xlg: 96px;
+
+  /* Radius */
+  --radius-m: 8px;
+  --radius-l: 16px;
+  --radius-xl: 32px;
+  --radius-2xl: 64px;
+  --radius-2xlg: 64px;
+}
+
+/* Figma "Desktop" variable mode kicks in at the same breakpoint the file
+   was designed against (1024px, where the case study layout switches from
+   the 390px mobile frame to the 1440px desktop frame). */
+@media (min-width: 1024px) {
+  :root {
+    --font-size-h1: 64px;
+    --line-height-h1: 72px;
+  }
+}
+
+@theme inline {
+  --color-text-primary: var(--color-text-primary);
+  --color-text-secondary: var(--color-text-secondary);
+  --color-text-soft: var(--color-text-soft);
+  --color-text-brand: var(--color-text-brand);
+  --color-text-invert: var(--color-text-invert);
+
+  --color-surface-primary: var(--color-surface-primary);
+  --color-bg: var(--color-bg);
+  --color-bg-alt: var(--color-bg-alt);
+  --color-border: var(--color-border);
+  --color-card: var(--color-card);
+  --color-card-hover: var(--color-card-hover);
+
+  --color-brand-50: var(--color-brand-50);
+  --color-brand-100: var(--color-brand-100);
+  --color-brand-200: var(--color-brand-200);
+  --color-brand-300: var(--color-brand-300);
+  --color-brand-400: var(--color-brand-400);
+  --color-brand-500: var(--color-brand-500);
+  --color-brand-600: var(--color-brand-600);
+  --color-brand-700: var(--color-brand-700);
+  --color-brand-800: var(--color-brand-800);
+  --color-brand-900: var(--color-brand-900);
+  --color-brand-1000: var(--color-brand-1000);
+
+  --color-grey-0: var(--color-grey-0);
+  --color-grey-100: var(--color-grey-100);
+  --color-grey-200: var(--color-grey-200);
+  --color-grey-300: var(--color-grey-300);
+  --color-grey-400: var(--color-grey-400);
+  --color-grey-500: var(--color-grey-500);
+  --color-grey-600: var(--color-grey-600);
+
+  --font-family-heading: var(--font-heading);
+  --font-family-body: var(--font-body);
+
+  --spacing-2xs: var(--spacing-2xs);
+  --spacing-xs: var(--spacing-xs);
+  --spacing-sm: var(--spacing-sm);
+  --spacing-xmd: var(--spacing-xmd);
+  --spacing-md: var(--spacing-md);
+  --spacing-lg: var(--spacing-lg);
+  --spacing-xlg: var(--spacing-xlg);
+  --spacing-2xlg: var(--spacing-2xlg);
+
+  --radius-m: var(--radius-m);
+  --radius-l: var(--radius-l);
+  --radius-xl: var(--radius-xl);
+  --radius-2xl: var(--radius-2xl);
+  --radius-2xlg: var(--radius-2xlg);
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-text-primary);
+  font-family: var(--font-body);
+}
+
+/* Semantic type styles, named after the Figma text styles (H1, Intro,
+   Sub Heading, Body, Caption) so component markup can read like the file. */
+.text-style-h1 {
+  font-family: var(--font-heading);
+  font-weight: 400;
+  font-size: var(--font-size-h1);
+  line-height: var(--line-height-h1);
+}
+.text-style-h1-tight {
+  font-family: var(--font-heading);
+  font-weight: 400;
+  font-size: var(--font-size-h1);
+  line-height: var(--font-size-h1);
+}
+.text-style-intro {
+  font-family: var(--font-heading);
+  font-weight: 400;
+  font-size: var(--font-size-intro);
+  line-height: var(--line-height-intro);
+}
+.text-style-intro-medium {
+  font-family: var(--font-heading);
+  font-weight: 500;
+  font-size: var(--font-size-intro);
+  line-height: var(--line-height-intro);
+}
+/* Not a named Figma style — a deliberate departure for the scrolling nav.
+   Figma's own "Intro Button" style (Medium, intro-size) reads too heavy
+   next to the headings it points at; body-copy size/weight lets the
+   active-state colour change (see SectionNav) carry the wayfinding
+   instead, closer to how nataliealmosa.ca/notion-mail's section nav
+   works. Still built from real tokens (font-size/line-height-body). */
+.text-style-nav {
+  font-family: var(--font-heading);
+  font-weight: 400;
+  font-size: var(--font-size-body);
+  line-height: var(--line-height-body);
+}
+.text-style-subheading {
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: var(--font-size-subheading);
+  line-height: var(--line-height-subheading);
+  text-transform: uppercase;
+}
+.text-style-body {
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: var(--font-size-body);
+  line-height: var(--line-height-body);
+}
+.text-style-body-semibold {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: var(--font-size-body);
+  line-height: var(--line-height-body);
+}
+.text-style-body-italic {
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-style: italic;
+  font-size: var(--font-size-body);
+  line-height: var(--line-height-body);
+}
+/* Figma sets this glyph's own line-height to 0 (not 1) — a tight-crop
+   trick so the 72px mark doesn't reserve its full line box, letting the
+   quote text sit almost flush beneath it instead of a full line below. */
+.text-style-quote-mark {
+  font-family: var(--font-heading);
+  font-weight: 400;
+  font-size: var(--font-size-quote-mark);
+  line-height: 0;
+}
+.text-style-caption {
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-style: italic;
+  font-size: var(--font-size-caption);
+  line-height: var(--line-height-caption);
+}

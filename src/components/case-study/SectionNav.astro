@@ -1,0 +1,79 @@
+---
+// Desktop scrolling section nav (Figma node 79:39278 — "Back" + 6
+// section jump-links, active one highlighted brand-blue).
+//
+// This is a real flex sibling of the content column (see
+// CaseStudyTemplate's `lg:flex` wrapper), not a fixed/calc-positioned
+// overlay — so it can never overlap content at any width: flexbox itself
+// carves out its 188px + gap, and the content column (each section keeps
+// its own `max-w-[1010px]` capped width) simply shrinks to fill whatever
+// width remains. That's also why it can safely show from 1024px up
+// instead of needing a wide-viewport safety margin — below 1440px the
+// content column is narrower than Figma's fixed 1010px, which is a
+// deliberate trade-off to keep the nav usable in ordinary window widths
+// rather than only on very wide monitors.
+//
+// `position: sticky` lets it start at its natural position (aligned with
+// the top of the Intro block, i.e. level with "Company, Role" — the
+// mt-[spacing-xlg] below matches Intro's own top padding) and then stick
+// as the page scrolls through that range, unstuck again once it ends.
+interface Props {
+  items: { id: string; label: string }[];
+  backHref: string;
+}
+const { items, backHref } = Astro.props;
+---
+
+<nav
+  class="section-nav hidden lg:block lg:sticky lg:top-24 lg:mt-[var(--spacing-xlg)] lg:w-[188px] lg:shrink-0"
+  aria-label="Case study sections"
+>
+  <div class="flex w-full flex-col items-start gap-[var(--spacing-md)]">
+    <a
+      href={backHref}
+      class="text-style-nav flex items-center gap-[var(--spacing-sm)] rounded-[var(--radius-m)] px-[var(--spacing-xmd)] py-[var(--spacing-sm)] text-[var(--color-text-secondary)] hover:text-[var(--color-text-brand)]"
+    >
+      <span aria-hidden="true">←</span> Back
+    </a>
+    <div class="flex w-full flex-col items-start">
+      {
+        items.map((item) => (
+          <a
+            href={`#${item.id}`}
+            data-nav-link={item.id}
+            class="text-style-nav w-full rounded-[var(--radius-m)] px-[var(--spacing-xmd)] py-[var(--spacing-sm)] text-[var(--color-text-secondary)] transition-colors aria-[current=true]:text-[var(--color-text-brand)]"
+          >
+            {item.label}
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</nav>
+
+<script>
+  const links = document.querySelectorAll<HTMLAnchorElement>("[data-nav-link]");
+  if (links.length) {
+    const targets = [...links]
+      .map((link) => document.getElementById(link.dataset.navLink!))
+      .filter((el): el is HTMLElement => el !== null);
+
+    const setActive = (id: string | null) => {
+      for (const link of links) {
+        link.setAttribute("aria-current", link.dataset.navLink === id ? "true" : "false");
+      }
+    };
+
+    const activeObserver = new IntersectionObserver(
+      (entries) => {
+        const visible = entries.filter((e) => e.isIntersecting);
+        if (visible.length > 0) {
+          const topMost = visible.sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)[0];
+          setActive(topMost.target.id);
+        }
+      },
+      { rootMargin: "-20% 0px -70% 0px", threshold: 0 },
+    );
+    targets.forEach((el) => activeObserver.observe(el));
+  }
+</script>

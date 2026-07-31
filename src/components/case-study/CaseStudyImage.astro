@@ -1,0 +1,53 @@
+---
+import type { CaseStudyImage } from "../../lib/case-study";
+
+interface Props {
+  image: CaseStudyImage;
+  class?: string;
+  rounded?: string;
+}
+
+const { image, class: className = "", rounded = "rounded-[var(--radius-l)]" } = Astro.props;
+const tone = image.captionTone ?? "light";
+const fit = image.fit ?? "cover";
+---
+
+<div
+  class={`relative overflow-hidden ${rounded} bg-[var(--color-grey-400)] ${className}`}
+  style={`aspect-ratio: ${image.aspect};`}
+>
+  {
+    image.src ? (
+      <img
+        src={image.src}
+        alt={image.alt}
+        class={`absolute inset-0 size-full ${fit === "cover" ? "object-cover" : "object-contain"}`}
+        loading="lazy"
+      />
+    ) : (
+      <div class="absolute inset-0 flex items-center justify-center border-2 border-dashed border-[var(--color-text-invert)]/30 text-center">
+        {!image.caption && (
+          <span class="text-style-caption not-italic px-4 text-[var(--color-text-invert)]">{image.alt}</span>
+        )}
+      </div>
+    )
+  }
+  {
+    image.caption && tone === "light" && (
+      <div class="absolute inset-0 bg-gradient-to-b from-white/50 to-[#283132]/50 mix-blend-multiply" />
+    )
+  }
+  {
+    image.caption && (
+      <div class="absolute bottom-0 left-0 px-[var(--spacing-xmd)] py-[10px]">
+        <p
+          class={`text-style-caption ${
+            tone === "light" ? "text-[var(--color-text-invert)]" : "text-[var(--color-text-secondary)]"
+          }`}
+        >
+          {image.caption}
+        </p>
+      </div>
+    )
+  }
+</div>

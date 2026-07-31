@@ -1,0 +1,24 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { caseStudies } from "../data/case-studies";
+---
+
+<Layout title="Sarah Roberts">
+  <main class="mx-auto flex max-w-[1010px] flex-col gap-4 px-4 py-16">
+    <p class="text-style-caption not-italic text-[var(--color-text-soft)]">
+      Home isn't built yet — this is a temporary index for reviewing the case study template.
+    </p>
+    <h1 class="text-style-h1">Case studies</h1>
+    <ul class="flex flex-col gap-2">
+      {
+        caseStudies.map((cs) => (
+          <li>
+            <a class="text-style-intro-medium text-[var(--color-text-brand)]" href={`/case-studies/${cs.slug}`}>
+              {cs.title.replace("\n", " ")}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </main>
+</Layout>

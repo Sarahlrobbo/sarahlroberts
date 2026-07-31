@@ -1,0 +1,61 @@
+---
+import type { CaseStudyImage } from "../../lib/case-study";
+import Navigation from "./Navigation.astro";
+
+interface Props {
+  title: string;
+  authorName: string;
+  background: CaseStudyImage;
+  deviceImage: CaseStudyImage;
+}
+const { title, authorName, background, deviceImage } = Astro.props;
+const titleLines = title.split("\n");
+---
+
+<!--
+  Figma: Cover is a fixed-height frame (632px mobile / 810px desktop) with
+  the background photo filling it, and heading + device screenshot
+  bottom-anchored inside it — not a box that grows to fit its content.
+  Content this short leaves genuine empty photo above the heading (that's
+  the point: it's a hero image, not a content-sized card).
+-->
+<div class="relative h-[632px] overflow-hidden rounded-b-[var(--radius-xl)] lg:h-[810px] lg:rounded-b-[var(--radius-2xlg)]">
+  <div class="absolute inset-0 -z-10">
+    {
+      background.src ? (
+        <img src={background.src} alt="" class="size-full object-cover" />
+      ) : (
+        <div class="size-full bg-[var(--color-grey-300)]" />
+      )
+    }
+  </div>
+
+  <div class="absolute inset-x-0 top-0">
+    <Navigation authorName={authorName} />
+  </div>
+
+  <div class="absolute bottom-0 left-1/2 flex w-full max-w-[358px] -translate-x-1/2 flex-col items-center gap-[var(--spacing-lg)] px-4 lg:w-[900px] lg:max-w-[900px] lg:px-0">
+    <h1 class="text-style-h1 max-w-[340px] text-center text-[var(--color-text-primary)] lg:max-w-[784px]">
+      {titleLines.map((line, i) => (
+        <>
+          {i > 0 && <br />}
+          {line}
+        </>
+      ))}
+    </h1>
+
+    <div class="w-full overflow-hidden rounded-t-[24px]" style={`aspect-ratio: ${deviceImage.aspect};`}>
+      {
+        deviceImage.src ? (
+          <img src={deviceImage.src} alt={deviceImage.alt} class="size-full object-contain" />
+        ) : (
+          <div class="flex size-full items-center justify-center bg-[var(--color-grey-400)]">
+            <span class="text-style-caption not-italic px-4 text-center text-[var(--color-text-invert)]">
+              {deviceImage.alt}
+            </span>
+          </div>
+        )
+      }
+    </div>
+  </div>
+</div>

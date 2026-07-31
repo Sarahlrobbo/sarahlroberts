@@ -1,0 +1,16 @@
+---
+import type { CaseStudySection } from "../../lib/case-study";
+import { renderInline } from "../../lib/case-study";
+
+interface Props {
+  section: Extract<CaseStudySection, { type: "text" }>;
+}
+const { section } = Astro.props;
+---
+
+<section class="mx-auto flex max-w-[1010px] flex-col gap-4 px-4 lg:mx-0 lg:ml-auto lg:mr-[var(--spacing-lg)] lg:px-0">
+  <p class="text-style-intro text-[var(--color-text-primary)] lg:w-[600px]">{section.heading}</p>
+  <div class="flex flex-col gap-[var(--spacing-md)] text-style-body text-[var(--color-text-primary)] lg:w-[600px]">
+    {section.paragraphs.map((p) => <p set:html={renderInline(p)} />)}
+  </div>
+</section>

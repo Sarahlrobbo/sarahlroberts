@@ -1,0 +1,30 @@
+---
+import type { CaseStudySection } from "../../lib/case-study";
+
+interface Props {
+  section: Extract<CaseStudySection, { type: "quoteSlider" }>;
+}
+const { section } = Astro.props;
+---
+
+<section class="mx-auto flex max-w-[1010px] flex-col gap-[var(--spacing-md)] px-4 lg:mx-0 lg:ml-auto lg:mr-[var(--spacing-lg)] lg:flex-row lg:gap-[var(--spacing-lg)] lg:px-0">
+  {
+    section.slides.map((slide) => (
+      <div class="relative w-full overflow-hidden rounded-[var(--radius-l)] aspect-[390/519] lg:aspect-[834/440] lg:flex-1">
+        {slide.image.src ? (
+          <img src={slide.image.src} alt={slide.image.alt} class="absolute inset-0 size-full object-cover" />
+        ) : (
+          <div class="absolute inset-0 bg-[var(--color-grey-400)]" />
+        )}
+        <div class="absolute inset-0 bg-gradient-to-t from-[#283132]/60 via-[#283132]/10 to-transparent" />
+        <div class="absolute inset-x-0 bottom-0 flex flex-col gap-2 px-[var(--spacing-lg)] py-[var(--spacing-lg)]">
+          <p class="text-style-quote-mark leading-none text-[var(--color-text-invert)]" style="font-size: 40px;">
+            &ldquo;
+          </p>
+          <p class="text-style-intro text-[var(--color-text-invert)]">{slide.quote}</p>
+          <p class="text-style-body-italic text-[var(--color-text-invert)]">{slide.attribution}</p>
+        </div>
+      </div>
+    ))
+  }
+</section>

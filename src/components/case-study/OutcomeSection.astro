@@ -1,0 +1,44 @@
+---
+import type { CaseStudySection } from "../../lib/case-study";
+import ArrowUp from "../icons/ArrowUp.astro";
+import ArrowDown from "../icons/ArrowDown.astro";
+
+interface Props {
+  section: Extract<CaseStudySection, { type: "outcome" }>;
+}
+const { section } = Astro.props;
+---
+
+<section class="mx-auto flex max-w-[1010px] flex-col gap-[var(--spacing-lg)] px-4 lg:mx-0 lg:ml-auto lg:mr-[var(--spacing-lg)] lg:px-0">
+  <div class="flex flex-col gap-[var(--spacing-xmd)]">
+    <p class="text-style-intro text-[var(--color-text-primary)] lg:w-[600px]">{section.heading}</p>
+
+    <div class="flex flex-col gap-[var(--spacing-lg)] sm:flex-row">
+      {
+        section.stats.map((stat) => (
+          <div class="flex flex-1 flex-col gap-[var(--spacing-xmd)]">
+            <div class="flex flex-wrap items-end gap-[var(--spacing-xmd)]">
+              <p class="text-style-h1-tight text-[var(--color-text-primary)]">{stat.value}</p>
+              <p class="text-style-subheading text-[var(--color-text-secondary)]">{stat.label}</p>
+            </div>
+            <p class="text-style-body text-[var(--color-text-secondary)]">{stat.context}</p>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+
+  <div class="flex flex-col gap-[var(--spacing-xmd)] lg:w-[726px]">
+    <p class="text-style-intro text-[var(--color-text-secondary)]">{section.signalsIntro}</p>
+    {
+      section.signals.map((signal) => (
+        <div class="flex items-center gap-4">
+          <div class="flex size-10 shrink-0 items-center justify-center rounded-[var(--radius-2xl)] bg-[var(--color-surface-primary)] text-[var(--color-text-secondary)]">
+            {signal.direction === "up" ? <ArrowUp class="size-5" /> : <ArrowDown class="size-5" />}
+          </div>
+          <p class="text-style-body text-[var(--color-text-primary)]">{signal.text}</p>
+        </div>
+      ))
+    }
+  </div>
+</section>

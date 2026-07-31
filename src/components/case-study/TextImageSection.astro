@@ -1,0 +1,23 @@
+---
+import type { CaseStudySection } from "../../lib/case-study";
+import { renderInline } from "../../lib/case-study";
+import CaseStudyImage from "./CaseStudyImage.astro";
+
+interface Props {
+  section: Extract<CaseStudySection, { type: "textImage" }>;
+}
+const { section } = Astro.props;
+---
+
+<section class="mx-auto flex max-w-[1010px] flex-col gap-[var(--spacing-xlg)] px-4 lg:mx-0 lg:ml-auto lg:mr-[var(--spacing-lg)] lg:flex-row lg:items-start lg:gap-[var(--spacing-lg)] lg:px-0">
+  <div class="flex flex-col gap-4 lg:w-[600px] lg:shrink-0">
+    <p class="text-style-intro text-[var(--color-text-primary)]">{section.heading}</p>
+    <div class="flex flex-col gap-[var(--spacing-md)] text-style-body text-[var(--color-text-primary)]">
+      {section.paragraphs.map((p) => <p set:html={renderInline(p)} />)}
+    </div>
+  </div>
+
+  <div class="flex flex-1 items-center justify-center">
+    <CaseStudyImage image={section.image} class="w-full max-w-[267px]" />
+  </div>
+</section>

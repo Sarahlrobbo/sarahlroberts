@@ -1,0 +1,18 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import CaseStudyTemplate from "../../components/case-study/CaseStudyTemplate.astro";
+import { caseStudies } from "../../data/case-studies";
+
+export function getStaticPaths() {
+  return caseStudies.map((caseStudy) => ({
+    params: { slug: caseStudy.slug },
+    props: { caseStudy },
+  }));
+}
+
+const { caseStudy } = Astro.props;
+---
+
+<Layout title={`${caseStudy.title.replace("\n", " ")} — Sarah Roberts`}>
+  <CaseStudyTemplate caseStudy={caseStudy} />
+</Layout>

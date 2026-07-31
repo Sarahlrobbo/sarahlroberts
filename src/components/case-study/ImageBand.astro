@@ -1,0 +1,30 @@
+---
+import type { CaseStudySection } from "../../lib/case-study";
+import CaseStudyImage from "./CaseStudyImage.astro";
+
+interface Props {
+  section: Extract<CaseStudySection, { type: "imageBand" }>;
+}
+const { section } = Astro.props;
+
+const gridClass =
+  section.layout === "single"
+    ? "grid grid-cols-1"
+    : section.layout === "two-equal"
+      ? "grid grid-cols-1 sm:grid-cols-2"
+      : "grid grid-cols-1 sm:grid-cols-3";
+
+// Wide bands break out of the flex row's content column back to the full
+// article width. 244px = the row's own 40px left padding + the nav's
+// 188px width + the 16px gap next to it (see CaseStudyTemplate/
+// SectionNav) — constant whenever the nav shows.
+const containerClass = section.wide
+  ? "mx-auto max-w-[1440px] px-4 lg:mx-0 lg:ml-[-244px] lg:w-[calc(100%+244px)] lg:max-w-none lg:px-[var(--spacing-lg)]"
+  : "mx-auto max-w-[1010px] px-4 lg:mx-0 lg:ml-auto lg:mr-[var(--spacing-lg)] lg:px-0";
+---
+
+<div class={containerClass}>
+  <div class={`${gridClass} gap-[var(--spacing-md)]`}>
+    {section.images.map((image) => <CaseStudyImage image={image} class="w-full" />)}
+  </div>
+</div>

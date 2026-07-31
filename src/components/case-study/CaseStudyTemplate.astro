@@ -1,0 +1,89 @@
+---
+import type { CaseStudy, SpacingBefore } from "../../lib/case-study";
+import { slugify } from "../../lib/case-study";
+import Cover from "./Cover.astro";
+import IntroSection from "./IntroSection.astro";
+import TextSection from "./TextSection.astro";
+import TextImageSection from "./TextImageSection.astro";
+import ImageBand from "./ImageBand.astro";
+import NumberedList from "./NumberedList.astro";
+import OutcomeSection from "./OutcomeSection.astro";
+import QuoteSlider from "./QuoteSlider.astro";
+import BackToTop from "./BackToTop.astro";
+import SectionNav from "./SectionNav.astro";
+
+interface Props {
+  caseStudy: CaseStudy;
+}
+const { caseStudy } = Astro.props;
+
+// Figma's actual block rhythm, confirmed from the Main content / Bottom
+// frame containers (both `flex flex-col gap-[96px]`), not approximated.
+const SPACING_CLASS: Record<SpacingBefore, string> = {
+  tighter: "mt-[var(--spacing-md)]", // 24px — sub-image to sub-image within one image group
+  tight: "mt-[var(--spacing-lg)]", // 40px — an image band attached under the heading it illustrates
+  loose: "mt-[var(--spacing-2xlg)]", // 96px — the default gap between every top-level block
+  looser: "mt-[160px]", // Solution: the normal 96px block gap plus its own extra pt-64
+};
+
+const COMPONENT_FOR_TYPE = {
+  intro: IntroSection,
+  text: TextSection,
+  textImage: TextImageSection,
+  imageBand: ImageBand,
+  numberedList: NumberedList,
+  outcome: OutcomeSection,
+  quoteSlider: QuoteSlider,
+  backToTop: BackToTop,
+} as const;
+
+const renderableSections = caseStudy.sections.map((section, i) => ({
+  id: section.navLabel ? slugify(section.navLabel) : undefined,
+  spacingClass: i === 0 ? "" : SPACING_CLASS[section.spacingBefore ?? "loose"],
+  Component: COMPONENT_FOR_TYPE[section.type],
+  section,
+}));
+
+const navItems = caseStudy.sections
+  .filter((s) => s.navLabel)
+  .map((s) => ({ id: slugify(s.navLabel!), label: s.navLabel! }));
+
+// The nav's sticky range runs from the very start of the page content
+// (the Intro block, so the nav's top aligns with "Company, Role" — the
+// first line under the Cover) through the last linked section ("What I
+// Learned"). Sections outside that range (just BackToTop here) render
+// normally, outside the flex row.
+const lastNavIndex = caseStudy.sections.reduce((last, s, i) => (s.navLabel ? i : last), -1);
+const inRange = renderableSections.slice(0, lastNavIndex + 1);
+const afterRange = renderableSections.slice(lastNavIndex + 1);
+---
+
+<article id="top" class="mx-auto max-w-[1440px]">
+  <Cover
+    title={caseStudy.title}
+    authorName={caseStudy.authorName}
+    background={caseStudy.cover.background}
+    deviceImage={caseStudy.cover.deviceImage}
+  />
+
+  <div class="lg:flex lg:items-start lg:gap-[var(--spacing-xmd)] lg:pl-[var(--spacing-lg)]">
+    <SectionNav items={navItems} backHref={caseStudy.backHref ?? "/"} />
+    <div class="lg:min-w-0 lg:flex-1">
+      {
+        inRange.map(({ id, spacingClass, Component, section }) => (
+          <div id={id} class={spacingClass}>
+            <Component section={section} />
+          </div>
+        ))
+      }
+    </div>
+  </div>
+
+  {
+    afterRange.map(({ id, spacingClass, Component, section }) => (
+      <div id={id} class={spacingClass}>
+        <Component section={section} />
+      </div>
+    ))
+  }
+</article>

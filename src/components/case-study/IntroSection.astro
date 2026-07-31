@@ -1,0 +1,58 @@
+---
+import type { CaseStudySection } from "../../lib/case-study";
+
+interface Props {
+  section: Extract<CaseStudySection, { type: "intro" }>;
+}
+const { section } = Astro.props;
+---
+
+<section class="mx-auto flex max-w-[1010px] flex-col gap-[var(--spacing-lg)] px-4 py-[var(--spacing-lg)] lg:mx-0 lg:ml-auto lg:mr-[var(--spacing-lg)] lg:gap-[var(--spacing-xlg)] lg:px-0 lg:py-[var(--spacing-xlg)]">
+  <div class="flex flex-col gap-[var(--spacing-lg)] lg:w-[697px]">
+    <div class="flex flex-col items-start gap-[var(--spacing-xmd)] lg:flex-row lg:items-center">
+      {
+        section.logo && (
+          <div class="h-8 w-40 shrink-0 overflow-hidden">
+            {section.logo.src ? (
+              <img src={section.logo.src} alt={section.logo.alt} class="size-full object-contain object-left" />
+            ) : (
+              <div class="flex size-full items-center justify-center border border-dashed border-[var(--color-text-soft)]/40">
+                <span class="text-style-caption not-italic px-2 text-[var(--color-text-soft)]">{section.logo.alt}</span>
+              </div>
+            )}
+          </div>
+        )
+      }
+      <div class="flex flex-col items-start gap-0">
+        <p class="text-style-intro text-[var(--color-text-primary)]">{section.company}</p>
+        <p class="text-style-body text-[var(--color-text-secondary)]">{section.dateRange}</p>
+      </div>
+    </div>
+
+    <div class="flex flex-col gap-[var(--spacing-lg)] sm:flex-row sm:items-start">
+      {
+        section.stats.map((stat) => (
+          <div class="flex w-full flex-col gap-[var(--spacing-sm)] sm:w-[320px] lg:gap-[var(--spacing-xmd)]">
+            <div class="flex flex-col">
+              <p class="text-style-subheading text-[var(--color-text-secondary)]">{stat.label}</p>
+              <p class="text-style-h1-tight text-[var(--color-text-primary)]">{stat.value}</p>
+            </div>
+            <p class="text-style-body text-[var(--color-text-secondary)]">{stat.context}</p>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+
+  <div class="flex flex-col gap-[var(--spacing-md)] text-style-intro text-[var(--color-text-primary)] lg:w-[697px]">
+    {section.paragraphs.map((p) => <p>{p}</p>)}
+  </div>
+
+  <div class="flex flex-col gap-2">
+    <div class="flex flex-col gap-0">
+      <p class="text-style-quote-mark text-[var(--color-text-secondary)]">&ldquo;</p>
+      <p class="text-style-intro text-[var(--color-text-primary)] lg:w-[525px]">{section.quote.quote}</p>
+    </div>
+    <p class="text-style-body-italic text-[var(--color-text-secondary)] lg:w-[506px]">{section.quote.attribution}</p>
+  </div>
+</section>
