@@ -4,13 +4,15 @@
    Syne is used at weight 400 (Regular: H1/H2/Intro/quote mark) and
    500 (Medium: H4/nav "Sarah Roberts"/intro-medium button) — no other
    Syne weight appears in the design. Plus Jakarta Sans is used at 400
-   (Regular/Italic: body), 500 (Medium: sub-heading label), and 600
-   (SemiBold: numbered-item headings). */
+   (Regular/Italic: body), 500 (Medium: sub-heading label; Medium Italic:
+   dark-toned image captions), and 600 (SemiBold: numbered-item
+   headings). */
 @import "@fontsource/syne/400.css";
 @import "@fontsource/syne/500.css";
 @import "@fontsource/plus-jakarta-sans/400.css";
 @import "@fontsource/plus-jakarta-sans/400-italic.css";
 @import "@fontsource/plus-jakarta-sans/500.css";
+@import "@fontsource/plus-jakarta-sans/500-italic.css";
 @import "@fontsource/plus-jakarta-sans/600.css";
 
 /*
@@ -264,4 +266,17 @@ body {
 .bg-dot-grid {
   background-image: radial-gradient(var(--color-surface-secondary) 1px, transparent 1.5px);
   background-size: 12px 12px;
+}
+
+/* CaseStudyImage's `aspectMobile` escape hatch: aspect-ratio is data-driven
+   per image, so it has to stay an inline custom property (Tailwind's
+   arbitrary-value classes only work with values it can see statically in
+   source) — this just supplies the breakpoint switch between the two. */
+.case-study-image-aspect {
+  aspect-ratio: var(--aspect-mobile);
+}
+@media (min-width: 1024px) {
+  .case-study-image-aspect {
+    aspect-ratio: var(--aspect-desktop);
+  }
 }

@@ -42,27 +42,43 @@ function scrimFor(side: "left" | "right") {
   gets the same grow-in treatment per card via IntersectionObserver.
 -->
 <section class="mx-auto max-w-[1010px] px-4 lg:mx-0 lg:ml-auto lg:mr-[var(--spacing-lg)] lg:px-0">
-  <div data-quote-mobile class="flex flex-col gap-[var(--spacing-md)] lg:hidden">
+  <!--
+    Mobile: the on-photo overlay (still used on desktop, below) assumed
+    every photo has a "safe half" with no subject in it — true at the wide
+    834/440 desktop crop, not at a narrower mobile crop, where the same
+    overlay can land the quote text right on top of the subject regardless
+    of which side it's anchored to. Panel sits above the photo instead, its
+    own solid-color block (hand-picked per photo, see `accentColor`) rather
+    than over it, so legibility never depends on getting a crop/text-
+    position pairing right per photo. 600/400 (rather than the old tighter
+    portrait crop) also keeps enough of the original frame that a plain
+    center crop holds every subject without per-photo positioning.
+  -->
+  <div data-quote-mobile class="-mx-4 flex flex-col gap-[var(--spacing-md)] lg:hidden">
     {
       section.slides.map((slide, i) => (
         <div
           data-quote-card
           data-visible="false"
-          style={`transition-delay: ${i * 120}ms`}
-          class="relative w-full origin-bottom scale-90 overflow-hidden rounded-[var(--radius-l)] opacity-0 aspect-[390/519] transition-[transform,opacity] duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] data-[visible=true]:scale-100 data-[visible=true]:opacity-100"
+          style={`transition-delay: ${i * 120}ms; background: ${slide.accentColor};`}
+          class="w-full origin-bottom scale-90 overflow-hidden rounded-t-[var(--radius-l)] opacity-0 transition-[transform,opacity] duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] data-[visible=true]:scale-100 data-[visible=true]:opacity-100"
         >
-          {slide.image.src ? (
-            <img src={slide.image.src} alt={slide.image.alt} class="absolute inset-0 size-full object-cover" />
-          ) : (
-            <div class="absolute inset-0 bg-[var(--color-grey-400)]" />
-          )}
-          <div class="absolute inset-0 bg-gradient-to-t from-[#283132]/60 via-[#283132]/10 to-transparent" />
-          <div class="absolute inset-x-0 bottom-0 flex flex-col gap-2 px-[var(--spacing-lg)] py-[var(--spacing-lg)]">
+          <div
+            class="flex flex-col gap-2 px-[var(--spacing-md)] pt-[var(--spacing-xlg)] pb-[var(--spacing-xmd)]"
+            style={`background: ${slide.accentColor};`}
+          >
             <p class="text-style-quote-mark leading-none text-[var(--color-text-invert)]" style="font-size: 40px;">
               &ldquo;
             </p>
             <p class="text-style-intro text-[var(--color-text-invert)]">{slide.quote}</p>
             <p class="text-style-body-italic text-[var(--color-text-invert)]">{slide.attribution}</p>
+          </div>
+          <div class="relative aspect-[600/400] w-full overflow-hidden rounded-t-[var(--radius-l)]">
+            {slide.image.src ? (
+              <img src={slide.image.src} alt={slide.image.alt} class="absolute inset-0 size-full object-cover" />
+            ) : (
+              <div class="absolute inset-0 bg-[var(--color-grey-400)]" />
+            )}
           </div>
         </div>
       ))

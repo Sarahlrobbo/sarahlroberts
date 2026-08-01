@@ -5,11 +5,16 @@
 // background (#fafafa, Figma's "surface/surface-page") is deliberately a
 // touch different from the page background above it (var(--color-bg),
 // white) — not a colour this codebase already has a token for, hence the
-// raw hex rather than var(--color-bg). The scalloped border
-// (public/images/footer/dotted-border.svg,
-// a row of circles filled with that same #fafafa) sits on top of the
-// boundary above the footer, cutting into whatever section precedes it —
-// it only reads correctly because its fill matches the footer bg exactly.
+// raw hex rather than var(--color-bg). The scalloped border sits on top of
+// the boundary above the footer, cutting into whatever section precedes
+// it — it only reads correctly because its fill matches the footer bg
+// exactly. Mobile (node 89:90758) uses a visibly bigger pattern than
+// desktop (node 77:90208) — not the same SVG scaled down: desktop is
+// paired dots with wide gaps between pairs (public/images/footer/
+// dotted-border.svg), mobile is one continuous row of touching circles
+// nearly twice the relative size (dotted-border-mobile.svg) — so it can't
+// be done with a single asset at a different CSS size, it's two different
+// patterns.
 // mt-[var(--spacing-2xlg)] (96px) is the standard gap before the footer,
 // matching Figma — kept on the footer itself rather than on whatever
 // page content precedes it, since the footer is site-wide (Layout.astro)
@@ -19,10 +24,16 @@ const currentYear = new Date().getFullYear();
 
 <footer class="relative mt-[var(--spacing-2xlg)] bg-[#fafafa] pt-[var(--spacing-xlg)] pb-[var(--spacing-lg)]">
   <img
+    src="/images/footer/dotted-border-mobile.svg"
+    alt=""
+    aria-hidden="true"
+    class="absolute inset-x-0 top-0 w-full -translate-y-1/2 lg:hidden"
+  />
+  <img
     src="/images/footer/dotted-border.svg"
     alt=""
     aria-hidden="true"
-    class="absolute inset-x-0 top-0 w-full -translate-y-1/2"
+    class="absolute inset-x-0 top-0 hidden w-full -translate-y-1/2 lg:block"
   />
 
   <div class="mx-auto flex max-w-[1440px] flex-col gap-[45px] px-[var(--spacing-xlg)]">
@@ -97,7 +108,7 @@ const currentYear = new Date().getFullYear();
         </p>
         <a
           href="/"
-          class="text-style-intro-medium rounded-[var(--radius-m)] px-[var(--spacing-xmd)] py-[var(--spacing-sm)] text-[var(--color-text-secondary)] hover:text-[var(--color-text-brand)]"
+          class="text-style-intro-medium -ml-[var(--spacing-xmd)] rounded-[var(--radius-m)] px-[var(--spacing-xmd)] py-[var(--spacing-sm)] text-[var(--color-text-secondary)] hover:text-[var(--color-text-brand)] sm:ml-0"
         >
           Sarah Roberts
         </a>

@@ -76,6 +76,7 @@ export const farmiqThrive: CaseStudy = {
           caption: "Farmers making fast decisions in the field",
           captionTone: "light",
           aspect: "600/400",
+          aspectMobile: "1/1",
         },
         {
           src: "/images/farmiq-thrive/03-recording-data-moment.jpg",
@@ -83,6 +84,7 @@ export const farmiqThrive: CaseStudy = {
           caption: "Recording data in the moment, no catching up at night",
           captionTone: "light",
           aspect: "600/400",
+          aspectMobile: "1/1",
         },
       ],
     },
@@ -135,10 +137,12 @@ export const farmiqThrive: CaseStudy = {
       images: [
         {
           src: "/images/farmiq-thrive/06-retiring-app.jpg",
+          srcMobile: "/images/farmiq-thrive/06-retiring-app-mobile.png",
           alt: "Retiring the classic app (far right)",
           caption: "Retiring the classic app (far right)",
           captionTone: "dark",
           aspect: "1010/266",
+          aspectMobile: "900/1316",
           fit: "contain",
         },
       ],
@@ -198,10 +202,12 @@ export const farmiqThrive: CaseStudy = {
         caption: "Checking stock in the paddock",
         captionTone: "light",
         aspect: "267/400",
+        aspectMobile: "1/1",
       },
     },
     {
       type: "imageBand",
+      spacingBefore: "tighter",
       wide: true,
       background: "solid",
       layout: "three-grid",
@@ -212,6 +218,7 @@ export const farmiqThrive: CaseStudy = {
           caption: "Recording health treatments offline",
           captionTone: "light",
           aspect: "400/600",
+          aspectMobile: "1/1",
         },
         {
           src: "/images/farmiq-thrive/09-on-farm-research.jpg",
@@ -219,6 +226,7 @@ export const farmiqThrive: CaseStudy = {
           caption: "On farm exploratory research",
           captionTone: "light",
           aspect: "400/600",
+          aspectMobile: "1/1",
         },
         {
           src: "/images/farmiq-thrive/10-in-paddock-research.jpg",
@@ -226,6 +234,7 @@ export const farmiqThrive: CaseStudy = {
           caption: "In the paddock observing customers",
           captionTone: "light",
           aspect: "400/600",
+          aspectMobile: "1/1",
         },
       ],
     },
@@ -313,6 +322,7 @@ export const farmiqThrive: CaseStudy = {
           quote: "The biggest thing it’s helped me with is just streamlining my day, so that I can use my cellphone doing animal health treatments on the job, as I’m doing it - nothing to do when I get home.",
           attribution: "Corey Caseley · Glendonald Station, Wairarapa · 1,000ha sheep",
           side: "left", // Corey (on the quad bike) sits on the right of the photo
+          accentColor: "#2E6E45", // forest green, from the treeline behind him
         },
         {
           image: {
@@ -323,6 +333,7 @@ export const farmiqThrive: CaseStudy = {
           quote: "Trying to hit a target carcass weight, to have that data right there at your fingertips it’ll help us track those variations in farm practices that then have an effect on the bottom line.",
           attribution: "Alistair Bird · The Grange, North Canterbury · 565ha sheep and cattle",
           side: "right", // the sheep cluster leans centre-left; open mountainside on the right
+          accentColor: "#96622F", // sunburnt brown, from the golden grass in the foreground
         },
         {
           image: {
@@ -333,6 +344,7 @@ export const farmiqThrive: CaseStudy = {
           quote: "I’m using FarmIQ as I shift the stock through the gate and don’t have to worry about it when getting home.",
           attribution: "Chris Hursthouse · Haddington, Hawkes Bay · 220ha lambs and bull-beef",
           side: "right", // Chris and the tractor are on the left of the photo
+          accentColor: "#2E8155", // tractor green, brightened slightly to stay distinct from Corey's
         },
       ],
     },

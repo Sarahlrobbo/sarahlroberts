@@ -14,6 +14,21 @@ export interface CaseStudyImage {
   captionTone?: "light" | "dark";
   /** Tailwind aspect-ratio value, e.g. "600/400", "400/600", "1000/563". */
   aspect: string;
+  /**
+   * Overrides `aspect` below the `lg` breakpoint, for slots where Figma's
+   * mobile frame re-crops the same photo to a different shape (e.g. the
+   * Solution image and the three-grid photos go square on mobile, portrait
+   * on desktop). Uses the same source `src`/`srcMobile` at both sizes.
+   */
+  aspectMobile?: string;
+  /**
+   * Overrides `src` below the `lg` breakpoint, for slots where the mobile
+   * Figma frame swaps in a genuinely different asset rather than just
+   * re-cropping (e.g. "Retiring the classic app" is a differently-composed
+   * graphic on mobile, not a crop of the desktop one). Pair with
+   * `aspectMobile` when the replacement has its own shape.
+   */
+  srcMobile?: string;
   fit?: "cover" | "contain";
   /** When set, renders a YouTube embed in place of `src` (e.g. "5uiJEoB7vc8" from the watch URL's `v=` param). */
   youtubeId?: string;
@@ -54,6 +69,14 @@ export interface QuoteSlide {
   attribution: string;
   /** Which half of the image the quote text sits over on desktop — pick whichever side doesn't fall on the photo's subject. */
   side: "left" | "right";
+  /**
+   * Background for the mobile quote panel, hand-picked from the photo itself
+   * (not sampled/averaged — a flat average tends toward a muddy grey). Mobile
+   * has no "safe half" the way desktop's `side` does (portrait crop, full
+   * photo below instead of overlaid), so the panel sits above the photo as
+   * its own block rather than over it.
+   */
+  accentColor: string;
 }
 
 /**

@@ -22,8 +22,12 @@ const wrapperBg = image.src && fit === "contain" ? "bg-white" : "bg-[var(--color
 ---
 
 <div
-  class={`relative overflow-hidden ${rounded} ${wrapperBg} ${className}`}
-  style={`aspect-ratio: ${image.aspect};`}
+  class={`relative overflow-hidden ${rounded} ${wrapperBg} ${className} ${image.aspectMobile ? "case-study-image-aspect" : ""}`}
+  style={
+    image.aspectMobile
+      ? `--aspect-mobile: ${image.aspectMobile}; --aspect-desktop: ${image.aspect};`
+      : `aspect-ratio: ${image.aspect};`
+  }
 >
   {
     image.youtubeId ? (
@@ -50,6 +54,21 @@ const wrapperBg = image.src && fit === "contain" ? "bg-white" : "bg-[var(--color
           </div>
         </div>
       </a>
+    ) : image.src && image.srcMobile ? (
+      <Fragment>
+        <img
+          src={image.srcMobile}
+          alt={image.alt}
+          class={`absolute inset-0 size-full lg:hidden ${fit === "cover" ? "object-cover" : "object-contain"}`}
+          loading="lazy"
+        />
+        <img
+          src={image.src}
+          alt={image.alt}
+          class={`absolute inset-0 hidden size-full lg:block ${fit === "cover" ? "object-cover" : "object-contain"}`}
+          loading="lazy"
+        />
+      </Fragment>
     ) : image.src ? (
       <img
         src={image.src}
