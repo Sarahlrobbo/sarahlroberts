@@ -15,6 +15,13 @@ export interface CaseStudyImage {
   /** Tailwind aspect-ratio value, e.g. "600/400", "400/600", "1000/563". */
   aspect: string;
   fit?: "cover" | "contain";
+  /**
+   * Set false when the source image is a pre-composed card that already has
+   * its own rounded corners/shadow baked in (e.g. a dashboard screenshot
+   * exported with margin around it). Rounding the outer box on top of that
+   * clips across the image's own corner at a mismatched angle. Defaults true.
+   */
+  rounded?: boolean;
 }
 
 export interface StatCallout {

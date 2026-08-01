@@ -19,7 +19,7 @@ const titleLines = title.split("\n");
   Content this short leaves genuine empty photo above the heading (that's
   the point: it's a hero image, not a content-sized card).
 -->
-<div class="relative h-[632px] overflow-hidden rounded-b-[var(--radius-xl)] lg:h-[810px] lg:rounded-b-[var(--radius-2xlg)]">
+<div data-parallax-root class="relative h-[632px] overflow-hidden rounded-b-[var(--radius-xl)] lg:h-[810px] lg:rounded-b-[var(--radius-2xlg)]">
   <div class="absolute inset-0 -z-10">
     {
       background.src ? (
@@ -44,7 +44,11 @@ const titleLines = title.split("\n");
       ))}
     </h1>
 
-    <div class="w-full overflow-hidden rounded-t-[24px]" style={`aspect-ratio: ${deviceImage.aspect};`}>
+    <div
+      data-parallax-fg
+      class="w-full overflow-hidden rounded-t-[24px]"
+      style={`aspect-ratio: ${deviceImage.aspect};`}
+    >
       {
         deviceImage.src ? (
           <img src={deviceImage.src} alt={deviceImage.alt} class="size-full object-contain" />
@@ -59,3 +63,44 @@ const titleLines = title.split("\n");
     </div>
   </div>
 </div>
+
+<script>
+  // Parallax: the device-image mockup rises faster than the background photo
+  // as the hero scrolls out of view, so it climbs up over the title rather
+  // than trailing behind it. Background gets no extra transform (it just
+  // moves at normal document-scroll speed); the mockup gets an added upward
+  // translateY on top of that, proportional to how far the hero has
+  // scrolled past the top of the viewport. Skipped for prefers-reduced-motion.
+  const PARALLAX_FACTOR = 0.2;
+
+  function initParallax(root: HTMLElement) {
+    const fg = root.querySelector<HTMLElement>("[data-parallax-fg]");
+    if (!fg) return;
+
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (reduceMotion.matches) return;
+
+    let ticking = false;
+
+    function update() {
+      ticking = false;
+      const { top, bottom } = root.getBoundingClientRect();
+      if (bottom < 0 || top > window.innerHeight) return; // hero off-screen, nothing to do
+      // top is 0 or negative as the hero scrolls up; multiplying by a
+      // positive factor keeps the sign negative, i.e. always an upward shift.
+      fg!.style.transform = `translateY(${top * PARALLAX_FACTOR}px)`;
+    }
+
+    function onScroll() {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(update);
+      }
+    }
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    update();
+  }
+
+  document.querySelectorAll<HTMLElement>("[data-parallax-root]").forEach(initParallax);
+</script>

@@ -21,6 +21,7 @@ export const farmiqThrive: CaseStudy = {
       aspect: "16/9",
     },
     deviceImage: {
+      src: "/images/farmiq-thrive/01-cover-top.png",
       alt: "FarmIQ mobile app screens: map view, treatment form, and field details",
       aspect: "1000/563",
     },

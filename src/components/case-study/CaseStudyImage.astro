@@ -7,13 +7,22 @@ interface Props {
   rounded?: string;
 }
 
-const { image, class: className = "", rounded = "rounded-[var(--radius-l)]" } = Astro.props;
+const {
+  image,
+  class: className = "",
+  rounded = image.rounded === false ? "" : "rounded-[var(--radius-l)]",
+} = Astro.props;
 const tone = image.captionTone ?? "light";
 const fit = image.fit ?? "cover";
+// A loaded contain-fit image can letterbox (its own shape doesn't match the
+// box). White reads as page background peeking through; grey-400 is only
+// needed for the no-image-yet placeholder, where it has to contrast with
+// the white placeholder text.
+const wrapperBg = image.src && fit === "contain" ? "bg-white" : "bg-[var(--color-grey-400)]";
 ---
 
 <div
-  class={`relative overflow-hidden ${rounded} bg-[var(--color-grey-400)] ${className}`}
+  class={`relative overflow-hidden ${rounded} ${wrapperBg} ${className}`}
   style={`aspect-ratio: ${image.aspect};`}
 >
   {
