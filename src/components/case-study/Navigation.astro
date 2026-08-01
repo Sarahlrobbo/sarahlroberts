@@ -10,7 +10,7 @@ const { authorName } = Astro.props;
 <nav class="flex items-center justify-between px-[var(--spacing-xmd)] py-[var(--spacing-sm)] lg:px-[var(--spacing-lg)] lg:w-[1440px] lg:max-w-full">
   <a
     href="/"
-    class="text-style-intro-medium text-[var(--color-text-brand)] rounded-[var(--radius-m)] px-[var(--spacing-xmd)] py-[var(--spacing-sm)] lg:px-[var(--spacing-xmd)]"
+    class="text-style-intro-medium text-[var(--color-text-primary)] rounded-[var(--radius-m)] px-[var(--spacing-xmd)] py-[var(--spacing-sm)] underline-offset-4 transition-colors hover:text-[var(--color-text-brand)] hover:underline lg:px-[var(--spacing-xmd)]"
   >
     {authorName}
   </a>
@@ -18,13 +18,13 @@ const { authorName } = Astro.props;
   <div class="hidden items-center gap-[6px] lg:flex">
     <a
       href="/#work"
-      class="text-style-intro-medium text-[var(--color-text-secondary)] rounded-[var(--radius-m)] px-[var(--spacing-xmd)] py-[var(--spacing-sm)] hover:text-[var(--color-text-brand)]"
+      class="text-style-intro-medium text-[var(--color-text-primary)] rounded-[var(--radius-m)] px-[var(--spacing-xmd)] py-[var(--spacing-sm)] underline-offset-4 transition-colors hover:text-[var(--color-text-brand)] hover:underline"
     >
       All Projects
     </a>
     <a
       href="/about"
-      class="text-style-intro-medium text-[var(--color-text-secondary)] rounded-[var(--radius-m)] px-[var(--spacing-xmd)] py-[var(--spacing-sm)] hover:text-[var(--color-text-brand)]"
+      class="text-style-intro-medium text-[var(--color-text-primary)] rounded-[var(--radius-m)] px-[var(--spacing-xmd)] py-[var(--spacing-sm)] underline-offset-4 transition-colors hover:text-[var(--color-text-brand)] hover:underline"
     >
       About
     </a>
@@ -33,7 +33,7 @@ const { authorName } = Astro.props;
   <button
     type="button"
     aria-label="Open menu"
-    class="flex size-6 items-center justify-center text-[var(--color-text-brand)] lg:hidden"
+    class="flex size-6 items-center justify-center text-[var(--color-text-primary)] lg:hidden"
   >
     <Bars class="size-6" />
   </button>
