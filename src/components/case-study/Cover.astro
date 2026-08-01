@@ -7,17 +7,18 @@ interface Props {
   authorName: string;
   background: CaseStudyImage;
   deviceImage: CaseStudyImage;
+  deviceImageMobile?: CaseStudyImage;
 }
-const { title, authorName, background, deviceImage } = Astro.props;
+const { title, authorName, background, deviceImage, deviceImageMobile = deviceImage } = Astro.props;
 const titleLines = title.split("\n");
 ---
 
 <!--
-  Figma: Cover is a fixed-height frame (632px mobile / 810px desktop) with
-  the background photo filling it, and heading + device screenshot
-  bottom-anchored inside it — not a box that grows to fit its content.
-  Content this short leaves genuine empty photo above the heading (that's
-  the point: it's a hero image, not a content-sized card).
+  Figma: Cover is a fixed-height frame on desktop (810px), background photo
+  filling it, heading + device screenshot bottom-anchored inside. On mobile
+  the device mockup is genuinely taller than a fixed 632px allows without
+  cutting it off mid-content, so mobile height is content-driven (auto) —
+  it never clips the mockup — while desktop keeps its fixed 810px.
 
   The page article is capped at max-w-[1440px] and centered, but the Cover
   itself needs to stay full-bleed to the viewport on wider screens (like
@@ -28,12 +29,18 @@ const titleLines = title.split("\n");
 -->
 <div
   data-parallax-root
-  class="relative left-1/2 h-[632px] w-screen -translate-x-1/2 overflow-hidden rounded-b-[var(--radius-xl)] lg:h-[810px] lg:rounded-b-[var(--radius-2xlg)]"
+  class="relative left-1/2 h-auto w-screen -translate-x-1/2 overflow-hidden rounded-b-[var(--radius-xl)] lg:h-[810px] lg:rounded-b-[var(--radius-2xlg)]"
 >
   <div class="absolute inset-0 -z-10">
     {
       background.src ? (
-        <img src={background.src} alt="" class="size-full object-cover" />
+        // Russel (the farmer) sits at roughly the 15% mark from the left of
+        // the source photo, not centre. Default object-position (50% 50%)
+        // crops him out entirely on narrow/mobile widths, since the crop
+        // window is centred on the image's geometric middle instead of on
+        // him. Anchoring the crop to his actual position keeps him in frame
+        // at every width instead.
+        <img src={background.src} alt="" class="size-full object-cover object-[15%_center]" />
       ) : (
         <div class="size-full bg-[var(--color-grey-300)]" />
       )
@@ -44,8 +51,18 @@ const titleLines = title.split("\n");
     <Navigation authorName={authorName} />
   </div>
 
-  <div class="absolute bottom-0 left-1/2 flex w-full max-w-[358px] -translate-x-1/2 flex-col items-center gap-[var(--spacing-lg)] px-4 lg:w-[900px] lg:max-w-[900px] lg:px-0">
-    <h1 class="text-style-h1 max-w-[340px] text-center text-[var(--color-text-primary)] lg:max-w-[784px]">
+  <!--
+    Mobile: normal document flow (not absolute), so its natural height is
+    what drives the parent's h-auto — nothing gets clipped, no matter how
+    tall the device mockup is. Title starts pt-[--spacing-2xlg] (96px) from
+    the Cover's top — Figma measures ~92px to the glyph's visual top, but
+    the actual box value is the 2xlg token; the 4px gap is just Syne's line
+    leading above the cap height, not a distinct spacing value.
+    Desktop: unchanged, absolute + bottom-anchored inside the fixed 810px
+    box (this was never reported as broken).
+  -->
+  <div class="relative flex w-full flex-col items-center gap-[var(--spacing-lg)] pt-[var(--spacing-2xlg)] lg:absolute lg:bottom-0 lg:left-1/2 lg:w-[900px] lg:max-w-[900px] lg:-translate-x-1/2 lg:pt-0">
+    <h1 class="text-style-h1 max-w-[340px] px-4 text-center text-[var(--color-text-primary)] lg:max-w-[784px] lg:px-0">
       {titleLines.map((line, i) => (
         <>
           {i > 0 && <br />}
@@ -54,22 +71,38 @@ const titleLines = title.split("\n");
       ))}
     </h1>
 
-    <div
-      data-parallax-fg
-      class="w-full overflow-hidden rounded-t-[24px]"
-      style={`aspect-ratio: ${deviceImage.aspect};`}
-    >
-      {
-        deviceImage.src ? (
-          <img src={deviceImage.src} alt={deviceImage.alt} class="size-full object-contain" />
-        ) : (
-          <div class="flex size-full items-center justify-center bg-[var(--color-grey-400)]">
-            <span class="text-style-caption not-italic px-4 text-center text-[var(--color-text-invert)]">
-              {deviceImage.alt}
-            </span>
-          </div>
-        )
-      }
+    <div data-parallax-fg class="w-full px-[var(--spacing-md)] pb-[var(--spacing-md)] lg:px-0 lg:pb-0">
+      {/* Mobile-specific crop/composition */}
+      <div class="overflow-hidden rounded-t-[24px] lg:hidden" style={`aspect-ratio: ${deviceImageMobile.aspect};`}>
+        {
+          deviceImageMobile.src ? (
+            <img src={deviceImageMobile.src} alt={deviceImageMobile.alt} class="size-full object-contain" />
+          ) : (
+            <div class="flex size-full items-center justify-center bg-[var(--color-grey-400)]">
+              <span class="text-style-caption not-italic px-4 text-center text-[var(--color-text-invert)]">
+                {deviceImageMobile.alt}
+              </span>
+            </div>
+          )
+        }
+      </div>
+      {/* Desktop crop/composition */}
+      <div
+        class="hidden overflow-hidden rounded-t-[24px] lg:block"
+        style={`aspect-ratio: ${deviceImage.aspect};`}
+      >
+        {
+          deviceImage.src ? (
+            <img src={deviceImage.src} alt={deviceImage.alt} class="size-full object-contain" />
+          ) : (
+            <div class="flex size-full items-center justify-center bg-[var(--color-grey-400)]">
+              <span class="text-style-caption not-italic px-4 text-center text-[var(--color-text-invert)]">
+                {deviceImage.alt}
+              </span>
+            </div>
+          )
+        }
+      </div>
     </div>
   </div>
 </div>

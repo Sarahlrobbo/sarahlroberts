@@ -133,6 +133,8 @@ export interface CaseStudy {
   cover: {
     background: CaseStudyImage;
     deviceImage: CaseStudyImage;
+    /** Separate mobile crop/composition of the device mockup, if supplied — falls back to `deviceImage` when omitted. */
+    deviceImageMobile?: CaseStudyImage;
   };
   authorName: string;
   /** Where the side nav's "Back" link and the top nav's "All Projects" go. */
