@@ -18,8 +18,18 @@ const titleLines = title.split("\n");
   bottom-anchored inside it — not a box that grows to fit its content.
   Content this short leaves genuine empty photo above the heading (that's
   the point: it's a hero image, not a content-sized card).
+
+  The page article is capped at max-w-[1440px] and centered, but the Cover
+  itself needs to stay full-bleed to the viewport on wider screens (like
+  nataliealmosa.ca/notion-mail) rather than getting capped with it. The
+  relative/left-1/2/-translate-x-1/2/w-screen combination breaks it out of
+  that parent regardless of the parent's own width, independent of how deep
+  it's nested.
 -->
-<div data-parallax-root class="relative h-[632px] overflow-hidden rounded-b-[var(--radius-xl)] lg:h-[810px] lg:rounded-b-[var(--radius-2xlg)]">
+<div
+  data-parallax-root
+  class="relative left-1/2 h-[632px] w-screen -translate-x-1/2 overflow-hidden rounded-b-[var(--radius-xl)] lg:h-[810px] lg:rounded-b-[var(--radius-2xlg)]"
+>
   <div class="absolute inset-0 -z-10">
     {
       background.src ? (

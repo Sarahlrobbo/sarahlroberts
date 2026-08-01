@@ -26,7 +26,31 @@ const wrapperBg = image.src && fit === "contain" ? "bg-white" : "bg-[var(--color
   style={`aspect-ratio: ${image.aspect};`}
 >
   {
-    image.src ? (
+    image.youtubeId ? (
+      // This video's owner has embedding turned off (YouTube error 153 on
+      // both the embed domains), and it isn't ours to override — link out
+      // to the real watch page instead of trying to force an inline embed.
+      <a
+        href={`https://www.youtube.com/watch?v=${image.youtubeId}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label={`Watch "${image.alt}" on YouTube`}
+        class="group absolute inset-0"
+        data-open-popup
+      >
+        <img
+          src={`https://img.youtube.com/vi/${image.youtubeId}/maxresdefault.jpg`}
+          alt=""
+          class="size-full object-cover"
+          loading="lazy"
+        />
+        <div class="absolute inset-0 flex items-center justify-center bg-black/20 transition-colors group-hover:bg-black/35">
+          <div class="flex size-16 items-center justify-center rounded-full bg-white/90 shadow-lg transition-transform group-hover:scale-110">
+            <svg viewBox="0 0 24 24" class="ml-1 size-7 fill-[#283132]"><path d="M8 5v14l11-7z" /></svg>
+          </div>
+        </div>
+      </a>
+    ) : image.src ? (
       <img
         src={image.src}
         alt={image.alt}
@@ -42,13 +66,13 @@ const wrapperBg = image.src && fit === "contain" ? "bg-white" : "bg-[var(--color
     )
   }
   {
-    image.caption && tone === "light" && (
-      <div class="absolute inset-0 bg-gradient-to-b from-white/50 from-75% to-[#283132]/50 mix-blend-multiply" />
+    !image.youtubeId && image.caption && tone === "light" && (
+      <div class="pointer-events-none absolute inset-0 bg-gradient-to-b from-white/50 from-75% to-[#283132]/50 mix-blend-multiply" />
     )
   }
   {
-    image.caption && (
-      <div class="absolute bottom-0 left-0 px-[var(--spacing-xmd)] py-[10px]">
+    !image.youtubeId && image.caption && (
+      <div class="pointer-events-none absolute bottom-0 left-0 px-[var(--spacing-xmd)] py-[10px]">
         <p
           class={`text-style-caption ${
             tone === "light" ? "text-[var(--color-text-invert)]" : "text-[var(--color-text-secondary)]"
@@ -60,3 +84,19 @@ const wrapperBg = image.src && fit === "contain" ? "bg-white" : "bg-[var(--color
     )
   }
 </div>
+
+<script>
+  // target="_blank" opens a new tab in most browsers. Passing explicit
+  // window features to window.open forces an actual separate popup window
+  // instead, which is what "open in a new window" means here.
+  document.querySelectorAll<HTMLAnchorElement>("[data-open-popup]").forEach((link) => {
+    link.addEventListener("click", (e) => {
+      e.preventDefault();
+      window.open(
+        link.href,
+        "_blank",
+        "noopener,noreferrer,width=1280,height=720,menubar=no,toolbar=no,location=no,status=no",
+      );
+    });
+  });
+</script>

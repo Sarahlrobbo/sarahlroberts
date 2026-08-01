@@ -166,9 +166,8 @@ export const farmiqThrive: CaseStudy = {
       layout: "single",
       images: [
         {
+          youtubeId: "5uiJEoB7vc8",
           alt: "Video of FarmIQ",
-          caption: "Video of FarmIQ",
-          captionTone: "light",
           aspect: "710/400",
         },
       ],

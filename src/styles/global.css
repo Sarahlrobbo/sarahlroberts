@@ -167,6 +167,11 @@ body {
   background: var(--color-bg);
   color: var(--color-text-primary);
   font-family: var(--font-body);
+  /* The Cover's full-bleed breakout (w-screen + negative translate) can
+     introduce a hairline horizontal overflow on some browsers when a
+     scrollbar is present; this keeps that from ever becoming a visible
+     horizontal scrollbar. */
+  overflow-x: hidden;
 }
 
 /* Semantic type styles, named after the Figma text styles (H1, Intro,

@@ -15,6 +15,8 @@ export interface CaseStudyImage {
   /** Tailwind aspect-ratio value, e.g. "600/400", "400/600", "1000/563". */
   aspect: string;
   fit?: "cover" | "contain";
+  /** When set, renders a YouTube embed in place of `src` (e.g. "5uiJEoB7vc8" from the watch URL's `v=` param). */
+  youtubeId?: string;
   /**
    * Set false when the source image is a pre-composed card that already has
    * its own rounded corners/shadow baked in (e.g. a dashboard screenshot
