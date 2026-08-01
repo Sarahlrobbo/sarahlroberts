@@ -56,7 +56,9 @@ export const farmiqThrive: CaseStudy = {
       ],
       paragraphs: [
         "FarmIQ's mobile app wasn't working for farmers in the field. It was slow, hard to use, and built around a desktop mental model that didn't survive a paddock. Farmers were going back to paper notes in the paddock and re-entering data late at night, often with gaps and inconsistencies.",
-        "I led the redesign of FarmIQ's mobile app and its sister web application, setting direction, building principles, and guiding a team of 3 through a sequence of releases that gave farmers their farm at their fingertips. The app went from something farmers struggled with, to something they relied on every day.",
+        "FarmIQ is a map-based farm management SaaS used by farmers to plan, record, and make decisions across their operations. Farming is high-pressure and hands-on: regulatory obligations, seasonal deadlines, dirty hands, patchy internet, and decisions made mid-paddock. The app needed to match that reality, and it didn't.",
+        "I led the redesign of FarmIQ's mobile app and its sister web application, setting direction, building principles, and guiding a team of 3 through a sequence of releases that gave farmers their farm at their fingertips.",
+        "App stickiness reached 32.4%, a 17.5% year-on-year increase, far surpassing the 20% SaaS benchmark for exceptional engagement. Mobile closed to within 4% of web. The app went from something farmers struggled with to something they relied on every day.",
       ],
       quote: {
         quote: "I’m using FarmIQ as I shift the stock through the gate and don’t have to worry about it when getting home.\"",
@@ -89,7 +91,7 @@ export const farmiqThrive: CaseStudy = {
       navLabel: "My Role",
       heading: "My Role",
       paragraphs: [
-        "As **Lead Product Designer at FarmIQ**, I led 2 Product Designers and a Graphic Designer. I partnered with Product Leaders, PMs, Engineering Leads, Customer Success, and on-farm subject-matter experts across exploratory research, roadmap planning, and staged releases.",
+        "**Lead Product Designer, FarmIQ.** Led 2 Product Designers and a Graphic Designer. Partnered with PMs, Engineering Leads, Customer Success, and on-farm subject matter experts, from early roadmap planning through to staged releases.",
       ],
     },
     {
@@ -97,9 +99,8 @@ export const farmiqThrive: CaseStudy = {
       navLabel: "The Situation",
       heading: "The Situation I Walked Into",
       paragraphs: [
-        "FarmIQ is a map-based farm management SaaS used by farmers to plan, record, and make decisions across their operations. Farming is high-pressure and hands-on: regulatory obligations, seasonal deadlines, dirty hands, patchy internet, and decisions made mid-paddock. The app needed to match that reality, and it didn't.",
-        "When I joined, the IQ app had one feature: a basic mob move record. The legacy Classic app, the one farmers relied on, was being retired. Everything farmers needed had to move to IQ, giving us the opportunity to reimagine what that on-farm app experience needed to be.",
-        "The challenge was two-sided. For farmers: the app needed to be simple and fast enough to use in the moment, recording in the paddock rather than the farm manager catching up on everything at night. For the business: it needed to drive adoption and retention whilst reducing the support burden that came with a fragmented, inconsistent experience.",
+        "When I joined, the IQ app had one feature: a basic mob move record. The legacy Classic app, the one farmers relied on, was being retired. Everything farmers needed had to move to IQ.",
+        "The challenge was two-sided. For farmers: the app needed to be simple and fast enough to use in the moment, recording in the paddock rather than catching up at night. For the business: it needed to drive adoption and retention whilst reducing the support burden that came with a fragmented, inconsistent experience.",
       ],
     },
     {
@@ -250,7 +251,7 @@ export const farmiqThrive: CaseStudy = {
       navLabel: "The Shift",
       heading: "The Shift",
       paragraphs: [
-        "The Classic app went from carrying the majority of mobile usage to 19%. The new IQ went to 39%, closing to within 4% of web.",
+        "The Classic app went from carrying the majority of mobile usage to 19%. IQ went to 39%, closing to within 4% of web.",
       ],
     },
     {
@@ -277,11 +278,11 @@ export const farmiqThrive: CaseStudy = {
         {
           value: "32%",
           label: "increase in App stickiness",
-          context: "a 17.5% year-on-year increase far surpassing the 20% SaaS benchmark for exceptional engagement.",
+          context: "a 17.5% year-on-year increase, far surpassing the 20% SaaS benchmark for exceptional engagement.",
         },
         {
           value: "38%",
-          label: "of customers use the app daily",
+          label: "of customers now use IQ regularly",
           context: "just 4% below web, showing mobile has become a core tool for on-farm decision-making.",
         },
       ],
@@ -305,15 +306,7 @@ export const farmiqThrive: CaseStudy = {
           },
           quote: "I’m using FarmIQ as I shift the stock through the gate and don’t have to worry about it when getting home.\"",
           attribution: "Corey Caseley · Glendonald Station, Wairarapa · 1,000ha sheep",
-        },
-        {
-          image: {
-            src: "/images/farmiq-thrive/16-quote-chris-hursthouse.jpg",
-            alt: "Chris Hursthouse on farm at Haddington",
-            aspect: "834/440",
-          },
-          quote: "I’m using FarmIQ as I shift the stock through the gate and don’t have to worry about it when getting home.\"",
-          attribution: "Chris Hursthouse · Haddington, Hawkes Bay · 220ha lambs and bull-beef",
+          side: "left", // Corey (on the quad bike) sits on the right of the photo
         },
         {
           image: {
@@ -323,6 +316,17 @@ export const farmiqThrive: CaseStudy = {
           },
           quote: "I’m using FarmIQ as I shift the stock through the gate and don’t have to worry about it when getting home.\"",
           attribution: "Alistair Bird · The Grange, North Canterbury · 565ha sheep and cattle",
+          side: "right", // the sheep cluster leans centre-left; open mountainside on the right
+        },
+        {
+          image: {
+            src: "/images/farmiq-thrive/16-quote-chris-hursthouse.jpg",
+            alt: "Chris Hursthouse on farm at Haddington",
+            aspect: "834/440",
+          },
+          quote: "I’m using FarmIQ as I shift the stock through the gate and don’t have to worry about it when getting home.\"",
+          attribution: "Chris Hursthouse · Haddington, Hawkes Bay · 220ha lambs and bull-beef",
+          side: "right", // Chris and the tractor are on the left of the photo
         },
       ],
     },

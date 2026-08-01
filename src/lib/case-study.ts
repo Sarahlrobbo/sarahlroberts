@@ -52,6 +52,8 @@ export interface QuoteSlide {
   image: CaseStudyImage;
   quote: string;
   attribution: string;
+  /** Which half of the image the quote text sits over on desktop — pick whichever side doesn't fall on the photo's subject. */
+  side: "left" | "right";
 }
 
 /**

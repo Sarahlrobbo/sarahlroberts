@@ -5,26 +5,180 @@ interface Props {
   section: Extract<CaseStudySection, { type: "quoteSlider" }>;
 }
 const { section } = Astro.props;
+
+// Figma (69:90176 / 69:90118 / 69:90170): the quote text sits in the half
+// of the image that isn't the subject, vertically centred, with a scrim
+// that's dark behind the text and fades to transparent toward the open
+// half — not a uniform full-width overlay.
+//
+// Plain alpha-blended black flattens the photo underneath it (it reads as
+// a grey haze regardless of what's in the shot). mix-blend-mode: multiply
+// darkens relative to the image's own tones instead — shadows stay dark,
+// highlights still read through — so the photo keeps its contrast and
+// brightness instead of looking dulled. Multiply is also visually stronger
+// than a flat overlay at the same alpha, hence the lower opacity here than
+// the plain-gradient version this replaced.
+function scrimFor(side: "left" | "right") {
+  const dir = side === "left" ? "to right" : "to left";
+  return `linear-gradient(${dir}, rgba(40,49,50,0.45) 0%, rgba(40,49,50,0.45) 42%, transparent 82%)`;
+}
 ---
 
-<section class="mx-auto flex max-w-[1010px] flex-col gap-[var(--spacing-md)] px-4 lg:mx-0 lg:ml-auto lg:mr-[var(--spacing-lg)] lg:flex-row lg:gap-[var(--spacing-lg)] lg:px-0">
-  {
-    section.slides.map((slide) => (
-      <div class="relative w-full overflow-hidden rounded-[var(--radius-l)] aspect-[390/519] lg:aspect-[834/440] lg:flex-1">
-        {slide.image.src ? (
-          <img src={slide.image.src} alt={slide.image.alt} class="absolute inset-0 size-full object-cover" />
-        ) : (
-          <div class="absolute inset-0 bg-[var(--color-grey-400)]" />
-        )}
-        <div class="absolute inset-0 bg-gradient-to-t from-[#283132]/60 via-[#283132]/10 to-transparent" />
-        <div class="absolute inset-x-0 bottom-0 flex flex-col gap-2 px-[var(--spacing-lg)] py-[var(--spacing-lg)]">
-          <p class="text-style-quote-mark leading-none text-[var(--color-text-invert)]" style="font-size: 40px;">
-            &ldquo;
-          </p>
-          <p class="text-style-intro text-[var(--color-text-invert)]">{slide.quote}</p>
-          <p class="text-style-body-italic text-[var(--color-text-invert)]">{slide.attribution}</p>
+<!--
+  Figma (node 68:90080): each card is 834px wide with a 40px gap, in a row
+  that overflows its own 1054px frame — card 1 shows in full, then ~180px
+  of card 2's left edge peeks in before the frame clips it. That's a
+  horizontal-scroll carousel design, not an equal-width row.
+
+  Desktop behaviour: as the section scrolls into the middle of the
+  viewport, vertical scroll "pins" (position: sticky) and further scroll
+  input instead slides the card track horizontally until the last card is
+  fully in view, then vertical scroll continues normally. Mobile keeps the
+  original simple stacked layout — scroll-jacking on touch scroll is poor
+  UX and wasn't asked for.
+-->
+<section class="mx-auto max-w-[1010px] px-4 lg:mx-0 lg:max-w-none lg:px-0">
+  <div class="flex flex-col gap-[var(--spacing-md)] lg:hidden">
+    {
+      section.slides.map((slide) => (
+        <div class="relative w-full overflow-hidden rounded-[var(--radius-l)] aspect-[390/519]">
+          {slide.image.src ? (
+            <img src={slide.image.src} alt={slide.image.alt} class="absolute inset-0 size-full object-cover" />
+          ) : (
+            <div class="absolute inset-0 bg-[var(--color-grey-400)]" />
+          )}
+          <div class="absolute inset-0 bg-gradient-to-t from-[#283132]/60 via-[#283132]/10 to-transparent" />
+          <div class="absolute inset-x-0 bottom-0 flex flex-col gap-2 px-[var(--spacing-lg)] py-[var(--spacing-lg)]">
+            <p class="text-style-quote-mark leading-none text-[var(--color-text-invert)]" style="font-size: 40px;">
+              &ldquo;
+            </p>
+            <p class="text-style-intro text-[var(--color-text-invert)]">{slide.quote}</p>
+            <p class="text-style-body-italic text-[var(--color-text-invert)]">{slide.attribution}</p>
+          </div>
         </div>
+      ))
+    }
+  </div>
+
+  <!--
+    Full-bleed to the true viewport edge (not just this section's own,
+    nav-offset content column) so the exit animation below can slide cards
+    all the way off-screen. The CSS left-50%/-translate-50% breakout trick
+    (used for Cover's hero) only self-cancels when its parent is itself
+    centred on the viewport; this section's parent is the nav-offset
+    content column, which is asymmetric, so that trick leaves a residual
+    gap here. Measured and applied directly in JS instead — see measure().
+  -->
+  <div data-quote-scroll-root class="relative hidden lg:block">
+    <div data-quote-sticky class="sticky top-0 flex h-screen w-full items-center overflow-hidden">
+      <div data-quote-track class="quote-track flex w-max gap-[var(--spacing-lg)]">
+        {
+          section.slides.map((slide) => (
+            <div class="relative h-[440px] w-[834px] shrink-0 overflow-hidden rounded-[var(--radius-l)]">
+              {slide.image.src ? (
+                <img src={slide.image.src} alt={slide.image.alt} class="absolute inset-0 size-full object-cover" />
+              ) : (
+                <div class="absolute inset-0 bg-[var(--color-grey-400)]" />
+              )}
+              <div class="absolute inset-0 mix-blend-multiply" style={`background: ${scrimFor(slide.side)};`} />
+              <div
+                class={`absolute inset-y-0 flex w-1/2 flex-col justify-center gap-2 py-[var(--spacing-lg)] ${
+                  slide.side === "left"
+                    ? "left-0 pl-[var(--spacing-2xlg)] pr-[var(--spacing-lg)]"
+                    : "right-0 pr-[var(--spacing-2xlg)] pl-[var(--spacing-lg)]"
+                }`}
+              >
+                <p class="text-style-quote-mark leading-none text-[var(--color-text-invert)]" style="font-size: 40px;">
+                  &ldquo;
+                </p>
+                <p class="text-style-intro text-[var(--color-text-invert)]">{slide.quote}</p>
+                <p class="text-style-body-italic text-[var(--color-text-invert)]">{slide.attribution}</p>
+              </div>
+            </div>
+          ))
+        }
       </div>
-    ))
-  }
+    </div>
+  </div>
 </section>
+
+<script>
+  // Scroll-jacked horizontal carousel: a tall spacer (data-quote-scroll-root)
+  // provides extra vertical scroll distance; the inner track stays pinned
+  // via position: sticky while that distance is consumed, and the fraction
+  // consumed drives a horizontal translateX on the card track instead.
+  function initQuoteScroll(root: HTMLElement) {
+    const track = root.querySelector<HTMLElement>("[data-quote-track]");
+    const sticky = root.querySelector<HTMLElement>("[data-quote-sticky]");
+    if (!track || !sticky) return;
+
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (reduceMotion.matches) {
+      // Fall back to a plain native horizontal scroller — every card stays
+      // reachable, just without the pinned-scroll effect.
+      root.style.height = "auto";
+      sticky.classList.remove("sticky", "top-0", "h-screen");
+      sticky.style.overflowX = "auto";
+      return;
+    }
+
+    let maxTranslate = 0;
+    let ticking = false;
+
+    function measure() {
+      // Clear every style this function applies before measuring anything,
+      // so each pass starts from the section's true, un-adjusted layout
+      // rather than compounding on top of the previous pass's corrections.
+      root.style.marginLeft = "";
+      root.style.width = "";
+      track!.style.paddingLeft = "";
+      track!.style.transform = "none";
+
+      // root's natural position is however far the nav-offset content
+      // column sits from the true viewport edge — pull it out to full-bleed
+      // by that exact measured amount rather than the CSS left-50%/
+      // -translate-50% trick, which only self-cancels when its parent is
+      // itself centred on the viewport (this one isn't; it's offset by the
+      // nav sidebar).
+      const edgeOffset = root.getBoundingClientRect().left;
+      root.style.marginLeft = `${-edgeOffset}px`;
+      root.style.width = "100vw";
+      // The track needs the same offset back as left padding, so cards
+      // still start aligned with the content column at rest instead of
+      // flush with the true viewport edge.
+      track!.style.paddingLeft = `${edgeOffset}px`;
+
+      // "Fully exited" = the track's right edge reaches x = 0 of the
+      // viewport now that the window is full-bleed, not just the edge of
+      // its own (previously inset) box.
+      maxTranslate = track!.getBoundingClientRect().right;
+
+      // Spacer height = one viewport height to hold the pin, plus the
+      // horizontal distance to travel (1 scrolled px = 1 translated px).
+      root.style.height = `${window.innerHeight + maxTranslate}px`;
+      update();
+    }
+
+    function update() {
+      ticking = false;
+      const rect = root.getBoundingClientRect();
+      const scrollable = root.offsetHeight - window.innerHeight;
+      if (scrollable <= 0) return;
+      const progress = Math.min(Math.max(-rect.top / scrollable, 0), 1);
+      track!.style.transform = `translateX(${-progress * maxTranslate}px)`;
+    }
+
+    function onScroll() {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(update);
+      }
+    }
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", measure);
+    measure();
+  }
+
+  document.querySelectorAll<HTMLElement>("[data-quote-scroll-root]").forEach(initQuoteScroll);
+</script>
