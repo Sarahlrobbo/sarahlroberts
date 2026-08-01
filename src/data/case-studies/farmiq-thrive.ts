@@ -16,6 +16,7 @@ export const farmiqThrive: CaseStudy = {
   backHref: "/",
   cover: {
     background: {
+      src: "/images/farmiq-thrive/01-hero-cover.jpg",
       alt: "Farmer and dog at a paddock gate, FarmIQ app screens overlaid",
       aspect: "16/9",
     },
@@ -28,6 +29,7 @@ export const farmiqThrive: CaseStudy = {
     {
       type: "intro",
       logo: {
+        src: "/images/farmiq-thrive/farmiq-logo.svg",
         alt: "FarmIQ logo",
         aspect: "160/32",
       },
@@ -61,12 +63,14 @@ export const farmiqThrive: CaseStudy = {
       layout: "two-equal",
       images: [
         {
+          src: "/images/farmiq-thrive/02-fast-decisions-field.jpg",
           alt: "Farmers making fast decisions in the field",
           caption: "Farmers making fast decisions in the field",
           captionTone: "light",
           aspect: "600/400",
         },
         {
+          src: "/images/farmiq-thrive/03-recording-data-moment.jpg",
           alt: "Recording data in the moment, no catching up at night",
           caption: "Recording data in the moment, no catching up at night",
           captionTone: "light",
@@ -98,12 +102,14 @@ export const farmiqThrive: CaseStudy = {
       layout: "two-equal",
       images: [
         {
+          src: "/images/farmiq-thrive/04-iq-app-before.jpg",
           alt: "IQ app when I joined: one feature",
           caption: "IQ app when I joined: one feature",
           captionTone: "light",
           aspect: "600/400",
         },
         {
+          src: "/images/farmiq-thrive/05-iq-app-after.jpg",
           alt: "IQ app when I left: 12 recordings, tasks, diary & notifications",
           caption: "IQ app when I left: 12 recordings, tasks, diary & notifications",
           captionTone: "light",
@@ -117,6 +123,7 @@ export const farmiqThrive: CaseStudy = {
       layout: "single",
       images: [
         {
+          src: "/images/farmiq-thrive/06-retiring-app.jpg",
           alt: "Retiring the classic app (far right)",
           caption: "Retiring the classic app (far right)",
           captionTone: "dark",
@@ -176,6 +183,7 @@ export const farmiqThrive: CaseStudy = {
         "Over the project lifecycle, the app grew from one recording type to 11, plus full Tasks and Diary features and app notifications. Every release was grounded in field research.",
       ],
       image: {
+        src: "/images/farmiq-thrive/07-checking-stock.jpg",
         alt: "Checking stock in the paddock",
         caption: "Checking stock in the paddock",
         captionTone: "light",
@@ -188,18 +196,21 @@ export const farmiqThrive: CaseStudy = {
       layout: "three-grid",
       images: [
         {
+          src: "/images/farmiq-thrive/08-recording-ht-offline.jpg",
           alt: "Recording health treatments offline",
           caption: "Recording health treatments offline",
           captionTone: "light",
           aspect: "400/600",
         },
         {
+          src: "/images/farmiq-thrive/09-on-farm-research.jpg",
           alt: "On farm exploratory research",
           caption: "On farm exploratory research",
           captionTone: "light",
           aspect: "400/600",
         },
         {
+          src: "/images/farmiq-thrive/10-in-paddock-research.jpg",
           alt: "In the paddock observing customers",
           caption: "In the paddock observing customers",
           captionTone: "light",
@@ -214,12 +225,14 @@ export const farmiqThrive: CaseStudy = {
       layout: "two-equal",
       images: [
         {
+          src: "/images/farmiq-thrive/11-field-decisions.jpg",
           alt: "Diary: farm-wide view for in-field decisions",
           caption: "Diary: farm-wide view for in-field decisions",
           captionTone: "light",
           aspect: "600/400",
         },
         {
+          src: "/images/farmiq-thrive/12-tasks-highest-adopted-feature.jpg",
           alt: "Tasks: highest adoption feature",
           caption: "Tasks: highest adoption feature",
           captionTone: "light",
@@ -241,10 +254,12 @@ export const farmiqThrive: CaseStudy = {
       layout: "two-equal",
       images: [
         {
+          src: "/images/farmiq-thrive/13-data-stickiness.jpg",
           alt: "Classic app usage screenshot",
           aspect: "600/400",
         },
         {
+          src: "/images/farmiq-thrive/14-user-preference.jpg",
           alt: "IQ app usage screenshot",
           aspect: "600/400",
         },
@@ -279,6 +294,7 @@ export const farmiqThrive: CaseStudy = {
       slides: [
         {
           image: {
+            src: "/images/farmiq-thrive/15-quote-corey-caseley.jpg",
             alt: "Corey Caseley on farm at Glendonald Station",
             aspect: "834/440",
           },
@@ -287,6 +303,7 @@ export const farmiqThrive: CaseStudy = {
         },
         {
           image: {
+            src: "/images/farmiq-thrive/16-quote-chris-hursthouse.jpg",
             alt: "Chris Hursthouse on farm at Haddington",
             aspect: "834/440",
           },
@@ -295,6 +312,7 @@ export const farmiqThrive: CaseStudy = {
         },
         {
           image: {
+            src: "/images/farmiq-thrive/17-quote-alistair-bird.jpg",
             alt: "Alistair Bird on farm at The Grange",
             aspect: "834/440",
           },
