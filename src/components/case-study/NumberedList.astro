@@ -22,7 +22,12 @@ const { section } = Astro.props;
           <div class="flex size-[60px] items-center justify-center rounded-[var(--radius-2xl)] bg-[var(--color-surface-primary)]">
             <p class="text-style-subheading text-[var(--color-text-secondary)]">{i + 1}</p>
           </div>
-          <div class="flex flex-col gap-2 text-style-body text-[var(--color-text-primary)]">
+          <div
+            class:list={[
+              "flex flex-col gap-2 text-style-body text-[var(--color-text-primary)]",
+              section.columns !== 2 && "lg:w-[600px]",
+            ]}
+          >
             <p class="text-style-body-semibold">{item.heading}</p>
             <p>{item.body}</p>
           </div>

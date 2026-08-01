@@ -61,7 +61,7 @@ export const farmiqThrive: CaseStudy = {
         "App stickiness reached 32.4%, a 17.5% year-on-year increase, far surpassing the 20% SaaS benchmark for exceptional engagement. Mobile closed to within 4% of web. The app went from something farmers struggled with to something they relied on every day.",
       ],
       quote: {
-        quote: "I’m using FarmIQ as I shift the stock through the gate and don’t have to worry about it when getting home.\"",
+        quote: "I’m using FarmIQ as I shift the stock through the gate and don’t have to worry about it when getting home.",
         attribution: "Chris Hursthouse · Haddington, Hawkes Bay · 220ha lambs and bull-beef",
       },
     },
@@ -304,7 +304,7 @@ export const farmiqThrive: CaseStudy = {
             alt: "Corey Caseley on farm at Glendonald Station",
             aspect: "834/440",
           },
-          quote: "I’m using FarmIQ as I shift the stock through the gate and don’t have to worry about it when getting home.\"",
+          quote: "The biggest thing it’s helped me with is just streamlining my day, so that I can use my cellphone doing animal health treatments on the job, as I’m doing it - nothing to do when I get home.",
           attribution: "Corey Caseley · Glendonald Station, Wairarapa · 1,000ha sheep",
           side: "left", // Corey (on the quad bike) sits on the right of the photo
         },
@@ -314,7 +314,7 @@ export const farmiqThrive: CaseStudy = {
             alt: "Alistair Bird on farm at The Grange",
             aspect: "834/440",
           },
-          quote: "I’m using FarmIQ as I shift the stock through the gate and don’t have to worry about it when getting home.\"",
+          quote: "Trying to hit a target carcass weight, to have that data right there at your fingertips it’ll help us track those variations in farm practices that then have an effect on the bottom line.",
           attribution: "Alistair Bird · The Grange, North Canterbury · 565ha sheep and cattle",
           side: "right", // the sheep cluster leans centre-left; open mountainside on the right
         },
@@ -324,7 +324,7 @@ export const farmiqThrive: CaseStudy = {
             alt: "Chris Hursthouse on farm at Haddington",
             aspect: "834/440",
           },
-          quote: "I’m using FarmIQ as I shift the stock through the gate and don’t have to worry about it when getting home.\"",
+          quote: "I’m using FarmIQ as I shift the stock through the gate and don’t have to worry about it when getting home.",
           attribution: "Chris Hursthouse · Haddington, Hawkes Bay · 220ha lambs and bull-beef",
           side: "right", // Chris and the tractor are on the left of the photo
         },

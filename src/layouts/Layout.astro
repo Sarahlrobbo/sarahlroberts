@@ -1,5 +1,6 @@
 ---
 import "../styles/global.css";
+import Footer from "../components/Footer.astro";
 
 interface Props {
   title: string;
@@ -19,5 +20,6 @@ const { title, description = "Sarah Roberts — design leader, systems thinker a
   </head>
   <body>
     <slot />
+    <Footer />
   </body>
 </html>

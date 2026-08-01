@@ -33,15 +33,24 @@ function scrimFor(side: "left" | "right") {
   Desktop behaviour: as the section scrolls into the middle of the
   viewport, vertical scroll "pins" (position: sticky) and further scroll
   input instead slides the card track horizontally until the last card is
-  fully in view, then vertical scroll continues normally. Mobile keeps the
-  original simple stacked layout — scroll-jacking on touch scroll is poor
-  UX and wasn't asked for.
+  fully in view, then vertical scroll continues normally. Each card also
+  grows into place (scale + fade, smooth ease-out — no bounce/overshoot,
+  see the script's SMOOTHING comment for why) the moment it scrolls into
+  the pinned viewport, instead of the whole row appearing as one flat,
+  simultaneous block. Mobile keeps the original simple stacked layout —
+  scroll-jacking on touch scroll is poor UX and wasn't asked for — but
+  gets the same grow-in treatment per card via IntersectionObserver.
 -->
-<section class="mx-auto max-w-[1010px] px-4 lg:mx-0 lg:max-w-none lg:px-0">
-  <div class="flex flex-col gap-[var(--spacing-md)] lg:hidden">
+<section class="mx-auto max-w-[1010px] px-4 lg:mx-0 lg:ml-auto lg:mr-[var(--spacing-lg)] lg:px-0">
+  <div data-quote-mobile class="flex flex-col gap-[var(--spacing-md)] lg:hidden">
     {
-      section.slides.map((slide) => (
-        <div class="relative w-full overflow-hidden rounded-[var(--radius-l)] aspect-[390/519]">
+      section.slides.map((slide, i) => (
+        <div
+          data-quote-card
+          data-visible="false"
+          style={`transition-delay: ${i * 120}ms`}
+          class="relative w-full origin-bottom scale-90 overflow-hidden rounded-[var(--radius-l)] opacity-0 aspect-[390/519] transition-[transform,opacity] duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] data-[visible=true]:scale-100 data-[visible=true]:opacity-100"
+        >
           {slide.image.src ? (
             <img src={slide.image.src} alt={slide.image.alt} class="absolute inset-0 size-full object-cover" />
           ) : (
@@ -60,21 +69,16 @@ function scrimFor(side: "left" | "right") {
     }
   </div>
 
-  <!--
-    Full-bleed to the true viewport edge (not just this section's own,
-    nav-offset content column) so the exit animation below can slide cards
-    all the way off-screen. The CSS left-50%/-translate-50% breakout trick
-    (used for Cover's hero) only self-cancels when its parent is itself
-    centred on the viewport; this section's parent is the nav-offset
-    content column, which is asymmetric, so that trick leaves a residual
-    gap here. Measured and applied directly in JS instead — see measure().
-  -->
   <div data-quote-scroll-root class="relative hidden lg:block">
-    <div data-quote-sticky class="sticky top-0 flex h-screen w-full items-center overflow-hidden">
+    <div data-quote-sticky class="sticky top-24 flex w-full items-center overflow-hidden">
       <div data-quote-track class="quote-track flex w-max gap-[var(--spacing-lg)]">
         {
           section.slides.map((slide) => (
-            <div class="relative h-[440px] w-[834px] shrink-0 overflow-hidden rounded-[var(--radius-l)]">
+            <div
+              data-quote-card
+              data-visible="false"
+              class="relative h-[440px] w-[834px] shrink-0 origin-center scale-90 overflow-hidden rounded-[var(--radius-l)] opacity-0 transition-[transform,opacity] duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] data-[visible=true]:scale-100 data-[visible=true]:opacity-100"
+            >
               {slide.image.src ? (
                 <img src={slide.image.src} alt={slide.image.alt} class="absolute inset-0 size-full object-cover" />
               ) : (
@@ -103,27 +107,72 @@ function scrimFor(side: "left" | "right") {
 </section>
 
 <script>
-  // Scroll-jacked horizontal carousel: a tall spacer (data-quote-scroll-root)
-  // provides extra vertical scroll distance; the inner track stays pinned
-  // via position: sticky while that distance is consumed, and the fraction
-  // consumed drives a horizontal translateX on the card track instead.
+  // Mobile: simple stacked cards, no scroll-jacking. Each one grows into
+  // place (scale 0.9 -> 1, smooth ease-out, set on the class list above)
+  // the first time it scrolls into view — IntersectionObserver per card gives
+  // the "one at a time" cascade for free, since each card crosses the
+  // viewport edge at a different scroll position.
+  function initMobileReveal(root: HTMLElement) {
+    const cards = root.querySelectorAll<HTMLElement>(":scope > [data-quote-card]");
+    if (!cards.length) return;
+
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (reduceMotion.matches) {
+      cards.forEach((card) => card.setAttribute("data-visible", "true"));
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries, obs) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            entry.target.setAttribute("data-visible", "true");
+            obs.unobserve(entry.target);
+          }
+        }
+      },
+      { threshold: 0.3 },
+    );
+    cards.forEach((card) => observer.observe(card));
+  }
+
+  document.querySelectorAll<HTMLElement>("[data-quote-mobile]").forEach(initMobileReveal);
+
+  // Desktop: scroll-jacked horizontal carousel. A spacer
+  // (data-quote-scroll-root) provides extra vertical scroll distance; the
+  // inner track stays pinned via position: sticky while that distance is
+  // consumed, and the fraction consumed drives a horizontal translateX on
+  // the card track instead.
+  //
+  // The pan stops once the last card's left edge reaches where the first
+  // card's left edge began (see measure()), and the spacer's height is
+  // capped independently of that travel distance so the section can't
+  // balloon in height on a wide track or a narrow viewport.
   function initQuoteScroll(root: HTMLElement) {
     const track = root.querySelector<HTMLElement>("[data-quote-track]");
     const sticky = root.querySelector<HTMLElement>("[data-quote-sticky]");
     if (!track || !sticky) return;
 
+    const cards = [...track.querySelectorAll<HTMLElement>("[data-quote-card]")];
+
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
     if (reduceMotion.matches) {
       // Fall back to a plain native horizontal scroller — every card stays
-      // reachable, just without the pinned-scroll effect.
+      // reachable, just without the pinned-scroll effect — and reveal
+      // every card immediately rather than growing it in.
       root.style.height = "auto";
-      sticky.classList.remove("sticky", "top-0", "h-screen");
+      sticky.classList.remove("sticky", "top-24");
       sticky.style.overflowX = "auto";
+      cards.forEach((card) => card.setAttribute("data-visible", "true"));
       return;
     }
 
     let maxTranslate = 0;
-    let ticking = false;
+    let scrollDistance = 0;
+    let targetTranslate = 0;
+    let currentTranslate = 0;
+    let committedIndex = 0;
+    let rafId = 0;
 
     function measure() {
       // Clear every style this function applies before measuring anything,
@@ -148,36 +197,134 @@ function scrimFor(side: "left" | "right") {
       // flush with the true viewport edge.
       track!.style.paddingLeft = `${edgeOffset}px`;
 
-      // "Fully exited" = the track's right edge reaches x = 0 of the
-      // viewport now that the window is full-bleed, not just the edge of
-      // its own (previously inset) box.
-      maxTranslate = track!.getBoundingClientRect().right;
+      // Pin the row vertically centred in the viewport, not near the top
+      // (the markup's top-24 is just a pre-JS fallback) — sticky's "stuck"
+      // threshold is exactly this `top` value, so centring it here also
+      // means the horizontal pan starts as soon as the row reaches the
+      // middle of the screen, rather than only once it's scrolled almost
+      // to the top.
+      const centeredTop = Math.max(0, (window.innerHeight - sticky!.offsetHeight) / 2);
+      sticky!.style.top = `${centeredTop}px`;
 
-      // Spacer height = one viewport height to hold the pin, plus the
-      // horizontal distance to travel (1 scrolled px = 1 translated px).
-      root.style.height = `${window.innerHeight + maxTranslate}px`;
-      update();
+      // Stop once the last card's left edge reaches where the first
+      // card's left edge started (Figma node 225:233516) — the run ends
+      // with the final testimonial sitting in the first one's original
+      // slot, not bled past the viewport's right edge. Measured card-to-
+      // card, not against the track's own (padded) edge — the track's
+      // left edge sits `edgeOffset` before card 1, so anchoring to it
+      // would overshoot the stop position by that same amount.
+      const firstCard = cards[0];
+      const lastCard = cards[cards.length - 1];
+      maxTranslate = Math.max(
+        0,
+        lastCard.getBoundingClientRect().left - firstCard.getBoundingClientRect().left,
+      );
+
+      // Scroll distance matches the full horizontal travel 1:1 (no cap).
+      // An earlier version capped this at one viewport height to keep the
+      // section short, but that squeezed 1748px of visual pan into ~1144px
+      // of scroll input — less scroll than travel — so a couple of normal
+      // scroll ticks blew straight through the whole thing and each card
+      // swap read as an instant cut instead of a pan you could see happen.
+      // The actual fix for the oversized section was giving the sticky
+      // element its own content height instead of h-screen (below) — that
+      // alone keeps the total height reasonable (~2 viewport heights) even
+      // with the full, uncapped travel distance restored here.
+      scrollDistance = maxTranslate;
+
+      // The spacer only needs to hold the pin for stickyHeight +
+      // scrollDistance — NOT stickyHeight + a full viewport height. The
+      // sticky element is sized to its own content (the 440px card row),
+      // not h-screen, so there's no half-viewport-tall band of empty space
+      // above/below the row before/after the pin is active.
+      root.style.height = `${sticky!.offsetHeight + scrollDistance}px`;
     }
 
-    function update() {
-      ticking = false;
+    // Reading scroll position 1:1 into translateX (the previous version)
+    // is exactly what read as mechanical — the row snaps to the pixel the
+    // instant you scroll, with no give. Real physical motion has weight:
+    // it lags slightly behind the input and eases into place. Lerping the
+    // rendered position toward the scroll-derived target a little each
+    // frame reproduces that.
+    //
+    // 0.14 (the original value) took ~60 frames — about a second — to
+    // fully settle on a new card, which read as delayed/sluggish. 0.35
+    // settled in ~20 frames (~300ms) but read as an abrupt flick. 0.2
+    // settled in ~35 frames (~550ms) and fixed both. Trying 0.15 here —
+    // ~45 frames (~750ms) — for an even slower, softer glide.
+    const SMOOTHING = 0.15;
+
+    function targetFromScroll() {
       const rect = root.getBoundingClientRect();
-      const scrollable = root.offsetHeight - window.innerHeight;
-      if (scrollable <= 0) return;
-      const progress = Math.min(Math.max(-rect.top / scrollable, 0), 1);
-      track!.style.transform = `translateX(${-progress * maxTranslate}px)`;
+      // Sticking begins once the spacer has scrolled up to `stickyTop`
+      // (the sticky element's own `top` offset — vertical-centre of the
+      // viewport, set in measure()), not the viewport's true top edge.
+      const stickyTop = parseFloat(getComputedStyle(sticky!).top) || 0;
+      const scrollable = root.offsetHeight - sticky!.offsetHeight;
+      if (scrollable <= 0) return 0;
+      return Math.min(Math.max((stickyTop - rect.top) / scrollable, 0), 1);
     }
 
-    function onScroll() {
-      if (!ticking) {
-        ticking = true;
-        requestAnimationFrame(update);
+    function loop() {
+      // Lerping toward a target that itself moves continuously with raw
+      // scroll (the previous version) still reads as one rigid block,
+      // because every card is carried along by the same translateX at
+      // every instant — there's never a moment where only one card is
+      // doing something. Real separate entrances need a moment where each
+      // card is the only thing moving, and the others are at rest.
+      //
+      // So the target itself is now stepped, not continuous: it only ever
+      // points at one of the N card "slots" (nearest whole step to the
+      // raw scroll fraction), and holds there while raw scroll continues
+      // within that card's zone. The lerp then only has something to
+      // chase right as you cross from one card's zone into the next —
+      // each card gets a clear, isolated transition in, then a genuine
+      // dwell at rest before the next card's transition starts.
+      const rawProgress = targetFromScroll();
+      const step = cards.length > 1 ? maxTranslate / (cards.length - 1) : 0;
+      const rawIndex = step > 0 ? (rawProgress * maxTranslate) / step : 0;
+
+      // Committing to a new slot only once raw scroll clearly passes the
+      // midpoint (by a small margin), rather than the instant it crosses
+      // 0.5, stops tiny scroll-wheel/trackpad noise right at a boundary
+      // from flipping the target back and forth between two cards every
+      // other frame — which read as jitter, not motion.
+      const HYSTERESIS = 0.08;
+      if (rawIndex > committedIndex + 0.5 + HYSTERESIS) {
+        committedIndex = Math.min(cards.length - 1, committedIndex + 1);
+      } else if (rawIndex < committedIndex - 0.5 - HYSTERESIS) {
+        committedIndex = Math.max(0, committedIndex - 1);
       }
+      targetTranslate = committedIndex * step;
+      currentTranslate += (targetTranslate - currentTranslate) * SMOOTHING;
+      // Snap once the gap is imperceptible so the lerp actually settles at
+      // exactly the target instead of asymptotically crawling toward it.
+      if (Math.abs(targetTranslate - currentTranslate) < 0.1) {
+        currentTranslate = targetTranslate;
+      }
+
+      track!.style.transform = `translateX(${-currentTranslate}px)`;
+
+      // Grow each card in the moment it scrolls far enough into the
+      // pinned viewport, based on its live on-screen position (not a
+      // precomputed scroll-position threshold) — robust to any viewport
+      // size, and each card gets its own one-time spring transition
+      // rather than being tied frame-by-frame to scroll position, which
+      // is what made the old version feel mechanical.
+      for (const card of cards) {
+        if (card.dataset.visible === "true") continue;
+        const cardRect = card.getBoundingClientRect();
+        if (cardRect.left < window.innerWidth * 0.85) {
+          card.dataset.visible = "true";
+        }
+      }
+
+      rafId = requestAnimationFrame(loop);
     }
 
-    window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", measure);
     measure();
+    rafId = requestAnimationFrame(loop);
   }
 
   document.querySelectorAll<HTMLElement>("[data-quote-scroll-root]").forEach(initQuoteScroll);
