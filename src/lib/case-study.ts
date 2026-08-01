@@ -61,9 +61,8 @@ export interface QuoteSlide {
  * - "tighter" (24px, spacing-md)  — sub-image to sub-image within one image group (e.g. the two-equal row to the single wide shot after it)
  * - "tight"   (40px, spacing-lg)  — an image band "attached" directly under the heading/paragraphs it illustrates
  * - "loose"   (96px, spacing-2xlg) — default; the gap Figma uses between every top-level block (My Role, Situation, Calls I Made, Solution, Shift, Outcome, Quote, What I Learned all sit in one flex-col with gap-[96px])
- * - "looser"  (160px = 96 + 64)    — Solution carries an extra pt-64 on top of the normal 96px block gap
  */
-export type SpacingBefore = "tighter" | "tight" | "loose" | "looser";
+export type SpacingBefore = "tighter" | "tight" | "loose";
 
 export type CaseStudySection = (
   | {
@@ -126,6 +125,17 @@ export type CaseStudySection = (
    * Situation I Walked Into" to "The Situation" in the nav).
    */
   navLabel?: string;
+  /**
+   * Wraps this section — and any consecutive siblings sharing the same
+   * value — in a full-bleed background panel: Figma's "My Role & Situation
+   * BG Dots" frame (a faint dot-grid texture, node 64:102934) or its
+   * "Solution BG" frame (a flat surface-primary fill, node 64:141385). The
+   * panel supplies its own top/bottom padding and absorbs the group's
+   * leading spacingBefore gap, so give the *first* section of a group its
+   * normal spacingBefore and leave the rest as internal (tighter/tight)
+   * gaps between siblings.
+   */
+  background?: "dots" | "solid";
 };
 
 export interface CaseStudy {

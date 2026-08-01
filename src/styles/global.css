@@ -28,6 +28,7 @@
   --color-text-invert: #ffffff;
 
   --color-surface-primary: #f8f6f4;
+  --color-surface-secondary: #dddddd;
   --color-bg: #ffffff;
   --color-bg-alt: #ececec;
   --color-border: #dddddd;
@@ -118,6 +119,7 @@
   --color-text-invert: var(--color-text-invert);
 
   --color-surface-primary: var(--color-surface-primary);
+  --color-surface-secondary: var(--color-surface-secondary);
   --color-bg: var(--color-bg);
   --color-bg-alt: var(--color-bg-alt);
   --color-border: var(--color-border);
@@ -253,4 +255,13 @@ body {
   font-style: italic;
   font-size: var(--font-size-caption);
   line-height: var(--line-height-caption);
+}
+
+/* Figma "My Role & Situation BG Dots" (node 64:102934) — a faint dot-grid
+   texture, tiled at a 12px pitch, read off the rendered screenshot rather
+   than the layer tree (that frame is hundreds of individually positioned
+   ellipse instances, impractical to reproduce literally). */
+.bg-dot-grid {
+  background-image: radial-gradient(var(--color-surface-secondary) 1px, transparent 1.5px);
+  background-size: 12px 12px;
 }

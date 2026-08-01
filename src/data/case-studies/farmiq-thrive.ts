@@ -89,6 +89,7 @@ export const farmiqThrive: CaseStudy = {
     {
       type: "text",
       navLabel: "My Role",
+      background: "dots",
       heading: "My Role",
       paragraphs: [
         "**Lead Product Designer, FarmIQ.** Led 2 Product Designers and a Graphic Designer. Partnered with PMs, Engineering Leads, Customer Success, and on-farm subject matter experts, from early roadmap planning through to staged releases.",
@@ -97,6 +98,7 @@ export const farmiqThrive: CaseStudy = {
     {
       type: "text",
       navLabel: "The Situation",
+      background: "dots",
       heading: "The Situation I Walked Into",
       paragraphs: [
         "When I joined, the IQ app had one feature: a basic mob move record. The legacy Classic app, the one farmers relied on, was being retired. Everything farmers needed had to move to IQ.",
@@ -106,6 +108,7 @@ export const farmiqThrive: CaseStudy = {
     {
       type: "imageBand",
       spacingBefore: "tight",
+      background: "dots",
       layout: "two-equal",
       images: [
         {
@@ -127,6 +130,7 @@ export const farmiqThrive: CaseStudy = {
     {
       type: "imageBand",
       spacingBefore: "tighter",
+      background: "dots",
       layout: "single",
       images: [
         {
@@ -180,8 +184,8 @@ export const farmiqThrive: CaseStudy = {
     },
     {
       type: "textImage",
-      spacingBefore: "looser",
       navLabel: "The Solution",
+      background: "solid",
       heading: "The Solution",
       paragraphs: [
         "The essential app centres on a live, map-anchored home built around how farmers actually work: outdoors, on the move, often with no coverage. Two things are effortless: recording what just happened, and seeing what needs attention now.",
@@ -199,6 +203,7 @@ export const farmiqThrive: CaseStudy = {
     {
       type: "imageBand",
       wide: true,
+      background: "solid",
       layout: "three-grid",
       images: [
         {
@@ -228,6 +233,7 @@ export const farmiqThrive: CaseStudy = {
       type: "imageBand",
       spacingBefore: "tighter",
       wide: true,
+      background: "solid",
       layout: "two-equal",
       images: [
         {
