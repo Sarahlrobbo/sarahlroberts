@@ -37,6 +37,11 @@
   --color-card: #ffffff;
   --color-card-hover: #fafafa;
 
+  /* Same scroll-reveal curve QuoteSlider's cards already use — reused here
+     (bio-image hover, tooltip, testimonial fade-in) so every "grows/settles
+     into place" moment on the site shares one motion language. */
+  --ease-reveal: cubic-bezier(0.16, 1, 0.3, 1);
+
   --color-brand-50: #eff0f9;
   --color-brand-100: #e1e2f3;
   --color-brand-200: #c2c5e7;
@@ -192,6 +197,29 @@ body {
   font-size: var(--font-size-h1);
   line-height: var(--font-size-h1);
 }
+.text-style-h2 {
+  font-family: var(--font-heading);
+  font-weight: 400;
+  font-size: var(--font-size-h2);
+  line-height: var(--line-height-h2);
+}
+.text-style-h4 {
+  font-family: var(--font-heading);
+  font-weight: 500;
+  font-size: var(--font-size-h4);
+  line-height: var(--line-height-h4);
+}
+/* Figma's "H3" style is body-font (Plus Jakarta Sans), not the heading font
+   — confirmed via get_design_context on the actual About nodes, not a
+   screenshot guess. Used for every secondary section heading on /about
+   (Current Role, Career Timeline, Leadership Philosophy, I stay hands-on,
+   Kind words) — all centered, brand-blue, in the real design. */
+.text-style-h3 {
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: var(--font-size-h3);
+  line-height: var(--line-height-h3);
+}
 .text-style-intro {
   font-family: var(--font-heading);
   font-weight: 400;
@@ -306,5 +334,121 @@ body {
 @media (min-width: 1024px) {
   .case-study-image-aspect-tablet {
     aspect-ratio: var(--aspect-desktop);
+  }
+}
+
+/* ---------- Behind the Screens (bio-image) ----------
+   Rotation angles, tooltip size/radius, and the pointer tail are read
+   directly from the real Figma node (get_design_context on 186:169709 /
+   the ImageTooltip component) — not estimated from a screenshot. The
+   un-rotate/scale/deepen-shadow *hover behaviour* still matches
+   sarahlrobbo.github.io/sarah-roberts-portfolio-2, styled with this
+   site's own tokens. */
+.bio-image-wrap {
+  border-radius: var(--radius-l);
+  overflow: hidden;
+  box-shadow: 0 14px 30px -16px rgba(40, 49, 50, 0.25);
+  transition:
+    transform 0.4s var(--ease-reveal),
+    box-shadow 0.4s var(--ease-reveal);
+}
+.bio-image:nth-child(1) .bio-image-wrap {
+  transform: rotate(-4.97deg);
+}
+.bio-image:nth-child(2) .bio-image-wrap {
+  transform: rotate(5.11deg);
+}
+.bio-image:nth-child(3) .bio-image-wrap {
+  transform: rotate(-5.35deg);
+}
+.bio-image:hover .bio-image-wrap {
+  transform: rotate(0deg) scale(1.02);
+  box-shadow: 0 20px 40px -16px rgba(40, 49, 50, 0.3);
+}
+
+.bio-image-tooltip {
+  position: absolute;
+  bottom: -14px;
+  left: 50%;
+  transform: translateX(-50%) translateY(6px);
+  background: var(--color-text-primary);
+  color: var(--color-text-invert);
+  padding: var(--spacing-sm) var(--spacing-xmd);
+  border-radius: var(--spacing-md);
+  font-family: var(--font-body);
+  font-size: var(--font-size-body);
+  font-style: normal;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    opacity 0.3s var(--ease-reveal),
+    transform 0.3s var(--ease-reveal);
+  z-index: 5;
+}
+/* The little speech-bubble tail pointing up at the photo. */
+.bio-image-tooltip::before {
+  content: "";
+  position: absolute;
+  top: -4px;
+  left: 50%;
+  width: 10px;
+  height: 10px;
+  background: var(--color-text-primary);
+  transform: translateX(-50%) rotate(45deg);
+  z-index: -1;
+}
+.bio-image:hover .bio-image-tooltip {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+@media (hover: none) {
+  .bio-image:hover .bio-image-wrap {
+    transform: none;
+    box-shadow: 0 14px 30px -16px rgba(40, 49, 50, 0.25);
+  }
+}
+
+/* ---------- Testimonials ----------
+   Card radius/width, avatar size, name/role type styles, and the
+   highlighted-phrase text colour are all read directly from the real
+   Figma quote-card component (get_design_context on 133:169721) — not
+   estimated. The scroll-reveal + "highlighter draws in" *animation
+   behaviour* matches sarahlrobbo.github.io/sarah-roberts-portfolio-2,
+   styled with this site's own tokens (the real design uses individually
+   positioned highlight rectangles, which don't survive responsive reflow
+   — this reproduces the same look as a flowing text-decoration instead). */
+.testimonial-card {
+  background: var(--color-surface-primary);
+  opacity: 0;
+  transition: opacity 0.9s var(--ease-reveal);
+}
+.testimonial-card.in-view {
+  opacity: 1;
+}
+
+.testimonial-highlight {
+  background-color: transparent;
+  background-image: linear-gradient(180deg, var(--color-brand-50), var(--color-brand-50));
+  background-repeat: no-repeat;
+  background-size: 0% 115%;
+  background-position: -4px 50%;
+  padding: 2px 6px;
+  margin: 0 -4px;
+  color: var(--color-text-brand);
+  border-radius: 2px;
+  transition: background-size 1.6s var(--ease-reveal);
+  transition-delay: 0.3s;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+.testimonial-card.in-view .testimonial-highlight {
+  background-size: 108% 115%;
+}
+@media (prefers-reduced-motion: reduce) {
+  .testimonial-highlight,
+  .testimonial-card.in-view .testimonial-highlight {
+    transition: none;
+    background-size: 108% 115%;
   }
 }

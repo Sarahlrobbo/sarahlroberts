@@ -1,0 +1,230 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Navigation from "../components/Navigation.astro";
+import CaseStudyImage from "../components/case-study/CaseStudyImage.astro";
+import {
+  renderHighlight,
+  careerTimeline,
+  philosophy,
+  craftTiles,
+  testimonials,
+  bioPhotos,
+  heroPhoto,
+  currentRolePhoto,
+  careerTimelinePhotos,
+  leadershipPhoto,
+} from "../lib/about.ts";
+---
+
+<Layout title="About — Sarah Roberts" description="Design & Research Lead, Christchurch, Aotearoa New Zealand.">
+  <Navigation authorName="Sarah Roberts" />
+
+  <main class="mx-auto flex max-w-[1440px] flex-col gap-[var(--spacing-2xlg)] pb-[var(--spacing-2xlg)]">
+    <!-- HERO -->
+    <section class="relative mx-auto flex max-w-[640px] flex-col items-center gap-[var(--spacing-md)] px-4 pt-[var(--spacing-xlg)] text-center">
+      <div class="absolute top-0 hidden lg:block" style={`width: ${heroPhoto.widthPx}px; right: -367px;`}>
+        <CaseStudyImage image={heroPhoto} />
+      </div>
+      <p class="text-style-h4 text-[var(--color-text-brand)]">👋 Hi, I'm Sarah, Design &amp; Research Lead</p>
+      <h1 class="text-style-h3 text-[var(--color-text-brand)]">
+        I believe good product discovery starts with questions that become evidence. That's shaped how I've led design at Datapay and FarmIQ.
+      </h1>
+      <div class="flex flex-col gap-[8px] text-style-intro text-[var(--color-text-primary)]">
+        <p>
+          I've spent over a decade designing digital products across SaaS, public sector, and agencies, from strategy and research through to
+          designing the screens people actually use.
+        </p>
+        <p>
+          The work I'm proudest of sits in high-pressure, real-world environments: payroll, farm management, tax filing, safety in the outdoors.
+          Places where the product has to hold up under pressure, not just look good.
+        </p>
+        <p>I live and work in Christchurch, Aotearoa/New Zealand.</p>
+      </div>
+    </section>
+
+    <!-- CURRENT ROLE -->
+    <section class="relative mx-auto flex max-w-[640px] flex-col gap-[var(--spacing-md)] px-4">
+      <div class="absolute top-0 hidden lg:block" style={`width: ${currentRolePhoto.widthPx}px; left: -317px;`}>
+        <CaseStudyImage image={currentRolePhoto} />
+      </div>
+      <h2 class="text-style-h3 text-center text-[var(--color-text-brand)]">Current Role</h2>
+      <div class="flex flex-col gap-[8px] text-style-intro text-center text-[var(--color-text-primary)]">
+        <p>
+          I'm the Design &amp; Research Lead at Datapay, a payroll platform that pays 1 in 6 New Zealanders. I lead the design discipline and a
+          team of 2 designers. I turn customer insight into prioritised design opportunities, some feed into product's roadmap, others are UX
+          improvements I drive myself. I lead with direction and concepts, and I stay hands-on, not a manager who's stepped away from the craft. I
+          built the design and research practice here from scratch, including a JTBD framework synthesised from existing research, support
+          tickets, and validated with customers.
+        </p>
+        <p>
+          I created the AI Delegation Framework, now a shared language across product, engineering, and customer-facing teams for deciding when
+          customer-facing AI should act versus suggest. Validated through surveys and customer workshops I held.
+        </p>
+        <p>
+          My research is now a cross-business resource. Business leaders come to me directly for customer insight. I run the product session in
+          the Customer Advisory Board, consistently rated customers' favourite touchpoint with product at Datapay. I also shape how we work with AI
+          day to day, simple features go agent-assisted, complex ones stay human-led discovery. I coach PMs on the difference between a stakeholder
+          chat and non-biased customer research.
+        </p>
+      </div>
+    </section>
+
+    <!-- CAREER TIMELINE -->
+    <section class="relative mx-auto flex max-w-[888px] flex-col gap-[var(--spacing-lg)] px-4">
+      <h2 class="text-style-h3 text-center text-[var(--color-text-brand)]">Career Timeline</h2>
+
+      <div class="hidden lg:absolute lg:top-[70px] lg:block" style={`width: ${careerTimelinePhotos[0].widthPx}px; right: -250px;`}>
+        <CaseStudyImage image={careerTimelinePhotos[0]} />
+      </div>
+      <div class="hidden lg:absolute lg:bottom-0 lg:block" style={`width: ${careerTimelinePhotos[1].widthPx}px; left: -235px;`}>
+        <CaseStudyImage image={careerTimelinePhotos[1]} />
+      </div>
+
+      <div class="flex flex-col">
+        {
+          careerTimeline.map((entry) => (
+            <div class="grid grid-cols-1 gap-[var(--spacing-md)] border-t border-[var(--color-border)] py-[var(--spacing-lg)] first:border-t-0 first:pt-0 lg:grid-cols-[150px_150px_1fr_140px] lg:items-center">
+              <p class="text-style-intro text-center text-[var(--color-text-primary)]">{entry.role}</p>
+              <img src={entry.logo} alt={entry.logoAlt} class="h-[60px] max-w-[130px] w-auto object-contain justify-self-center" />
+              <ul class="flex list-disc flex-col gap-1 pl-4 text-style-body text-[var(--color-text-primary)]">
+                {entry.bullets.map((b) => (
+                  <li>{b}</li>
+                ))}
+              </ul>
+              <p class="text-style-body text-[var(--color-text-primary)] lg:text-right">
+                {entry.dateStart} <br />– {entry.dateEnd}
+              </p>
+            </div>
+          ))
+        }
+      </div>
+
+      <p class="text-center text-style-body text-[var(--color-text-brand)]">
+        <a href="https://www.linkedin.com/in/sarahlroberts-christchurch/" target="_blank" rel="noopener noreferrer" class="hover:underline">
+          Full career history on LinkedIn →
+        </a>
+      </p>
+    </section>
+
+    <!-- LEADERSHIP PHILOSOPHY -->
+    <section class="relative mx-auto flex max-w-[640px] flex-col gap-[var(--spacing-lg)] px-4">
+      <h2 class="text-style-h3 text-center text-[var(--color-text-brand)]">Leadership Philosophy</h2>
+      <div class="hidden lg:absolute lg:top-0 lg:block" style={`width: ${leadershipPhoto.widthPx}px; right: -367px;`}>
+        <CaseStudyImage image={leadershipPhoto} />
+      </div>
+      <div class="flex flex-col gap-[var(--spacing-md)]">
+        {
+          philosophy.map((item) => (
+            <p class="text-center text-[var(--color-text-primary)]">
+              <span class="text-style-intro">
+                <span aria-hidden="true">{item.emoji}</span> {item.label}
+              </span>
+              <br />
+              <span class="text-style-body">{item.body}</span>
+            </p>
+          ))
+        }
+      </div>
+    </section>
+
+    <!-- CRAFT & EXECUTION -->
+    <section class="mx-auto flex max-w-[640px] flex-col gap-[var(--spacing-md)] px-4">
+      <h2 class="text-style-h3 text-center text-[var(--color-text-brand)]">I stay hands-on</h2>
+      <p class="text-center text-style-body text-[var(--color-text-primary)]">Some of the work I'm proudest of:</p>
+    </section>
+    <div class="mx-auto grid max-w-[840px] grid-cols-1 gap-[var(--spacing-md)] px-4 lg:grid-cols-2">
+        {
+          craftTiles.map((tile) => {
+            const textColor = tile.textTone === "dark" ? "var(--color-text-primary)" : "var(--color-text-invert)";
+            return (
+              <a
+                href={tile.linkHref}
+                class="flex flex-col justify-between gap-[var(--spacing-xlg)] rounded-[var(--radius-l)] p-[var(--spacing-xmd)] transition-transform hover:-translate-y-0.5"
+                style={`background: ${tile.accentColor};`}
+              >
+                <div class="flex flex-col gap-[var(--spacing-sm)] pt-[var(--spacing-xmd)]" style={`color: ${textColor};`}>
+                  <p class="text-style-intro">{tile.title}</p>
+                  <p class="text-style-body">{tile.body}</p>
+                </div>
+                <div class="flex h-20 items-center justify-between pl-[var(--spacing-xmd)]">
+                  <span class="text-style-body-semibold underline-offset-2 hover:underline" style={`color: ${textColor};`}>
+                    {tile.linkLabel}
+                  </span>
+                  <img src={tile.logo} alt={tile.logoAlt} class="size-20 object-contain" />
+                </div>
+              </a>
+            );
+          })
+        }
+    </div>
+
+    <!-- TESTIMONIALS -->
+    <section class="mx-auto flex max-w-[640px] flex-col gap-[var(--spacing-lg)] px-4 pt-[var(--spacing-2xlg)]">
+      <h2 class="text-style-h3 text-center text-[var(--color-text-brand)]">Kind words from colleagues &amp; customers</h2>
+      <div class="flex flex-col gap-[120px] lg:gap-[160px]">
+        {
+          testimonials.map((t) => (
+            <div data-testimonial class="testimonial-card flex flex-col gap-[var(--spacing-md)] rounded-[var(--radius-xl)] p-[var(--spacing-lg)]">
+              <p class="text-style-body text-[var(--color-text-primary)]" set:html={`&ldquo;${renderHighlight(t.quote)}&rdquo;`} />
+              <div class="flex items-center gap-[var(--spacing-xmd)]">
+                <img src={t.avatar} alt="" class="size-20 rounded-full object-cover" />
+                <div class="flex flex-col">
+                  <p class="text-style-intro text-[var(--color-text-primary)]">{t.name}</p>
+                  <p class="text-style-body text-[var(--color-text-secondary)]">{t.role}</p>
+                </div>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <!-- BEHIND THE SCREENS -->
+    <section class="mx-auto flex max-w-[1010px] flex-col items-center gap-[var(--spacing-md)] px-4 pt-[var(--spacing-2xlg)] text-center">
+      <h2 class="text-style-h2 text-[var(--color-text-brand)]">Behind the screens</h2>
+      <p class="max-w-[800px] text-style-body text-[var(--color-text-primary)]">
+        When I'm not caring deeply about products that make life easier for others, you'll find me outside, tramping, riding one of my bicycles,
+        making pottery, gardening, or hanging out with animals. 🥾🚴‍♀️⛰️
+      </p>
+      <div class="grid w-full max-w-[841px] grid-cols-3 gap-[var(--spacing-xlg)] px-4 pt-[var(--spacing-md)]">
+        {
+          bioPhotos.map((photo) => (
+            <figure class="bio-image relative m-0 flex flex-col items-center">
+              <div class="bio-image-wrap w-full" style="aspect-ratio: 4 / 6;">
+                <img src={photo.src} alt={photo.alt} class="size-full object-cover" />
+              </div>
+              <span class="bio-image-tooltip" aria-hidden="true">
+                {photo.tooltip}
+              </span>
+            </figure>
+          ))
+        }
+      </div>
+    </section>
+  </main>
+</Layout>
+
+<script>
+  // Reference-matched (sarah-roberts-portfolio-2): each testimonial fades in
+  // and its highlighter draws across the quote once the card scrolls into
+  // view, staggered so they don't all fire at once.
+  const cards = document.querySelectorAll<HTMLElement>("[data-testimonial]");
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+  if (reduceMotion.matches || !("IntersectionObserver" in window)) {
+    cards.forEach((card) => card.classList.add("in-view"));
+  } else {
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const idx = [...cards].indexOf(entry.target as HTMLElement);
+            setTimeout(() => entry.target.classList.add("in-view"), 200 + idx * 300);
+            io.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.2 },
+    );
+    cards.forEach((card) => io.observe(card));
+  }
+</script>
