@@ -72,8 +72,10 @@ const titleLines = title.split("\n");
     </h1>
 
     <div data-parallax-fg class="w-full px-[var(--spacing-md)] pb-[var(--spacing-md)] lg:px-0 lg:pb-0">
-      {/* Mobile-specific crop/composition */}
-      <div class="overflow-hidden rounded-t-[24px] lg:hidden" style={`aspect-ratio: ${deviceImageMobile.aspect};`}>
+      {/* Mobile-specific crop/composition — desktop takes over from `sm`
+          (640px) rather than the site's usual `lg`, so the hero holds its
+          desktop composition through tablet widths. */}
+      <div class="overflow-hidden rounded-t-[24px] sm:hidden" style={`aspect-ratio: ${deviceImageMobile.aspect};`}>
         {
           deviceImageMobile.src ? (
             <img src={deviceImageMobile.src} alt={deviceImageMobile.alt} class="size-full object-contain" />
@@ -88,7 +90,7 @@ const titleLines = title.split("\n");
       </div>
       {/* Desktop crop/composition */}
       <div
-        class="hidden overflow-hidden rounded-t-[24px] lg:block"
+        class="hidden overflow-hidden rounded-t-[24px] sm:block"
         style={`aspect-ratio: ${deviceImage.aspect};`}
       >
         {

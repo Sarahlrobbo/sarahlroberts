@@ -280,3 +280,31 @@ body {
     aspect-ratio: var(--aspect-desktop);
   }
 }
+
+/* Same as .case-study-image-aspect, but for images opted into `earlyDesktop`
+   (see CaseStudyImage's aspect-ratio class pick) — switches at `sm` (640px)
+   instead of `lg` (1024px), so tablets get the desktop crop sooner. */
+.case-study-image-aspect-sm {
+  aspect-ratio: var(--aspect-mobile);
+}
+@media (min-width: 640px) {
+  .case-study-image-aspect-sm {
+    aspect-ratio: var(--aspect-desktop);
+  }
+}
+
+/* Three-tier version for images with their own dedicated `aspectTablet`
+   crop — mobile below 640px, tablet from 640px, desktop from 1024px. */
+.case-study-image-aspect-tablet {
+  aspect-ratio: var(--aspect-mobile);
+}
+@media (min-width: 640px) {
+  .case-study-image-aspect-tablet {
+    aspect-ratio: var(--aspect-tablet);
+  }
+}
+@media (min-width: 1024px) {
+  .case-study-image-aspect-tablet {
+    aspect-ratio: var(--aspect-desktop);
+  }
+}

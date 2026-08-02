@@ -53,8 +53,12 @@ function scrimFor(side: "left" | "right") {
     position pairing right per photo. 600/400 (rather than the old tighter
     portrait crop) also keeps enough of the original frame that a plain
     center crop holds every subject without per-photo positioning.
+
+    Swaps at `sm` (640px), not the site's usual `lg` (1024px) — the
+    colour-panel treatment is specifically a small-phone fallback, so
+    tablets keep the desktop overlay/carousel instead of dropping to it early.
   -->
-  <div data-quote-mobile class="-mx-4 flex flex-col gap-[var(--spacing-md)] lg:hidden">
+  <div data-quote-mobile class="-mx-4 flex flex-col gap-[var(--spacing-md)] sm:hidden">
     {
       section.slides.map((slide, i) => (
         <div
@@ -85,7 +89,7 @@ function scrimFor(side: "left" | "right") {
     }
   </div>
 
-  <div data-quote-scroll-root class="relative hidden lg:block">
+  <div data-quote-scroll-root class="relative hidden sm:block">
     <div data-quote-sticky class="sticky top-24 flex w-full items-center overflow-hidden">
       <div data-quote-track class="quote-track flex w-max gap-[var(--spacing-lg)]">
         {

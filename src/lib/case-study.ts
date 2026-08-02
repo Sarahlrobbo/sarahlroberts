@@ -22,6 +22,15 @@ export interface CaseStudyImage {
    */
   aspectMobile?: string;
   /**
+   * A third crop just for the `sm`–`lg` tablet range (640–1023px), for slots
+   * that want a genuinely different shape on tablet rather than just holding
+   * either the mobile or the desktop crop longer — e.g. "Checking stock in
+   * the paddock" goes square (mobile) → landscape (tablet) → portrait
+   * (desktop, where there's column space for it beside the text). Requires
+   * `aspectMobile` to also be set. Takes priority over `earlyDesktop` below.
+   */
+  aspectTablet?: string;
+  /**
    * Overrides `src` below the `lg` breakpoint, for slots where the mobile
    * Figma frame swaps in a genuinely different asset rather than just
    * re-cropping (e.g. "Retiring the classic app" is a differently-composed
@@ -29,6 +38,15 @@ export interface CaseStudyImage {
    * `aspectMobile` when the replacement has its own shape.
    */
   srcMobile?: string;
+  /**
+   * When true, the mobile/desktop swap above (`aspectMobile`/`srcMobile`)
+   * happens at the `sm` breakpoint (640px) instead of the site-wide `lg`
+   * (1024px), so tablets keep seeing the desktop crop for longer. Opt-in
+   * per image rather than a global change, since most mobile/desktop swaps
+   * are still meant to track the site's single Figma-frame breakpoint.
+   * Ignored when `aspectTablet` is set (that gets its own dedicated crop).
+   */
+  earlyDesktop?: boolean;
   fit?: "cover" | "contain";
   /** When set, renders a YouTube embed in place of `src` (e.g. "5uiJEoB7vc8" from the watch URL's `v=` param). */
   youtubeId?: string;

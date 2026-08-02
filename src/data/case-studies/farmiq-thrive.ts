@@ -143,6 +143,7 @@ export const farmiqThrive: CaseStudy = {
           captionTone: "dark",
           aspect: "1010/266",
           aspectMobile: "900/1316",
+          earlyDesktop: true,
           fit: "contain",
         },
       ],
@@ -203,6 +204,7 @@ export const farmiqThrive: CaseStudy = {
         captionTone: "light",
         aspect: "267/400",
         aspectMobile: "1/1",
+        aspectTablet: "600/400",
       },
     },
     {
