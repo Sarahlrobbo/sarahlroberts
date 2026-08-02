@@ -156,6 +156,12 @@ export interface CraftTile {
   accentColor: string;
   logo: string;
   logoAlt: string;
+  /** Real per-logo box, read off each tile instance via get_metadata
+   * (136:169001/169029/169081/169145) — the Datapay icon is a square 80×80
+   * badge, but the FarmIQ and Hatch marks are wide wordmarks (120px wide,
+   * ~24–35px tall). A uniform size-20 box squashed the wordmarks down. */
+  logoWidthPx: number;
+  logoHeightPx: number;
   /** Confirmed via get_design_context on two real tile instances: the teal
    * tile uses dark text-primary, the navy tile uses white text-invert — text
    * colour tracks each tile's own background lightness, not a fixed value. */
@@ -171,6 +177,8 @@ export const craftTiles: CraftTile[] = [
     accentColor: "#0ab8d7",
     logo: "/images/about/logos/datapay-icon.svg",
     logoAlt: "Datapay",
+    logoWidthPx: 80,
+    logoHeightPx: 80,
     textTone: "dark",
   },
   {
@@ -181,6 +189,8 @@ export const craftTiles: CraftTile[] = [
     accentColor: "#ffb2ea",
     logo: "/images/farmiq-thrive/farmiq-logo.svg",
     logoAlt: "FarmIQ",
+    logoWidthPx: 120,
+    logoHeightPx: 24,
     textTone: "dark",
   },
   {
@@ -191,6 +201,8 @@ export const craftTiles: CraftTile[] = [
     accentColor: "#7e54e3",
     logo: "/images/about/logos/hatch-wordmark.svg",
     logoAlt: "Hatch",
+    logoWidthPx: 120,
+    logoHeightPx: 35,
     textTone: "light",
   },
   {
@@ -201,6 +213,8 @@ export const craftTiles: CraftTile[] = [
     accentColor: "#343b74",
     logo: "/images/about/logos/datapay-icon.svg",
     logoAlt: "Datapay",
+    logoWidthPx: 80,
+    logoHeightPx: 80,
     textTone: "light",
   },
 ];

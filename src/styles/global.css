@@ -232,6 +232,15 @@ body {
   font-size: var(--font-size-intro);
   line-height: var(--line-height-intro);
 }
+/* Figma's "Top block intro" style (node 186:169707) — a separate named
+   style from "Intro" above: same intro size/line-height variables, but
+   set in Plus Jakarta Sans (body font) rather than Syne. */
+.text-style-top-block-intro {
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 28px;
+}
 /* Not a named Figma style — a deliberate departure for the scrolling nav.
    Figma's own "Intro Button" style (Medium, intro-size) reads too heavy
    next to the headings it points at; body-copy size/weight lets the
@@ -408,23 +417,71 @@ body {
     box-shadow: 0 14px 30px -16px rgba(40, 49, 50, 0.25);
   }
 }
+/* Below lg the photos stack in one column and there's no hover to reveal
+   the caption, so it moves into normal flow underneath each photo instead
+   of overlapping it — always visible rather than opacity-gated. The photos
+   themselves go straight too (no hover state to un-rotate into, since
+   there's no hover on mobile at all). */
+@media (max-width: 1023px) {
+  .bio-image-tooltip {
+    position: static;
+    opacity: 1;
+    transform: none;
+    margin-top: var(--spacing-sm);
+    white-space: normal;
+    text-align: center;
+  }
+  .bio-image-tooltip::before {
+    display: none;
+  }
+  .bio-image-wrap,
+  .bio-image:hover .bio-image-wrap,
+  .bio-image:nth-child(1) .bio-image-wrap,
+  .bio-image:nth-child(2) .bio-image-wrap,
+  .bio-image:nth-child(3) .bio-image-wrap {
+    transform: none;
+    box-shadow: 0 14px 30px -16px rgba(40, 49, 50, 0.25);
+  }
+}
 
 /* ---------- Testimonials ----------
    Card radius/width, avatar size, name/role type styles, and the
    highlighted-phrase text colour are all read directly from the real
    Figma quote-card component (get_design_context on 133:169721) — not
-   estimated. The scroll-reveal + "highlighter draws in" *animation
-   behaviour* matches sarahlrobbo.github.io/sarah-roberts-portfolio-2,
-   styled with this site's own tokens (the real design uses individually
-   positioned highlight rectangles, which don't survive responsive reflow
-   — this reproduces the same look as a flowing text-decoration instead). */
+   estimated. The "highlighter draws in" *animation behaviour* matches
+   sarahlrobbo.github.io/sarah-roberts-portfolio-2, styled with this
+   site's own tokens (the real design uses individually positioned
+   highlight rectangles, which don't survive responsive reflow — this
+   reproduces the same look as a flowing text-decoration instead).
+   The card entrance itself (fade + translateY(80px), ~0.8s, no stagger
+   between cards that enter together) is reference-matched by sampling
+   the live inline `style` attribute frame-by-frame on Sarah's old Framer
+   about page (black-beginning-580395.framer.app) — that's Framer Motion
+   driving a JS spring, not a CSS transition; --ease-reveal (already
+   cubic-bezier(0.16, 1, 0.3, 1), an expo-out curve) is the closest static
+   approximation of the exponential-decay shape actually measured. Split
+   out as `.scroll-reveal` (just the fade/slide, reused wherever the page
+   needs the same "load in" motion, e.g. the craft tiles) from
+   `.testimonial-card` (the card's own look, unrelated to the animation). */
+.scroll-reveal {
+  opacity: 0;
+  transform: translateY(80px);
+  transition:
+    opacity 0.8s var(--ease-reveal),
+    transform 0.8s var(--ease-reveal);
+}
+.scroll-reveal.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+@media (prefers-reduced-motion: reduce) {
+  .scroll-reveal {
+    transition: opacity 0.8s var(--ease-reveal);
+    transform: none;
+  }
+}
 .testimonial-card {
   background: var(--color-surface-primary);
-  opacity: 0;
-  transition: opacity 0.9s var(--ease-reveal);
-}
-.testimonial-card.in-view {
-  opacity: 1;
 }
 
 .testimonial-highlight {
@@ -450,5 +507,22 @@ body {
   .testimonial-card.in-view .testimonial-highlight {
     transition: none;
     background-size: 108% 115%;
+  }
+}
+
+/* Scroll parallax on the /about decorative accent photos (Hero, Current
+   Role, Career Timeline x2, Leadership) — motion reference-matched from
+   sarahlrobbo's old Framer site (black-beginning-580395.framer.app/aboutme):
+   measured there as a plain linear translateY at ~0.2x scroll speed, tied
+   to raw window.scrollY (confirmed constant ratio at scrollY 300/900), no
+   easing curve, no horizontal drift. --parallax-y is written by the scroll
+   listener in about.astro; --rotate is each photo's own static tilt. */
+.parallax-accent {
+  transform: rotate(var(--rotate, 0deg)) translateY(var(--parallax-y, 0px));
+  will-change: transform;
+}
+@media (prefers-reduced-motion: reduce) {
+  .parallax-accent {
+    transform: rotate(var(--rotate, 0deg));
   }
 }
