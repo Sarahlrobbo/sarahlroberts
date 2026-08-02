@@ -111,7 +111,25 @@ const afterRange = renderableSections.slice(lastNavIndex + 1);
             return (
               <div class={leadingSpacingClass}>
                 <div class="relative pt-[var(--spacing-xlg)] pb-[var(--spacing-xlg)]">
-                  <div aria-hidden="true" class={`absolute inset-0 -z-10 lg:left-[-244px] ${PANEL_BG_CLASS[background]}`} />
+                  {
+                    /*
+                      The sidebar (SectionNav, 188px) + its gap (16px) + the
+                      row's left padding (40px) push this content column
+                      244px right of the article's own left edge — so the
+                      outer div corrects for *that* first, landing exactly on
+                      the article's box (0–1440, viewport-centered like
+                      Cover's parent is). Only then can the inner div reuse
+                      Cover's left-1/2/w-screen/-translate-x-1/2 bleed trick
+                      and land on the true viewport edges — that trick only
+                      self-centers correctly when its containing block's
+                      center already matches the viewport's, which the raw
+                      content column's does not (it's shifted right by the
+                      sidebar).
+                    */
+                  }
+                  <div aria-hidden="true" class="absolute inset-0 -z-10 lg:left-[-244px]">
+                    <div class={`absolute inset-0 lg:left-1/2 lg:right-auto lg:w-screen lg:-translate-x-1/2 ${PANEL_BG_CLASS[background]}`} />
+                  </div>
                   {items.map(({ id, spacingClass, Component, section }) => (
                     <div id={id} class={spacingClass}>
                       <Component section={section} />
