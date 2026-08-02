@@ -62,7 +62,18 @@ const titleLines = title.split("\n");
     box (this was never reported as broken).
   -->
   <div class="relative flex w-full flex-col items-center gap-[var(--spacing-lg)] pt-[var(--spacing-2xlg)] lg:absolute lg:bottom-0 lg:left-1/2 lg:w-[900px] lg:max-w-[900px] lg:-translate-x-1/2 lg:pt-0">
-    <h1 class="text-style-h1 max-w-[340px] px-4 text-center text-[var(--color-text-primary)] lg:max-w-[784px] lg:px-0">
+    {
+      /*
+        Tablet gets its own max-width tier rather than inheriting mobile's
+        340px: at the mobile font-size (32px, only bumps to 64px at `lg`,
+        matching Figma's own breakpoint), 340px wraps this title's two
+        `\n`-separated lines into 4 visual lines — reads as a cramped phone
+        title instead of the 2-line desktop composition. 450px is the
+        narrowest width that holds both title lines to one line each, so
+        tablet reads like a scaled-down desktop title instead.
+      */
+    }
+    <h1 class="text-style-h1 max-w-[340px] px-4 text-center text-[var(--color-text-primary)] sm:max-w-[450px] lg:max-w-[784px] lg:px-0">
       {titleLines.map((line, i) => (
         <>
           {i > 0 && <br />}
