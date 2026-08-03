@@ -137,15 +137,23 @@ export interface PhilosophyItem {
 // body sentence, confirmed via get_design_context on 133:169691 (the real
 // text node uses a hard <br> between label and body, not a period).
 export const philosophy: PhilosophyItem[] = [
-  { emoji: "🧭", label: "Create clarity", body: "I make the problem, principles, and decision criteria unambiguous before anyone starts building." },
-  { emoji: "🤝", label: "Align the room", body: "I bring design, product, engineering, and SMEs into one decision loop instead of parallel conversations." },
+  { emoji: "🧭", label: "Create clarity", body: "Before anyone starts building, the problem and principles have to be genuinely clear." },
+  {
+    emoji: "🤝",
+    label: "Bring people into one conversation",
+    body: "Design, product, engineering, and subject matter experts in the same decision loop, not separate threads, to save time.",
+  },
   {
     emoji: "⚙️",
-    label: "Design the system",
-    body: "I build the rituals and structure, JTBD, workshops, roadmaps, so good outcomes are repeatable, not one-off.",
+    label: "Make good outcomes repeatable",
+    body: "I put in the JTBD frameworks, workshops, and roadmaps so results aren't luck or a one-off effort.",
   },
-  { emoji: "🎯", label: "Anchor to value", body: "I use customer evidence, not opinion, to decide what's worth doing." },
-  { emoji: "🌱", label: "Grow people", body: "I coach for skill, not just output, whether that's my own team or PMs across the business." },
+  { emoji: "🎯", label: "Use customer evidence, not opinion", body: "Research drives what's worth doing and what gets deprioritised." },
+  {
+    emoji: "🌱",
+    label: "Invest in people",
+    body: "I coach for skill, not just delivery. That goes for my own team and the PMs I work alongside.",
+  },
 ];
 
 export interface CraftTile {

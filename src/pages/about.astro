@@ -101,7 +101,7 @@ import {
                 ))}
               </ul>
               <p class="text-style-body text-[var(--color-text-primary)] lg:text-right">
-                {entry.dateStart} <br />– {entry.dateEnd}
+                {entry.dateStart} <br class="hidden lg:block" />– {entry.dateEnd}
               </p>
             </div>
           ))
@@ -114,7 +114,7 @@ import {
         </a>
       </p>
 
-      <div class="mx-auto flex w-full max-w-[228px] flex-col gap-[var(--spacing-md)] lg:hidden">
+      <div class="mx-auto grid w-full max-w-[228px] grid-cols-1 gap-[var(--spacing-md)] sm:max-w-[496px] sm:grid-cols-2 lg:hidden">
         <div style="transform: rotate(-2deg);">
           <CaseStudyImage image={careerTimelinePhotos[0]} />
         </div>
@@ -215,7 +215,7 @@ import {
         When I'm not caring deeply about products that make life easier for others, you'll find me outside, tramping, riding one of my bicycles,
         making pottery, gardening, or hanging out with animals. 🥾🚴‍♀️⛰️
       </p>
-      <div class="mx-auto grid w-full max-w-[335px] grid-cols-1 gap-[var(--spacing-xlg)] px-4 pt-[var(--spacing-md)] lg:max-w-[841px] lg:grid-cols-3">
+      <div class="mx-auto grid w-full max-w-[335px] grid-cols-1 gap-[var(--spacing-xlg)] px-4 pt-[var(--spacing-md)] sm:max-w-[841px] sm:grid-cols-3 sm:gap-[var(--spacing-lg)]">
         {
           bioPhotos.map((photo) => (
             <figure class="bio-image relative m-0 flex flex-col items-center">

@@ -495,7 +495,7 @@ body {
   color: var(--color-text-brand);
   border-radius: 2px;
   transition: background-size 1.6s var(--ease-reveal);
-  transition-delay: 0.3s;
+  transition-delay: 0.9s;
   box-decoration-break: clone;
   -webkit-box-decoration-break: clone;
 }
