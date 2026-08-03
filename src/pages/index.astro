@@ -1,24 +1,317 @@
 ---
+// Figma (node 123:194104, "Home - Desktop"). Desktop only for now, same
+// sequencing as /about and the FarmIQ Thrive case study (template first,
+// responsive pass later) — see memory/project_sarahlroberts-website.md.
 import Layout from "../layouts/Layout.astro";
-import { caseStudies } from "../data/case-studies";
+import Navigation from "../components/Navigation.astro";
+import CaseStudyImage from "../components/case-study/CaseStudyImage.astro";
+import ArrowRight from "../components/icons/ArrowRight.astro";
+import ProjectCard from "../components/home/ProjectCard.astro";
+import { heroCovers, projectCards, filterPills, companyLogos } from "../lib/home";
+import { testimonials, renderHighlight, bioPhotos } from "../lib/about";
+
+// Hero fan wrapper height: tallest card's bottom edge minus the shortest
+// card's top edge, read directly off the real Figma positions (123:194117)
+// re-baselined to 0 — see heroCovers in lib/home.ts for how these numbers
+// were derived.
+const heroFanHeight = Math.max(...heroCovers.map((c) => c.top + c.height));
 ---
 
-<Layout title="Sarah Roberts">
-  <main class="mx-auto flex max-w-[1010px] flex-col gap-4 px-4 py-16">
-    <p class="text-style-caption not-italic text-[var(--color-text-soft)]">
-      Home isn't built yet — this is a temporary index for reviewing the case study template.
-    </p>
-    <h1 class="text-style-h1">Case studies</h1>
-    <ul class="flex flex-col gap-2">
+<Layout title="Sarah Roberts — Design & Research Lead" description="Design & Research Lead, Christchurch, Aotearoa New Zealand.">
+  <!-- NAV + HERO (Figma "My Role & Situation BG Dots" spans behind both) -->
+  <div class="relative">
+    <div aria-hidden="true" class="absolute inset-0 -z-10 left-1/2 w-screen -translate-x-1/2 bg-dot-grid"></div>
+    <Navigation authorName="Sarah Roberts" />
+
+    <section data-hero-root class="mx-auto flex max-w-[846px] flex-col items-center gap-[var(--spacing-lg)] px-4 pt-[var(--spacing-2xlg)] pb-[var(--spacing-2xlg)] text-center">
+      <div class="flex flex-col items-center gap-[var(--spacing-sm)]">
+        <p class="text-style-h4 text-[var(--color-text-brand)]">👋 Hi, I'm Sarah, Design &amp; Research Lead</p>
+        <h1 class="text-style-h2 text-[var(--color-text-brand)]">
+          I believe good product discovery starts with questions that become evidence.
+        </h1>
+      </div>
+
+      <div class="flex flex-col items-center gap-[var(--spacing-sm)]">
+        <p class="mx-auto max-w-[580px] text-style-h4 text-[var(--color-text-primary)]">
+          A decade shaping products people rely on: payroll for 1 in 6 New Zealanders, real-time tools for farmers in
+          the field, and a safety app over a million Kiwis trust outdoors.
+        </p>
+        <p class="text-style-subheading text-black">Christchurch, Aotearoa / New Zealand</p>
+      </div>
+
+      <!--
+        Fan of 5 project-cover photos (Figma 123:194117, "Group 3"). Entrance
+        bounce + mouse-reactive wobble reference-matched from
+        spencergabor.work's hero — fetched its actual Vue component source
+        and CSS (not just watched it), since the effect is a real spring-
+        physics sim, not a CSS-only hover: each card's own outer `velocity`
+        decays 0.9x/frame, gets nudged by the cursor's recent movement scaled
+        by (1 - normalized distance from THAT card's own center)^6 * 0.4 (so
+        only cards near the cursor react, and sharply more the closer it
+        gets), then a spring (stiffness 0.05, damping 0.8) pulls each card
+        back to rest — plus a bounce-overshoot scale-in on load, staggered
+        0.08s per card. Constants copied verbatim from their shipped JS/CSS.
+        Kept this page's own Figma-matched positions/sizes/rotations/photos;
+        only the motion behaviour is borrowed.
+      -->
+      <div data-hero-fan class="relative w-full" style={`height: ${heroFanHeight}px; margin-top: var(--spacing-md);`}>
+        {
+          heroCovers.map((cover, i) => (
+            <div
+              data-hero-card
+              class="hero-card absolute"
+              style={`top: ${cover.top}px; left: ${cover.left}px; width: ${cover.width}px; height: ${cover.height}px; --rotate-base: ${cover.rotate}; --stagger: ${i};`}
+            >
+              <CaseStudyImage image={{ src: cover.src, alt: cover.alt, aspect: `${cover.width}/${cover.height}` }} class="shadow-cover size-full" />
+            </div>
+          ))
+        }
+      </div>
+
+      <a
+        href="/#work"
+        class="mt-[var(--spacing-md)] flex items-center gap-[var(--spacing-sm)] rounded-[var(--radius-m)] bg-[var(--color-brand-700)] px-[var(--spacing-xmd)] py-[var(--spacing-sm)] text-style-body-semibold text-[var(--color-text-invert)] transition-colors hover:bg-[var(--color-brand-800)]"
+      >
+        View my projects
+        <ArrowRight class="size-4" />
+      </a>
+    </section>
+  </div>
+
+  <!-- CASE STUDIES ("Design in action") -->
+  <div class="relative" id="work">
+    <div aria-hidden="true" class="absolute inset-0 -z-10 left-1/2 w-screen -translate-x-1/2 bg-[var(--color-grey-100)]"></div>
+    <section class="mx-auto flex max-w-[1440px] flex-col items-center gap-[var(--spacing-xlg)] px-[var(--spacing-xlg)] py-[var(--spacing-2xlg)]">
+      <div class="flex flex-col items-center gap-[var(--spacing-md)]">
+        <h2 class="text-style-h2 text-center text-[var(--color-text-brand)]">Design in action</h2>
+        <p class="text-style-top-block-intro text-center text-[var(--color-text-primary)]">
+          Evidence-led projects across payroll, agri-tech, and public safety
+        </p>
+        <div class="flex items-center gap-[var(--spacing-md)]">
+          <span class="rounded-[var(--radius-2xl)] bg-[var(--color-grey-600)] px-[var(--spacing-xmd)] py-[var(--spacing-2xs)] text-style-body-semibold text-[var(--color-text-invert)]">
+            Selected
+          </span>
+          {
+            filterPills.map((label) => (
+              <span class="rounded-[var(--radius-2xl)] border-[1.5px] border-[var(--color-grey-600)] px-[var(--spacing-xmd)] py-[var(--spacing-2xs)] text-style-body-semibold text-[var(--color-text-primary)]">
+                {label}
+              </span>
+            ))
+          }
+        </div>
+      </div>
+
+      <div class="flex w-full flex-col gap-[var(--spacing-xlg)]">
+        <div class="flex w-full items-center gap-[var(--spacing-xlg)]">
+          <ProjectCard card={projectCards[0]} class="h-[400px] w-[613px] shrink-0" />
+          <ProjectCard card={projectCards[1]} class="h-[460px] flex-1" />
+        </div>
+        <div class="flex w-full items-center gap-[var(--spacing-xlg)]">
+          <ProjectCard card={projectCards[2]} class="aspect-[624/460] flex-1" />
+          <ProjectCard card={projectCards[3]} class="h-[400px] w-[557px] shrink-0" />
+        </div>
+        <div class="flex w-full items-center justify-center gap-[var(--spacing-xlg)]">
+          <ProjectCard card={projectCards[4]} class="h-[400px] w-[557px] shrink-0" />
+          <ProjectCard card={projectCards[5]} class="h-[460px] w-[635px] shrink-0" />
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- QUOTES ("Kind words from colleagues & customers") -->
+  <section class="mx-auto flex max-w-[1440px] flex-col items-center gap-[var(--spacing-2xlg)] px-4 py-[var(--spacing-2xlg)]">
+    <h2 class="text-style-h2 text-center text-[var(--color-text-brand)]">Kind words from colleagues &amp; customers</h2>
+    <div class="flex flex-col gap-[var(--spacing-2xlg)]">
       {
-        caseStudies.map((cs) => (
-          <li>
-            <a class="text-style-intro-medium text-[var(--color-text-brand)]" href={`/case-studies/${cs.slug}`}>
-              {cs.title.replace("\n", " ")}
-            </a>
-          </li>
+        testimonials.map((t) => (
+          <div class="testimonial-card flex w-[640px] flex-col gap-[var(--spacing-md)] rounded-[var(--radius-xl)] p-[var(--spacing-lg)]">
+            <p class="text-style-body text-[var(--color-text-primary)]" set:html={`&ldquo;${renderHighlight(t.quote)}&rdquo;`} />
+            <div class="flex items-center gap-[var(--spacing-xmd)]">
+              <img src={t.avatar} alt="" class="size-20 rounded-full object-cover" />
+              <div class="flex flex-col">
+                <p class="text-style-intro text-[var(--color-text-primary)]">{t.name}</p>
+                <p class="text-style-body text-[var(--color-text-secondary)]">{t.role}</p>
+              </div>
+            </div>
+          </div>
         ))
       }
-    </ul>
-  </main>
+    </div>
+  </section>
+
+  <!-- BEHIND THE SCREENS -->
+  <section class="mx-auto flex max-w-[1010px] flex-col items-center gap-[var(--spacing-md)] px-4 py-[var(--spacing-2xlg)] text-center">
+    <h2 class="text-style-h2 text-[var(--color-text-brand)]">Behind the screens</h2>
+    <div class="max-w-[800px] text-style-top-block-intro text-[var(--color-text-primary)]">
+      <p class="mb-[var(--spacing-md)]">👋 Hi, I'm Sarah, a design leader, researcher, systems thinker and problem-solver.</p>
+      <p class="mb-[var(--spacing-md)]">
+        I've spent over a decade designing digital products, services, and systems across startups, SaaS, the public
+        sector, and high-impact industries. I care deeply about products that make life easier for others, whether
+        that's simplifying essential tasks, improving clarity, or removing cognitive load when it matters most.
+      </p>
+      <p>
+        Outside work, you'll usually find me outside tramping, riding one of my bicycles, making pottery, gardening,
+        or hanging out with animals. 🥾🚴‍♀️⛰️
+      </p>
+    </div>
+    <div class="mx-auto grid w-full max-w-[335px] grid-cols-1 gap-[var(--spacing-xlg)] px-4 pt-[var(--spacing-md)] sm:max-w-[841px] sm:grid-cols-3 sm:gap-[var(--spacing-lg)]">
+      {
+        bioPhotos.map((photo) => (
+          <figure class="bio-image relative m-0 flex flex-col items-center">
+            <div class="bio-image-wrap w-full" style="aspect-ratio: 4 / 6;">
+              <img src={photo.src} alt={photo.alt} class="size-full object-cover" />
+            </div>
+            <span class="bio-image-tooltip" aria-hidden="true">
+              {photo.tooltip}
+            </span>
+          </figure>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- COMPANIES -->
+  <section class="mx-auto flex max-w-[1440px] flex-col items-center gap-[var(--spacing-xmd)] px-4 pt-[var(--spacing-2xlg)] pb-[192px]">
+    <p class="text-style-subheading text-black">Some companies I've worked with</p>
+    <div class="flex items-center gap-[var(--spacing-xlg)]">
+      {
+        companyLogos.map((logo) => (
+          <img
+            src={logo.src}
+            alt={logo.name}
+            style={`width: ${logo.width}px; height: ${logo.height}px;`}
+            class="object-contain"
+          />
+        ))
+      }
+    </div>
+  </section>
 </Layout>
+
+<script>
+  // Hero-fan spring wobble + entrance, ported from spencergabor.work's real
+  // Hero.vue + spring composable (fetched and read directly, see the comment
+  // above the markup). Two-layer physics per card: an outer "impulse"
+  // velocity nudged by the cursor's recent movement (falls off sharply with
+  // distance from that specific card's own center), and an inner spring
+  // (stiffness 0.05, damping 0.8) constantly pulling the card back to rest.
+  function createSpring(stiffness = 0.05, damping = 0.8) {
+    const current = { x: 0, y: 0 };
+    const target = { x: 0, y: 0 };
+    const velocity = { x: 0, y: 0 };
+    function update() {
+      for (const axis of ["x", "y"] as const) {
+        const delta = (target[axis] - current[axis]) * stiffness;
+        velocity[axis] *= damping;
+        velocity[axis] += delta;
+        current[axis] += velocity[axis];
+      }
+    }
+    return { current, target, velocity, update };
+  }
+
+  function initHeroFan(root: HTMLElement) {
+    const fan = root.querySelector<HTMLElement>("[data-hero-fan]");
+    const cards = [...root.querySelectorAll<HTMLElement>("[data-hero-card]")];
+    if (!fan || !cards.length) return;
+
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (reduceMotion.matches) {
+      fan.classList.add("is-mounted");
+      return;
+    }
+
+    const state = cards.map(() => ({
+      x: 0,
+      y: 0,
+      velocity: { x: 0, y: 0 },
+      spring: createSpring(),
+    }));
+
+    // Entrance: each card starts scattered at a random offset, then springs
+    // home to (0,0) once the bounce-scale-in transition kicks in.
+    state.forEach((s) => {
+      s.spring.target.x = s.spring.current.x = Math.random() * 200 - 100;
+      s.spring.target.y = s.spring.current.y = Math.random() * 200 - 100;
+    });
+    setTimeout(() => {
+      state.forEach((s) => {
+        s.spring.target.x = 0;
+        s.spring.target.y = 0;
+      });
+    }, 100);
+    requestAnimationFrame(() => fan.classList.add("is-mounted"));
+
+    function measure() {
+      cards.forEach((card, i) => {
+        const r = card.getBoundingClientRect();
+        state[i].x = r.left + r.width / 2;
+        state[i].y = r.top + window.scrollY + r.height / 2;
+      });
+    }
+    measure();
+    window.addEventListener("resize", measure);
+
+    let mouseX = 0;
+    let mouseY = 0;
+    let moveX = 0;
+    let moveY = 0;
+    let lastX: number | null = null;
+    let lastY: number | null = null;
+    function onPointerMove(e: PointerEvent) {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      moveX = lastX === null ? 0 : e.clientX - lastX;
+      moveY = lastY === null ? 0 : e.clientY - lastY;
+      lastX = e.clientX;
+      lastY = e.clientY;
+    }
+    function onPointerLeave() {
+      lastX = null;
+      lastY = null;
+      moveX = 0;
+      moveY = 0;
+    }
+    root.addEventListener("pointermove", onPointerMove);
+    root.addEventListener("pointerleave", onPointerLeave);
+
+    let rafId = 0;
+    function frame() {
+      cards.forEach((card, i) => {
+        const s = state[i];
+        s.velocity.x *= 0.9;
+        s.velocity.y *= 0.9;
+        s.spring.current.x += s.velocity.x;
+        s.spring.current.y += s.velocity.y;
+        s.spring.update();
+
+        const u = ((mouseX - s.x) / window.innerWidth) * 2;
+        const o = ((mouseY + window.scrollY - s.y) / window.innerHeight) * 2;
+        const dist = Math.sqrt(u * u + o * o);
+        const k = Math.pow(Math.max(0, 1 - dist), 6) * 0.4;
+        s.velocity.x += moveX * k;
+        s.velocity.y += moveY * k;
+
+        card.style.setProperty("--offset-x", s.spring.current.x.toFixed(2));
+        card.style.setProperty("--offset-y", s.spring.current.y.toFixed(2));
+        card.style.setProperty("--velocity", (s.spring.velocity.x - s.spring.velocity.y).toFixed(4));
+      });
+      rafId = requestAnimationFrame(frame);
+    }
+
+    // Only run the physics loop while the hero is actually on screen.
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          rafId = requestAnimationFrame(frame);
+        } else {
+          cancelAnimationFrame(rafId);
+        }
+      },
+      { threshold: 0 },
+    );
+    observer.observe(root);
+  }
+
+  document.querySelectorAll<HTMLElement>("[data-hero-root]").forEach(initHeroFan);
+</script>

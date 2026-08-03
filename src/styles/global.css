@@ -209,6 +209,14 @@ body {
   font-size: var(--font-size-h4);
   line-height: var(--line-height-h4);
 }
+/* Figma "H4 Reg" — same size/line-height as H4 above but Regular (400)
+   weight, used for the case-study grid cards' hover-state description copy. */
+.text-style-h4-regular {
+  font-family: var(--font-heading);
+  font-weight: 400;
+  font-size: var(--font-size-h4);
+  line-height: var(--line-height-h4);
+}
 /* Figma's "H3" style is body-font (Plus Jakarta Sans), not the heading font
    — confirmed via get_design_context on the actual About nodes, not a
    screenshot guess. Used for every secondary section heading on /about
@@ -294,6 +302,60 @@ body {
   font-style: italic;
   font-size: var(--font-size-caption);
   line-height: var(--line-height-caption);
+}
+
+/* Figma "Drop Shadow - hero" effect style (get_variable_defs on the Home
+   node): offset (4, 8), blur 40 (Spacing/5), spread 8 (Radius/m), colour
+   Grey/300 (#dddddd, opaque — not an alpha-blended shadow). Used on the
+   Home hero's 5-photo fan; the case-study grid cards below don't use it. */
+.shadow-cover {
+  box-shadow: 4px 8px 40px 8px var(--color-grey-300);
+}
+
+/* Home hero cover-photo fan: bounce-in entrance + mouse-reactive spring
+   wobble. --rotate-base/--stagger are static per-card (set inline in
+   index.astro from Figma-real values); --offset-x/--offset-y/--velocity are
+   written every frame by the spring-physics script in index.astro. The
+   `linear()` easing below is copied verbatim from spencergabor.work's real
+   CSS (a bounce/overshoot curve for the entrance scale), not approximated. */
+.hero-card {
+  rotate: calc(var(--rotate-base, 0) * 1deg - var(--velocity, 0) * 0.25deg);
+  translate: calc(var(--offset-x, 0) * 1px) calc(var(--offset-y, 0) * 1px);
+  scale: 0;
+  transition: scale 1s
+    linear(
+      0 0%,
+      0.5737 7.6%,
+      0.8382 11.87%,
+      0.9463 14.19%,
+      1.0292 16.54%,
+      1.0886 18.97%,
+      1.1258 21.53%,
+      1.137 22.97%,
+      1.1424 24.48%,
+      1.1423 26.1%,
+      1.1366 27.86%,
+      1.1165 31.01%,
+      1.0507 38.62%,
+      1.0219 42.57%,
+      0.9995 46.99%,
+      0.9872 51.63%,
+      0.9842 58.77%,
+      1.0011 81.26%,
+      1 100%
+    );
+  transition-delay: calc(var(--stagger, 0) * 0.08s + 0.4s);
+}
+[data-hero-fan].is-mounted .hero-card {
+  scale: 1;
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-card {
+    rotate: calc(var(--rotate-base, 0) * 1deg);
+    translate: none;
+    scale: 1;
+    transition: none;
+  }
 }
 
 /* Figma "My Role & Situation BG Dots" (node 64:102934) — a faint dot-grid
