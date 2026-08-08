@@ -65,7 +65,7 @@ export const projectCards: ProjectCard[] = [
       textTone: "dark",
       description:
         "Datapay had 300+ competing feature requests and no structured way to prioritise them. I built a JTBD framework from 21 research studies, then led an AI-era discovery process validated with our Customer Advisory Board.",
-      tags: ["JTBD", "Strategy", "Leadership", "Research"],
+      tags: ["JTBD", "Strategy", "Workshop Facilitation", "Cross-functional Leadership"],
       logoSrc: "/images/about/logos/datapay-icon.svg",
       logoAlt: "Datapay",
       logoWidth: 80,
@@ -78,7 +78,7 @@ export const projectCards: ProjectCard[] = [
     src: "/images/home/covers/farmiq-essential-app.png",
     alt: "FarmIQ essential app case study cover",
     aspect: "635/460",
-    logoSrc: "/images/farmiq-thrive/farmiq-logo.svg",
+    logoSrc: "/images/farmiq-thrive/farmiq-logo-white.svg",
     logoAlt: "FarmIQ",
     logoWidth: 120,
     logoHeight: 24,
@@ -86,12 +86,12 @@ export const projectCards: ProjectCard[] = [
     scrim: "linear-gradient(to bottom, rgba(255,255,255,0.5) 80.9%, rgba(40,49,50,0.5) 90.1%)",
     hover: {
       color: "#3d2df7",
-      opacity: 0.95,
+      opacity: 0.98,
       textTone: "light",
       description:
         "Farmers were going back to paper notes because the app couldn't keep up with life in the paddock. I led the redesign of an offline-first mobile experience, taking app stickiness to 32.4%, a 17.5% year-on-year increase.",
-      tags: ["Leadership", "UX & UI", "Research"],
-      logoSrc: "/images/farmiq-thrive/farmiq-logo.svg",
+      tags: ["Leadership", "Strategy"],
+      logoSrc: "/images/farmiq-thrive/farmiq-logo-white.svg",
       logoAlt: "FarmIQ",
       logoWidth: 120,
       logoHeight: 24,
@@ -104,7 +104,7 @@ export const projectCards: ProjectCard[] = [
     src: "/images/home/covers/farmiq-design-team.png",
     alt: "FarmIQ design team case study cover",
     aspect: "624/460",
-    logoSrc: "/images/farmiq-thrive/farmiq-logo.svg",
+    logoSrc: "/images/farmiq-thrive/farmiq-logo-white.svg",
     logoAlt: "FarmIQ",
     logoWidth: 160,
     logoHeight: 32,
@@ -112,12 +112,12 @@ export const projectCards: ProjectCard[] = [
     scrim: "linear-gradient(to bottom, rgba(255,255,255,0.5) 66.3%, rgba(106,106,114,0.5) 84.1%)",
     hover: {
       color: "#ffb2ea",
-      opacity: 0.95,
+      opacity: 0.98,
       textTone: "dark",
       description:
         "A newly restructured team had no shared operating model to keep quality high while moving fast. I built a Design Team Charter, refreshed our customer understanding through JTBD, and led the shift to a governed multi-platform design system.",
-      tags: ["Leadership", "Strategy"],
-      logoSrc: "/images/farmiq-thrive/farmiq-logo.svg",
+      tags: ["Cross-functional Leadership", "Process Improvement", "Coaching", "Design System"],
+      logoSrc: "/images/farmiq-thrive/farmiq-logo-white.svg",
       logoAlt: "FarmIQ",
       logoWidth: 120,
       logoHeight: 24,
@@ -137,11 +137,11 @@ export const projectCards: ProjectCard[] = [
     scrim: "linear-gradient(to bottom, rgba(255,255,255,0.5) 74.7%, #a286e7 88.9%)",
     hover: {
       color: "#7e54e3",
-      opacity: 0.95,
+      opacity: 0.98,
       textTone: "light",
       description:
         "Tax time is stressful for NZ investors navigating FIF obligations. I was the sole designer on a printable FIF Report PDF and campaign landing page, helping customers feel confident enough to pay $50 for clarity they couldn't get anywhere else.",
-      tags: ["UX & UI", "Research", "JTBD"],
+      tags: ["Exploratory Research", "JTBD", "Customer Journey"],
       logoSrc: "/images/about/logos/hatch-wordmark.svg",
       logoAlt: "Hatch",
       logoWidth: 160,
@@ -177,7 +177,7 @@ export const projectCards: ProjectCard[] = [
       textTone: "light",
       description:
         "I joined mid-project to unify work left by four designers with no handovers. I raised and fixed critical accessibility issues, personally testing with users with visual impairments to make sure the redesign worked for everyone.",
-      tags: ["UX & UI", "Research"],
+      tags: ["Accessibility Testing", "WCAG Compliance"],
       logoSrc: "/images/home/logos/metlink-logo.png",
       logoAlt: "Metlink",
       logoWidth: 120,
@@ -206,7 +206,7 @@ export const projectCards: ProjectCard[] = [
       textTone: "dark",
       description:
         "MSC's existing safety tool was outdated and underused. I facilitated a five-day Design Sprint and led the UX and UI, shipping an app that's since reached over 1 million users and was a Best Design Awards Finalist.",
-      tags: ["UX & UI", "Research"],
+      tags: ["Design Sprint", "Awards Finalist"],
       logoSrc: "/images/home/logos/msc-logo.png",
       logoAlt: "MSC Outdoor Safety",
       logoWidth: 100,
@@ -214,10 +214,6 @@ export const projectCards: ProjectCard[] = [
     },
   },
 ];
-
-// "Design in action" filter pills (Figma 123:194129) — visual only for now,
-// no filtering behaviour wired up. "Selected" is always the first, active pill.
-export const filterPills = ["Leadership", "JTBD", "Research", "UX/UI", "Strategy"];
 
 export interface CompanyLogo {
   name: string;

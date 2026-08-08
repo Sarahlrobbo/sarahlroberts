@@ -5,9 +5,8 @@
 import Layout from "../layouts/Layout.astro";
 import Navigation from "../components/Navigation.astro";
 import CaseStudyImage from "../components/case-study/CaseStudyImage.astro";
-import ArrowRight from "../components/icons/ArrowRight.astro";
 import ProjectCard from "../components/home/ProjectCard.astro";
-import { heroCovers, projectCards, filterPills, companyLogos } from "../lib/home";
+import { heroCovers, projectCards, companyLogos } from "../lib/home";
 import { testimonials, renderHighlight, bioPhotos } from "../lib/about";
 
 // Hero fan wrapper height: tallest card's bottom edge minus the shortest
@@ -67,14 +66,6 @@ const heroFanHeight = Math.max(...heroCovers.map((c) => c.top + c.height));
           ))
         }
       </div>
-
-      <a
-        href="/#work"
-        class="mt-[var(--spacing-md)] flex items-center gap-[var(--spacing-sm)] rounded-[var(--radius-m)] bg-[var(--color-brand-700)] px-[var(--spacing-xmd)] py-[var(--spacing-sm)] text-style-body-semibold text-[var(--color-text-invert)] transition-colors hover:bg-[var(--color-brand-800)]"
-      >
-        View my projects
-        <ArrowRight class="size-4" />
-      </a>
     </section>
   </div>
 
@@ -87,18 +78,6 @@ const heroFanHeight = Math.max(...heroCovers.map((c) => c.top + c.height));
         <p class="text-style-top-block-intro text-center text-[var(--color-text-primary)]">
           Evidence-led projects across payroll, agri-tech, and public safety
         </p>
-        <div class="flex items-center gap-[var(--spacing-md)]">
-          <span class="rounded-[var(--radius-2xl)] bg-[var(--color-grey-600)] px-[var(--spacing-xmd)] py-[var(--spacing-2xs)] text-style-body-semibold text-[var(--color-text-invert)]">
-            Selected
-          </span>
-          {
-            filterPills.map((label) => (
-              <span class="rounded-[var(--radius-2xl)] border-[1.5px] border-[var(--color-grey-600)] px-[var(--spacing-xmd)] py-[var(--spacing-2xs)] text-style-body-semibold text-[var(--color-text-primary)]">
-                {label}
-              </span>
-            ))
-          }
-        </div>
       </div>
 
       <div class="flex w-full flex-col gap-[var(--spacing-xlg)]">

@@ -280,6 +280,12 @@ body {
   font-size: var(--font-size-body);
   line-height: var(--line-height-body);
 }
+.text-style-tag {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: var(--font-size-caption);
+  line-height: var(--line-height-caption);
+}
 .text-style-body-italic {
   font-family: var(--font-body);
   font-weight: 400;
