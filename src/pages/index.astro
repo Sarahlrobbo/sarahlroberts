@@ -124,7 +124,7 @@ const heroFanHeight = Math.max(...heroCovers.map((c) => c.top + c.height));
     <div class="flex flex-col gap-[var(--spacing-2xlg)]">
       {
         testimonials.map((t) => (
-          <div class="testimonial-card flex w-[640px] flex-col gap-[var(--spacing-md)] rounded-[var(--radius-xl)] p-[var(--spacing-lg)]">
+          <div data-testimonial class="scroll-reveal testimonial-card flex w-[640px] flex-col gap-[var(--spacing-md)] rounded-[var(--radius-xl)] p-[var(--spacing-lg)]">
             <p class="text-style-body text-[var(--color-text-primary)]" set:html={`&ldquo;${renderHighlight(t.quote)}&rdquo;`} />
             <div class="flex items-center gap-[var(--spacing-xmd)]">
               <img src={t.avatar} alt="" class="size-20 rounded-full object-cover" />
@@ -314,4 +314,48 @@ const heroFanHeight = Math.max(...heroCovers.map((c) => c.top + c.height));
   }
 
   document.querySelectorAll<HTMLElement>("[data-hero-root]").forEach(initHeroFan);
+
+  // Testimonials fade/slide in strictly one at a time, same as /about:
+  // intersecting cards are queued in DOM order and released with a fixed
+  // gap between each, however many crossed the threshold in the same
+  // scroll tick. See about-page-build memory for why (reference site had
+  // no stagger, but simultaneous cards read "too quick" on a fast scroll).
+  function setupSequentialReveal(elements: NodeListOf<HTMLElement>, gapMs: number) {
+    const order = [...elements];
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (reduceMotion.matches || !("IntersectionObserver" in window)) {
+      elements.forEach((el) => el.classList.add("in-view"));
+      return;
+    }
+    const queue: HTMLElement[] = [];
+    let processing = false;
+
+    const processQueue = () => {
+      if (processing || queue.length === 0) return;
+      processing = true;
+      const el = queue.shift()!;
+      el.classList.add("in-view");
+      setTimeout(() => {
+        processing = false;
+        processQueue();
+      }, gapMs);
+    };
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            queue.push(entry.target as HTMLElement);
+            io.unobserve(entry.target);
+          }
+        });
+        queue.sort((a, b) => order.indexOf(a) - order.indexOf(b));
+        processQueue();
+      },
+      { threshold: 0.2 },
+    );
+    elements.forEach((el) => io.observe(el));
+  }
+
+  setupSequentialReveal(document.querySelectorAll<HTMLElement>("[data-testimonial]"), 300);
 </script>
