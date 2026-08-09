@@ -74,14 +74,18 @@ export const projectCards: ProjectCard[] = [
   },
   {
     title: "Helping Farmers Thrive: Creating Their Essential App",
-    href: "#",
+    // The real, built case study — its content (offline-first mobile, paddock,
+    // 32.4% stickiness) matches this card, not "Growing FarmIQ's Design Team" below.
+    href: "/case-studies/farmiq-thrive",
     src: "/images/home/covers/farmiq-essential-app.png",
     alt: "FarmIQ essential app case study cover",
     aspect: "635/460",
     logoSrc: "/images/farmiq-thrive/farmiq-logo-white.svg",
     logoAlt: "FarmIQ",
-    logoWidth: 120,
-    logoHeight: 24,
+    // Matches the "Growing FarmIQ's Design Team" card below — same logo file,
+    // same grid, was mismatched (120x24 vs 160x32), flagged by Sarah as an error.
+    logoWidth: 140,
+    logoHeight: 28,
     textTone: "light",
     scrim: "linear-gradient(to bottom, rgba(255,255,255,0.5) 80.9%, rgba(40,49,50,0.5) 90.1%)",
     hover: {
@@ -93,21 +97,26 @@ export const projectCards: ProjectCard[] = [
       tags: ["Leadership", "Strategy"],
       logoSrc: "/images/farmiq-thrive/farmiq-logo-white.svg",
       logoAlt: "FarmIQ",
-      logoWidth: 120,
-      logoHeight: 24,
+      // Unused at render time (ProjectCard.astro hoists the logo to one
+      // persistent element sized off the top-level logoWidth/logoHeight),
+      // kept in sync anyway so this doesn't mislead anyone reading the data.
+      logoWidth: 140,
+      logoHeight: 28,
     },
   },
   {
     title: "Growing FarmIQ's Design Team, Practice & Systems",
-    // The only card of the six that already has a real case study built.
-    href: "/case-studies/farmiq-thrive",
+    // No case study built for this one yet — don't point it at farmiq-thrive,
+    // that content is about the essential-app card above, not this topic.
+    href: "#",
     src: "/images/home/covers/farmiq-design-team.png",
     alt: "FarmIQ design team case study cover",
     aspect: "624/460",
     logoSrc: "/images/farmiq-thrive/farmiq-logo-white.svg",
     logoAlt: "FarmIQ",
-    logoWidth: 160,
-    logoHeight: 32,
+    // Matches "Helping Farmers Thrive" above — see note there.
+    logoWidth: 140,
+    logoHeight: 28,
     textTone: "light",
     scrim: "linear-gradient(to bottom, rgba(255,255,255,0.5) 66.3%, rgba(106,106,114,0.5) 84.1%)",
     hover: {
@@ -119,10 +128,54 @@ export const projectCards: ProjectCard[] = [
       tags: ["Cross-functional Leadership", "Process Improvement", "Coaching", "Design System"],
       logoSrc: "/images/farmiq-thrive/farmiq-logo-white.svg",
       logoAlt: "FarmIQ",
-      logoWidth: 120,
-      logoHeight: 24,
+      // Unused at render time — see note on the other FarmIQ card above.
+      logoWidth: 140,
+      logoHeight: 28,
     },
   },
+  {
+    title: "The App Keeping Kiwis Safe Outdoors",
+    href: "#",
+    // No dedicated "cover" file found in the Plan My Walk folder (unlike the
+    // other four) — left as a placeholder rather than guessing which of the
+    // dozen raw screenshots in there is meant to be the composite cover.
+    alt: "Plan My Walk / MSC Outdoor Safety case study cover",
+    // Matches the card's real box size (557x400), see index.astro.
+    aspect: "557/400",
+    // MSC Outdoor Safety logo — swapped 2026-08-09 to Sarah's own
+    // "Company-MSC.svg" export (icon + wordmark, same file used in the
+    // companies row below), replacing the old fuller council lockup PNG.
+    // Natural size is 100x72, but at that size it's the single biggest logo
+    // on the grid (7200px² vs Datapay's 6400px² and FarmIQ's 3920px²) and
+    // Sarah flagged it as visibly oversized — scaled down, aspect preserved.
+    logoSrc: "/images/home/logos/msc-company-logo.svg",
+    logoAlt: "MSC Outdoor Safety",
+    logoWidth: 70,
+    logoHeight: 50,
+    textTone: "light",
+    hover: {
+      color: "#cfe739",
+      opacity: 0.95,
+      textTone: "dark",
+      description:
+        "MSC's existing safety tool was outdated and underused. I facilitated a five-day Design Sprint and led the UX and UI, shipping an app that's since reached over 1 million users and was a Best Design Awards Finalist.",
+      tags: ["Design Sprint", "Awards Finalist"],
+      logoSrc: "/images/home/logos/msc-company-logo.svg",
+      logoAlt: "MSC Outdoor Safety",
+      logoWidth: 70,
+      logoHeight: 50,
+    },
+  },
+];
+
+// Parked for go-live (2026-08-09, Sarah's call): the grid ships with just
+// Datapay, both FarmIQ cards, and Plan My Walk while those three get real
+// case studies written. Hatch and Metlink are kept here rather than deleted
+// — same copy/colours/tags as before, including the unresolved Figma
+// rest/hover content mismatch on the Metlink card (see its comment) — so
+// they can go straight back into `projectCards` once ready, without
+// re-pulling anything from Figma.
+export const pausedProjectCards: ProjectCard[] = [
   {
     title: "Tax Time Calculator",
     href: "#",
@@ -184,35 +237,6 @@ export const projectCards: ProjectCard[] = [
       logoHeight: 52,
     },
   },
-  {
-    title: "The App Keeping Kiwis Safe Outdoors",
-    href: "#",
-    // No dedicated "cover" file found in the Plan My Walk folder (unlike the
-    // other four) — left as a placeholder rather than guessing which of the
-    // dozen raw screenshots in there is meant to be the composite cover.
-    alt: "Plan My Walk / MSC Outdoor Safety case study cover",
-    aspect: "635/460",
-    // Real MSC Outdoor Safety logo, from "Logo companies/msc-logo.png" — a
-    // fuller lockup (icon + wordmark + council name) than Figma's compact
-    // card render, but the real mark rather than a placeholder.
-    logoSrc: "/images/home/logos/msc-logo.png",
-    logoAlt: "MSC Outdoor Safety",
-    logoWidth: 100,
-    logoHeight: 71,
-    textTone: "light",
-    hover: {
-      color: "#cfe739",
-      opacity: 0.95,
-      textTone: "dark",
-      description:
-        "MSC's existing safety tool was outdated and underused. I facilitated a five-day Design Sprint and led the UX and UI, shipping an app that's since reached over 1 million users and was a Best Design Awards Finalist.",
-      tags: ["Design Sprint", "Awards Finalist"],
-      logoSrc: "/images/home/logos/msc-logo.png",
-      logoAlt: "MSC Outdoor Safety",
-      logoWidth: 100,
-      logoHeight: 71,
-    },
-  },
 ];
 
 export interface CompanyLogo {
@@ -234,6 +258,11 @@ export const companyLogos: CompanyLogo[] = [
   { name: "Hatch", src: "/images/about/logos/hatch-wordmark.svg", width: 100, height: 29 },
   { name: "ACC", src: "/images/home/logos/acc-logo.png", width: 50, height: 50 },
   { name: "Metlink", src: "/images/home/logos/metlink-logo.png", width: 116, height: 50 },
+  // Added 2026-08-09 — Sarah's own "Company-MSC.svg" export, matching this
+  // row's other Company-*.svg files (About page's career-timeline folder).
+  // Natural size 100x72 (icon + wordmark lockup); scaled to h:52 to sit at
+  // the same height as Metlink, the row's other icon+wordmark combo mark.
+  { name: "MSC Outdoor Safety", src: "/images/home/logos/msc-company-logo.svg", width: 72, height: 52 },
 ];
 
 // Hero "Design in action" fan of 5 project-cover photos (Figma 123:194117,

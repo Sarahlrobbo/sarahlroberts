@@ -75,23 +75,23 @@ const heroFanHeight = Math.max(...heroCovers.map((c) => c.top + c.height));
     <section class="mx-auto flex max-w-[1440px] flex-col items-center gap-[var(--spacing-xlg)] px-[var(--spacing-xlg)] py-[var(--spacing-2xlg)]">
       <div class="flex flex-col items-center gap-[var(--spacing-md)]">
         <h2 class="text-style-h2 text-center text-[var(--color-text-brand)]">Design in action</h2>
-        <p class="text-style-top-block-intro text-center text-[var(--color-text-primary)]">
-          Evidence-led projects across payroll, agri-tech, and public safety
-        </p>
       </div>
 
+      <!-- Go-live scope (2026-08-09, Sarah's call): 4 cards only — Datapay,
+           both FarmIQ case studies, and Plan My Walk. Hatch/Metlink are
+           parked in `pausedProjectCards` (src/lib/home.ts) until they have
+           real case studies, not deleted. -->
       <div class="flex w-full flex-col gap-[var(--spacing-xlg)]">
         <div class="flex w-full items-center gap-[var(--spacing-xlg)]">
           <ProjectCard card={projectCards[0]} class="h-[400px] w-[613px] shrink-0" />
           <ProjectCard card={projectCards[1]} class="h-[460px] flex-1" />
         </div>
-        <div class="flex w-full items-center gap-[var(--spacing-xlg)]">
-          <ProjectCard card={projectCards[2]} class="aspect-[624/460] flex-1" />
-          <ProjectCard card={projectCards[3]} class="h-[400px] w-[557px] shrink-0" />
-        </div>
         <div class="flex w-full items-center justify-center gap-[var(--spacing-xlg)]">
-          <ProjectCard card={projectCards[4]} class="h-[400px] w-[557px] shrink-0" />
-          <ProjectCard card={projectCards[5]} class="h-[460px] w-[635px] shrink-0" />
+          <ProjectCard card={projectCards[2]} class="h-[460px] w-[624px] shrink-0" />
+          <!-- 557x400 per Sarah's Figma link (node 123:220206, the "Project
+               Cover" instance's real box size) — she called this MSC's
+               correct size after flagging its previous box (624/635) as too big. -->
+          <ProjectCard card={projectCards[3]} class="h-[400px] w-[557px] shrink-0" />
         </div>
       </div>
     </section>

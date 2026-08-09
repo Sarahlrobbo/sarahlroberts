@@ -32,11 +32,24 @@ const hoverBg = `rgba(${parseInt(card.hover.color.slice(1, 3), 16)}, ${parseInt(
 // Both rows need to leave room on the right so their own content doesn't
 // run under the now-independent logo.
 const logoGutter = card.logoSrc ? `${card.logoWidth + 24}px` : "0px";
+
+// All six cards' titles share one size (text-style-h4, 24px/32px — Sarah's
+// call after trying a bigger size on the two FarmIQ cards and finding it
+// inconsistent with the rest of the grid).
+//
+// The default-state title row is given a fixed min-height (2 lines' worth,
+// --spacing-2xlg = 96px, matching text-style-h4's 32px line-height) and
+// centers its text within that band regardless of whether the title wraps
+// to 1 or 2 lines. The persistent logo below targets the vertical centre of
+// that same band, so it lines up with the title instead of sitting pinned
+// to the tile's bottom edge (which only looked right for 1-line titles —
+// flagged by Sarah on the 2-line "Helping Farmers Thrive" card).
+const logoBottomOffset = card.logoSrc ? `calc((var(--spacing-2xlg) - ${card.logoHeight}px) / 2)` : undefined;
 ---
 
 <a
   href={card.href}
-  class={`group relative block overflow-hidden rounded-[var(--radius-l)] ${className}`}
+  class={`tile-hover-bounce group relative block overflow-hidden rounded-[var(--radius-l)] ${className}`}
 >
   <CaseStudyImage image={{ src: card.src, alt: card.alt, aspect: card.aspect }} class="absolute inset-0 size-full" />
   {
@@ -45,9 +58,10 @@ const logoGutter = card.logoSrc ? `${card.logoWidth + 24}px` : "0px";
     )
   }
 
-  <!-- Default state: title, bottom-aligned -->
+  <!-- Default state: title, bottom-anchored but vertically centered within a
+       fixed 2-line band so 1-line and 2-line titles both align with the logo -->
   <div
-    class="absolute inset-x-0 bottom-0 flex items-center p-[var(--spacing-xmd)] opacity-100 transition-opacity duration-300 ease-[var(--ease-reveal)] group-hover:opacity-0"
+    class="absolute inset-x-0 bottom-0 flex min-h-[var(--spacing-2xlg)] items-center p-[var(--spacing-xmd)] opacity-100 transition-opacity duration-300 ease-[var(--ease-reveal)] group-hover:opacity-0"
     style={`padding-right: ${logoGutter};`}
   >
     <p class={`text-style-h4 ${textColor}`}>{card.title}</p>
@@ -82,8 +96,8 @@ const logoGutter = card.logoSrc ? `${card.logoWidth + 24}px` : "0px";
       <img
         src={card.logoSrc}
         alt={card.logoAlt}
-        style={`width: ${card.logoWidth}px; height: ${card.logoHeight}px;`}
-        class="pointer-events-none absolute right-[var(--spacing-xmd)] bottom-[var(--spacing-xmd)] z-10 object-contain"
+        style={`width: ${card.logoWidth}px; height: ${card.logoHeight}px; bottom: ${logoBottomOffset};`}
+        class="pointer-events-none absolute right-[var(--spacing-xmd)] z-10 object-contain"
       />
     )
   }
