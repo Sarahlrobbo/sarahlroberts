@@ -248,16 +248,19 @@ export interface CompanyLogo {
 
 // "Some companies I've worked with" (Figma 123:194214) — FarmIQ/Datapay/
 // Basis/Hatch reuse the SVGs already in the repo (About page's career
-// timeline); ACC/Metlink are new, exported as flat PNGs straight off their
-// Figma instances (123:194221 / 123:194222) since they're small standalone
-// marks, not the photography Sarah's sending separately.
+// timeline). ACC/Metlink originally shipped as flat PNGs exported straight
+// off their Figma instances (123:194221 / 123:194222); swapped 2026-08-09 to
+// Sarah's own "Company-ACC.svg"/"Company-Metlink.svg" exports (About me
+// folder, same source as the MSC logo below) per her explicit ask for SVGs
+// here. Natural sizes (80x80 / 160x69) are near-identical aspect to the old
+// PNGs, so display sizes are unchanged.
 export const companyLogos: CompanyLogo[] = [
   { name: "FarmIQ", src: "/images/farmiq-thrive/farmiq-logo.svg", width: 100, height: 20 },
   { name: "Datapay", src: "/images/about/logos/datapay-icon.svg", width: 60, height: 60 },
   { name: "Basis", src: "/images/about/logos/basis-wordmark.svg", width: 100, height: 22 },
   { name: "Hatch", src: "/images/about/logos/hatch-wordmark.svg", width: 100, height: 29 },
-  { name: "ACC", src: "/images/home/logos/acc-logo.png", width: 50, height: 50 },
-  { name: "Metlink", src: "/images/home/logos/metlink-logo.png", width: 116, height: 50 },
+  { name: "ACC", src: "/images/home/logos/acc-logo.svg", width: 50, height: 50 },
+  { name: "Metlink", src: "/images/home/logos/metlink-logo.svg", width: 116, height: 50 },
   // Added 2026-08-09 — Sarah's own "Company-MSC.svg" export, matching this
   // row's other Company-*.svg files (About page's career-timeline folder).
   // Natural size 100x72 (icon + wordmark lockup); scaled to h:52 to sit at
