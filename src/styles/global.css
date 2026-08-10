@@ -569,6 +569,45 @@ body.nav-open {
   }
 }
 
+/* Home "Design in action" project-card grid (index.astro) — same
+   mobile/tablet/desktop tiers as the hero fan above, and plain CSS for the
+   same reason (see the comment in index.astro above .project-row): mixing
+   `sm:flex-1` with `min-[1440px]:flex-none` on the same element left
+   sm:flex-1 winning even at 1440px+, since Tailwind doesn't reorder
+   arbitrary min-width variants by their actual pixel value — both media
+   queries match at 1440px and source order (not the number) decides which
+   utility class wins. Each card's own aspect-[…] class (set inline in
+   index.astro, unchanged) drives its height below 1440px; the four
+   fixed-px sizes here are the real Figma box sizes, restored only once
+   there's enough room (1440px, same ceiling as the hero fan). */
+@media (min-width: 640px) {
+  .project-tile {
+    flex: 1 1 0%;
+  }
+}
+@media (min-width: 1440px) {
+  .project-tile {
+    flex: none;
+    aspect-ratio: auto;
+  }
+  .project-tile-fill {
+    flex: 1 1 0%;
+    height: 460px;
+  }
+  .project-row:nth-of-type(1) .project-tile:not(.project-tile-fill) {
+    width: 613px;
+    height: 400px;
+  }
+  .project-row:nth-of-type(2) .project-tile:nth-child(1) {
+    width: 624px;
+    height: 460px;
+  }
+  .project-row:nth-of-type(2) .project-tile:nth-child(2) {
+    width: 557px;
+    height: 400px;
+  }
+}
+
 /* Tile hover-lift: a clearly-visible bounce/pop upward using the same real
    spring curve as the hero fan above, rather than a flat-eased micro-shift.
    Sarah flagged the About page's craftTiles hover (a plain Tailwind

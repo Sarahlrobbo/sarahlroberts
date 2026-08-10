@@ -115,22 +115,37 @@ const heroFanWidth = Math.max(...heroCovers.map((c) => c.left + c.width)) - hero
            parked in `pausedProjectCards` (src/lib/home.ts) until they have
            real case studies, not deleted.
 
-           Mobile/tablet (2026-08-10): each card's fixed px box (Figma has
-           no mobile spec for this grid) becomes full-width with an
-           aspect-ratio matching its real Figma box, stacked in one column;
-           the exact desktop pixel dimensions and 2x2 layout are unchanged,
-           just moved behind lg:. -->
-      <div class="flex w-full flex-col gap-[var(--spacing-md)] lg:gap-[var(--spacing-xlg)]">
-        <div class="flex w-full flex-col items-center gap-[var(--spacing-md)] lg:flex-row lg:gap-[var(--spacing-xlg)]">
-          <ProjectCard card={projectCards[0]} class="aspect-[613/400] w-full lg:aspect-auto lg:h-[400px] lg:w-[613px] lg:shrink-0" />
-          <ProjectCard card={projectCards[1]} class="aspect-[635/460] w-full lg:aspect-auto lg:h-[460px] lg:flex-1" />
+           Three tiers (2026-08-11, revised — see the hero-fan comment in
+           global.css for the same reasoning): mobile (<640) stays a single
+           full-width column, aspect-ratio-only, one card per row. Tablet
+           (640–1439) pairs cards side by side again — this used to wait for
+           `lg:` (1024px) like the rest of the site, but that's also where
+           the *fixed*-pixel desktop widths kicked in (624+64+557=1245px of
+           row 2 alone, before padding), so anywhere from 1024–1439px wide
+           was either still single-column ("too large", Sarah's call) or,
+           had it used lg: for the fixed widths too, would've silently
+           overflowed. Desktop (min-width:1440px, the same safe ceiling as
+           the hero fan) restores the exact original fixed-px 2x2 layout,
+           unchanged from before this pass.
+
+           The tablet/desktop split (`.project-tile` below) is plain CSS in
+           global.css, not sm:/min-[1440px]: Tailwind variants — tried that
+           first, but Tailwind doesn't reorder arbitrary min-width variants
+           by their pixel value, so sm:flex-1 kept winning over
+           min-[1440px]:flex-none even though 1440 > 640 (both media queries
+           match at 1440px; source order decided, not the number). Plain CSS
+           written in ascending tier order sidesteps that. -->
+      <div class="flex w-full flex-col gap-[var(--spacing-md)] min-[1440px]:gap-[var(--spacing-xlg)]">
+        <div class="project-row flex w-full flex-col items-center gap-[var(--spacing-md)] sm:flex-row min-[1440px]:gap-[var(--spacing-xlg)]">
+          <ProjectCard card={projectCards[0]} class="project-tile aspect-[613/400] w-full" />
+          <ProjectCard card={projectCards[1]} class="project-tile project-tile-fill aspect-[635/460] w-full" />
         </div>
-        <div class="flex w-full flex-col items-center gap-[var(--spacing-md)] lg:flex-row lg:justify-center lg:gap-[var(--spacing-xlg)]">
-          <ProjectCard card={projectCards[2]} class="aspect-[624/460] w-full lg:aspect-auto lg:h-[460px] lg:w-[624px] lg:shrink-0" />
+        <div class="project-row flex w-full flex-col items-center gap-[var(--spacing-md)] sm:flex-row min-[1440px]:justify-center min-[1440px]:gap-[var(--spacing-xlg)]">
+          <ProjectCard card={projectCards[2]} class="project-tile aspect-[624/460] w-full" />
           <!-- 557x400 per Sarah's Figma link (node 123:220206, the "Project
                Cover" instance's real box size) — she called this MSC's
                correct size after flagging its previous box (624/635) as too big. -->
-          <ProjectCard card={projectCards[3]} class="aspect-[557/400] w-full lg:aspect-auto lg:h-[400px] lg:w-[557px] lg:shrink-0" />
+          <ProjectCard card={projectCards[3]} class="project-tile aspect-[557/400] w-full" />
         </div>
       </div>
     </section>
