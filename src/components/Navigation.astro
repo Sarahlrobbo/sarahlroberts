@@ -1,16 +1,21 @@
 ---
-import Bars from "./icons/Bars.astro";
+import { projectCards } from "../lib/home";
 
 interface Props {
   authorName: string;
 }
 const { authorName } = Astro.props;
+
+// The 4 go-live cards each carry their own short navLabel (the real
+// `title`s are full sentences) — reused here so the submenu and the home
+// grid never drift out of sync on label or URL.
+const navProjects = projectCards.filter((card) => card.navLabel);
 ---
 
-<nav class="flex items-center justify-between px-[var(--spacing-xmd)] py-[var(--spacing-sm)] lg:mx-auto lg:px-[var(--spacing-lg)] lg:w-[1440px] lg:max-w-full">
+<nav data-nav class="relative flex items-center justify-between px-[var(--spacing-xmd)] py-[var(--spacing-sm)] lg:mx-auto lg:px-[var(--spacing-lg)] lg:w-[1440px] lg:max-w-full">
   <a
     href="/"
-    class="text-style-intro-medium text-[var(--color-text-primary)] rounded-[var(--radius-m)] px-[var(--spacing-xmd)] py-[var(--spacing-sm)] underline-offset-4 transition-colors hover:text-[var(--color-text-brand)] hover:underline lg:px-[var(--spacing-xmd)]"
+    class="text-style-intro-medium text-[var(--color-text-primary)] rounded-[var(--radius-m)] px-0 py-[var(--spacing-sm)] underline-offset-4 transition-colors hover:text-[var(--color-text-brand)] hover:underline lg:px-[var(--spacing-xmd)]"
   >
     {authorName}
   </a>
@@ -30,11 +35,135 @@ const { authorName } = Astro.props;
     </a>
   </div>
 
+  <!--
+    Hamburger <-> X as one 3-bar icon that morphs via CSS transforms (see
+    .nav-toggle-bar in global.css), driven purely off [aria-expanded] —
+    replaces the first pass's Bars/Close icon swap, which snapped instantly
+    instead of animating.
+  -->
   <button
     type="button"
+    data-nav-toggle
     aria-label="Open menu"
-    class="flex size-6 items-center justify-center text-[var(--color-text-primary)] lg:hidden"
+    aria-expanded="false"
+    aria-controls="mobile-nav-menu"
+    class="relative z-20 flex size-6 items-center justify-center text-[var(--color-text-primary)] lg:hidden"
   >
-    <Bars class="size-6" />
+    <span class="nav-toggle-bars" aria-hidden="true">
+      <span class="nav-toggle-bar"></span>
+      <span class="nav-toggle-bar"></span>
+      <span class="nav-toggle-bar"></span>
+    </span>
   </button>
+
+  <!--
+    Mobile menu. No Figma spec exists for this state (see the 2026-08-10
+    audit note in memory) — built to match a pattern Sarah pointed at
+    (figma.com/resource-library/design-tokens on mobile) rather than
+    guessed: a full-screen opaque takeover (nothing behind it visible at
+    all, unlike the first pass's shallow dropdown), a divider line under
+    every row using the site's own --color-border token. `nav` itself gets
+    a solid --color-bg fill while open (.menu-open below) so the bar
+    behind the logo/X reads as one continuous surface with the panel under
+    it, since it's normally transparent over the hero's dot-grid
+    background. `--nav-h` (the panel's top offset) is measured in JS off
+    the real nav height rather than hardcoded, so it still lines up if the
+    row's own height ever changes. `inert` by default so it's unreachable
+    by keyboard/AT until JS opens it.
+
+    "All Projects" was an accordion in an earlier pass, expanding to reveal
+    these same 4 links. Sarah's call: with only 4 case studies and a
+    full-screen menu with room to spare, the accordion's job (hiding
+    lower-priority depth from a short menu) wasn't earning its cost — case
+    studies are the most likely thing a portfolio visitor wants, so it's a
+    flat, always-visible list now. "All Projects" itself still links to
+    /#work (same as the desktop nav) for the full grid with hover previews.
+  -->
+  <div
+    id="mobile-nav-menu"
+    data-nav-menu
+    class="nav-menu fixed inset-x-0 bottom-0 z-10 overflow-y-auto border-t border-[var(--color-border)] bg-[var(--color-bg)] lg:hidden"
+    inert
+  >
+    <div class="flex flex-col divide-y divide-[var(--color-border)] border-b border-[var(--color-border)]">
+      <a
+        href="/#work"
+        data-nav-link
+        class="text-style-intro-medium px-[var(--spacing-xmd)] py-[var(--spacing-md)] text-[var(--color-text-primary)] transition-colors hover:text-[var(--color-text-brand)]"
+      >
+        All Projects
+      </a>
+      {
+        navProjects.map((project) => (
+          <a
+            href={project.href}
+            data-nav-link
+            class="text-style-body px-[var(--spacing-xmd)] py-[var(--spacing-sm)] pl-[var(--spacing-lg)] text-[var(--color-text-secondary)] transition-colors hover:text-[var(--color-text-brand)]"
+          >
+            {project.navLabel}
+          </a>
+        ))
+      }
+      <a
+        href="/about"
+        data-nav-link
+        class="text-style-intro-medium px-[var(--spacing-xmd)] py-[var(--spacing-md)] text-[var(--color-text-primary)] transition-colors hover:text-[var(--color-text-brand)]"
+      >
+        About
+      </a>
+    </div>
+  </div>
 </nav>
+
+<script>
+  function initNav(nav: HTMLElement) {
+    const toggle = nav.querySelector<HTMLButtonElement>("[data-nav-toggle]");
+    const menu = nav.querySelector<HTMLElement>("[data-nav-menu]");
+    if (!toggle || !menu) return;
+
+    function setOpen(open: boolean) {
+      toggle!.setAttribute("aria-expanded", String(open));
+      toggle!.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+      if (open) {
+        // Measured, not hardcoded, so the panel still lines up exactly
+        // under the nav row if its height ever changes.
+        menu!.style.setProperty("--nav-h", `${nav.getBoundingClientRect().height}px`);
+      }
+      menu!.classList.toggle("is-open", open);
+      menu!.inert = !open;
+      nav.classList.toggle("menu-open", open);
+      document.body.classList.toggle("nav-open", open);
+    }
+
+    toggle.addEventListener("click", () => {
+      setOpen(toggle.getAttribute("aria-expanded") !== "true");
+    });
+
+    menu.querySelectorAll<HTMLAnchorElement>("[data-nav-link]").forEach((link) => {
+      link.addEventListener("click", () => setOpen(false));
+    });
+
+    document.addEventListener("click", (e) => {
+      if (toggle.getAttribute("aria-expanded") !== "true") return;
+      if (!nav.contains(e.target as Node)) setOpen(false);
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && toggle.getAttribute("aria-expanded") === "true") {
+        setOpen(false);
+        toggle.focus();
+      }
+    });
+
+    // If the viewport grows past the mobile breakpoint while the menu is
+    // open (rotating a tablet, resizing a desktop window), close it so it
+    // never gets stuck open behind the desktop nav, which has its own links
+    // visible from lg upward.
+    const desktopQuery = window.matchMedia("(min-width: 1024px)");
+    desktopQuery.addEventListener("change", (e) => {
+      if (e.matches) setOpen(false);
+    });
+  }
+
+  document.querySelectorAll<HTMLElement>("[data-nav]").forEach(initNav);
+</script>

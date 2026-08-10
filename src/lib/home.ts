@@ -27,6 +27,8 @@ export interface ProjectCardHover {
 export interface ProjectCard {
   title: string;
   href: string;
+  /** Short label for the mobile nav's "All Projects" submenu (Navigation.astro) — the real `title`s are full sentences, too long for a nav row. Only set on the 4 go-live cards; the parked cards below don't need one since they're not in the nav. */
+  navLabel?: string;
   /** Real cover photo, once confidently matched from Sarah's asset folders — omitted still falls back to CaseStudyImage's grey placeholder. */
   src?: string;
   alt: string;
@@ -50,7 +52,11 @@ export interface ProjectCard {
 export const projectCards: ProjectCard[] = [
   {
     title: "Designing Datapay's Greenfields Future: From Evidence to Screens",
-    href: "#",
+    navLabel: "Designing Datapay",
+    // URL scheme assigned 2026-08-10 (Sarah's call) so the nav's "All
+    // Projects" submenu and this card point at the same place — the case
+    // study itself isn't built yet, so this 404s until it is.
+    href: "/case-studies/designing-datapay",
     src: "/images/home/covers/datapay-greenfields.png",
     alt: "Datapay Greenfields case study cover",
     aspect: "613/400",
@@ -74,9 +80,13 @@ export const projectCards: ProjectCard[] = [
   },
   {
     title: "Helping Farmers Thrive: Creating Their Essential App",
+    navLabel: "Helping Farmers Thrive",
     // The real, built case study — its content (offline-first mobile, paddock,
     // 32.4% stickiness) matches this card, not "Growing FarmIQ's Design Team" below.
-    href: "/case-studies/farmiq-thrive",
+    // Slug renamed from farmiq-thrive to helping-farmers-thrive 2026-08-10
+    // (Sarah's call, see src/data/case-studies/farmiq-thrive.ts) — the old
+    // URL still resolves via the redirect in astro.config.mjs.
+    href: "/case-studies/helping-farmers-thrive",
     src: "/images/home/covers/farmiq-essential-app.png",
     alt: "FarmIQ essential app case study cover",
     aspect: "635/460",
@@ -106,9 +116,12 @@ export const projectCards: ProjectCard[] = [
   },
   {
     title: "Growing FarmIQ's Design Team, Practice & Systems",
-    // No case study built for this one yet — don't point it at farmiq-thrive,
-    // that content is about the essential-app card above, not this topic.
-    href: "#",
+    navLabel: "Design Leadership",
+    // No case study built for this one yet — don't point it at
+    // helping-farmers-thrive, that content is about the essential-app card
+    // above, not this topic. URL scheme assigned 2026-08-10 (Sarah's call);
+    // 404s until the case study is built.
+    href: "/case-studies/design-leadership",
     src: "/images/home/covers/farmiq-design-team.png",
     alt: "FarmIQ design team case study cover",
     aspect: "624/460",
@@ -135,7 +148,10 @@ export const projectCards: ProjectCard[] = [
   },
   {
     title: "The App Keeping Kiwis Safe Outdoors",
-    href: "#",
+    navLabel: "Keeping Kiwis Safe",
+    // URL scheme assigned 2026-08-10 (Sarah's call); 404s until the case
+    // study is built.
+    href: "/case-studies/keeping-kiwis-safe",
     // No dedicated "cover" file found in the Plan My Walk folder (unlike the
     // other four) — left as a placeholder rather than guessing which of the
     // dozen raw screenshots in there is meant to be the composite cover.

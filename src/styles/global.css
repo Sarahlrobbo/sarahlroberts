@@ -345,6 +345,102 @@ body {
   box-shadow: 4px 8px 40px 8px var(--color-grey-300);
 }
 
+/* Mobile nav (Navigation.astro) — full-screen opaque takeover, matching the
+   pattern at figma.com/resource-library/design-tokens on mobile (Sarah's
+   reference): nothing of the page shows through behind it, unlike the
+   first pass's shallow dropdown. Fades/slides in on `.is-open` using
+   --ease-reveal (the same expo-out curve as the scroll-reveal fades
+   elsewhere on the site) since there's no dedicated motion spec for it.
+   `nav` itself is normally transparent (it floats over the hero's
+   dot-grid background), so `.menu-open` fills it with --color-bg on the
+   same transition as the panel fading in below it — otherwise the bar
+   behind the logo/close button stays see-through while the panel under it
+   turns solid, reading as two mismatched surfaces instead of one.
+   `top: var(--nav-h)` is set from JS off the real nav height, so the panel
+   always starts exactly below the nav row instead of a guessed pixel
+   value. */
+[data-nav] {
+  transition: background-color 0.25s var(--ease-reveal);
+}
+[data-nav].menu-open {
+  background-color: var(--color-bg);
+}
+
+/* Hamburger <-> X: one 3-bar icon, each bar positioned/sized to land
+   exactly on the old Bars.astro glyph (viewBox 24, stroke-width 1.75,
+   lines at y 6/12/18) so swapping the icon this way didn't shift its
+   weight. Driven off [aria-expanded] instead of a JS class, since the
+   toggle already carries that state. The top and bottom bars slide onto
+   the middle bar's line and rotate ±45° there to form the X; the middle
+   bar just fades — the standard hamburger-morph technique, done with
+   `top`/`transform`/`opacity` transitions instead of the previous instant
+   Bars/Close swap. */
+.nav-toggle-bars {
+  position: relative;
+  display: block;
+  width: 24px;
+  height: 24px;
+}
+.nav-toggle-bar {
+  position: absolute;
+  left: 3px;
+  right: 3px;
+  height: 1.75px;
+  border-radius: 1px;
+  background: currentColor;
+  transition:
+    top 0.3s var(--ease-reveal),
+    transform 0.3s var(--ease-reveal),
+    opacity 0.3s var(--ease-reveal);
+}
+.nav-toggle-bar:nth-child(1) {
+  top: 5.125px;
+}
+.nav-toggle-bar:nth-child(2) {
+  top: 11.125px;
+}
+.nav-toggle-bar:nth-child(3) {
+  top: 17.125px;
+}
+[data-nav-toggle][aria-expanded="true"] .nav-toggle-bar:nth-child(1) {
+  top: 11.125px;
+  transform: rotate(45deg);
+}
+[data-nav-toggle][aria-expanded="true"] .nav-toggle-bar:nth-child(2) {
+  opacity: 0;
+}
+[data-nav-toggle][aria-expanded="true"] .nav-toggle-bar:nth-child(3) {
+  top: 11.125px;
+  transform: rotate(-45deg);
+}
+.nav-menu {
+  top: var(--nav-h, 60px);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-8px);
+  transition:
+    opacity 0.25s var(--ease-reveal),
+    transform 0.25s var(--ease-reveal);
+}
+.nav-menu.is-open {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-nav],
+  .nav-toggle-bar,
+  .nav-menu {
+    transition: none;
+  }
+}
+
+/* Lock background scroll while the mobile nav dropdown is open. */
+body.nav-open {
+  overflow: hidden;
+}
+
 /* Home hero cover-photo fan: bounce-in entrance + mouse-reactive spring
    wobble. --rotate-base/--stagger are static per-card (set inline in
    index.astro from Figma-real values); --offset-x/--offset-y/--velocity are

@@ -10,7 +10,10 @@ import type { CaseStudy } from "../../lib/case-study";
 // in Figma, since that's the confirmed-final layout copy — see the build
 // note back to Sarah for the specific lines worth a quick check.
 export const farmiqThrive: CaseStudy = {
-  slug: "farmiq-thrive",
+  // Renamed from "farmiq-thrive" to match the URL scheme used for the
+  // other 3 go-live case studies (Sarah's call, 2026-08-10) — see the old
+  // route's redirect stub at src/pages/case-studies/farmiq-thrive.astro.
+  slug: "helping-farmers-thrive",
   title: "Helping Farmers Thrive: \nCreating Their Essential App",
   authorName: "Sarah Roberts",
   backHref: "/",

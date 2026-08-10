@@ -193,7 +193,14 @@ export const craftTiles: CraftTile[] = [
     title: "Multi-platform design system",
     body: "Foundations through to governed components, co-owned with engineering.",
     linkLabel: "Growing the design team →",
-    linkHref: "/case-studies/farmiq-thrive",
+    // Renamed from /case-studies/farmiq-thrive 2026-08-10 (slug rename, see
+    // src/data/case-studies/farmiq-thrive.ts). Left pointed at the same
+    // case study as before — NOT changed to /case-studies/design-leadership
+    // even though this tile's own copy ("Growing the design team",
+    // "Multi-platform design system") reads like it's about that case
+    // study instead. Flagging to Sarah rather than silently repointing it,
+    // same as the earlier Metlink/Hatch content mismatch.
+    linkHref: "/case-studies/helping-farmers-thrive",
     accentColor: "#ffb2ea",
     logo: "/images/farmiq-thrive/farmiq-logo.svg",
     logoAlt: "FarmIQ",
