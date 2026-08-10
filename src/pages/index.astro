@@ -14,6 +14,17 @@ import { testimonials, renderHighlight, bioPhotos } from "../lib/about";
 // re-baselined to 0 — see heroCovers in lib/home.ts for how these numbers
 // were derived.
 const heroFanHeight = Math.max(...heroCovers.map((c) => c.top + c.height));
+
+// Horizontal bounds of the same composition — unlike height, `left` isn't
+// re-baselined in heroCovers (still Figma-relative: -220 to 1081), because
+// on desktop the fan deliberately bleeds past the 846px header text column
+// it sits in. The true native width is ~1301px, not 846 — mixing those up
+// is what broke the mobile-scale centering math below on the first pass
+// (caught by measuring the actual rendered overflow, not by eyeballing a
+// screenshot). Computed from the real data rather than hardcoded so it
+// can't drift out of sync if heroCovers ever changes.
+const heroFanMinLeft = Math.min(...heroCovers.map((c) => c.left));
+const heroFanWidth = Math.max(...heroCovers.map((c) => c.left + c.width)) - heroFanMinLeft;
 ---
 
 <Layout title="Sarah Roberts — Design & Research Lead" description="Design & Research Lead, Christchurch, Aotearoa New Zealand.">
@@ -53,13 +64,35 @@ const heroFanHeight = Math.max(...heroCovers.map((c) => c.top + c.height));
         Kept this page's own Figma-matched positions/sizes/rotations/photos;
         only the motion behaviour is borrowed.
       -->
-      <div data-hero-fan class="relative w-full" style={`height: ${heroFanHeight}px; margin-top: var(--spacing-md);`}>
+      <!--
+        Mobile/tablet: a genuine vertical stack in normal document flow —
+        not the desktop fan shrunk down (tried first, but that still read
+        as "a tiny horizontal fan" rather than an actual mobile layout;
+        Sarah's call, 2026-08-10). No Figma mobile spec exists for this
+        cluster, so this is a judgement call, not a pulled value.
+
+        Each card's desktop position/size (top/left/width/height, from
+        heroCovers, left re-baselined against heroFanMinLeft so 0 matches
+        the composition's real leftmost edge) travels as CSS custom
+        properties rather than Tailwind lg: classes — Tailwind can't
+        generate an arbitrary-value class from a template literal computed
+        per array item at build time, only from literal text it can see in
+        the source. A plain `@media (min-width:1024px)` block in
+        global.css (.hero-fan/.hero-card) reads those properties and
+        switches from flow layout to the original absolute canvas, which
+        is otherwise completely unchanged from before this pass.
+      -->
+      <div
+        data-hero-fan
+        class="hero-fan mt-[var(--spacing-md)] w-full"
+        style={`--fan-native-w: ${heroFanWidth}px; --fan-native-h: ${heroFanHeight}px;`}
+      >
         {
           heroCovers.map((cover, i) => (
             <div
               data-hero-card
-              class="hero-card absolute"
-              style={`top: ${cover.top}px; left: ${cover.left}px; width: ${cover.width}px; height: ${cover.height}px; --rotate-base: ${cover.rotate}; --stagger: ${i};`}
+              class="hero-card"
+              style={`--card-top: ${cover.top}px; --card-left: ${cover.left - heroFanMinLeft}px; --card-w: ${cover.width}px; --card-h: ${cover.height}px; aspect-ratio: ${cover.width} / ${cover.height}; --rotate-base: ${cover.rotate}; --stagger: ${i};`}
             >
               <CaseStudyImage image={{ src: cover.src, alt: cover.alt, aspect: `${cover.width}/${cover.height}` }} class="shadow-cover size-full" />
             </div>
@@ -72,7 +105,7 @@ const heroFanHeight = Math.max(...heroCovers.map((c) => c.top + c.height));
   <!-- CASE STUDIES ("Design in action") -->
   <div class="relative" id="work">
     <div aria-hidden="true" class="absolute inset-0 -z-10 left-1/2 w-screen -translate-x-1/2 bg-[var(--color-grey-100)]"></div>
-    <section class="mx-auto flex max-w-[1440px] flex-col items-center gap-[var(--spacing-xlg)] px-[var(--spacing-xlg)] py-[var(--spacing-2xlg)]">
+    <section class="mx-auto flex max-w-[1440px] flex-col items-center gap-[var(--spacing-lg)] px-4 py-[var(--spacing-2xlg)] lg:gap-[var(--spacing-xlg)] lg:px-[var(--spacing-xlg)]">
       <div class="flex flex-col items-center gap-[var(--spacing-md)]">
         <h2 class="text-style-h2 text-center text-[var(--color-text-brand)]">Design in action</h2>
       </div>
@@ -80,18 +113,24 @@ const heroFanHeight = Math.max(...heroCovers.map((c) => c.top + c.height));
       <!-- Go-live scope (2026-08-09, Sarah's call): 4 cards only — Datapay,
            both FarmIQ case studies, and Plan My Walk. Hatch/Metlink are
            parked in `pausedProjectCards` (src/lib/home.ts) until they have
-           real case studies, not deleted. -->
-      <div class="flex w-full flex-col gap-[var(--spacing-xlg)]">
-        <div class="flex w-full items-center gap-[var(--spacing-xlg)]">
-          <ProjectCard card={projectCards[0]} class="h-[400px] w-[613px] shrink-0" />
-          <ProjectCard card={projectCards[1]} class="h-[460px] flex-1" />
+           real case studies, not deleted.
+
+           Mobile/tablet (2026-08-10): each card's fixed px box (Figma has
+           no mobile spec for this grid) becomes full-width with an
+           aspect-ratio matching its real Figma box, stacked in one column;
+           the exact desktop pixel dimensions and 2x2 layout are unchanged,
+           just moved behind lg:. -->
+      <div class="flex w-full flex-col gap-[var(--spacing-md)] lg:gap-[var(--spacing-xlg)]">
+        <div class="flex w-full flex-col items-center gap-[var(--spacing-md)] lg:flex-row lg:gap-[var(--spacing-xlg)]">
+          <ProjectCard card={projectCards[0]} class="aspect-[613/400] w-full lg:aspect-auto lg:h-[400px] lg:w-[613px] lg:shrink-0" />
+          <ProjectCard card={projectCards[1]} class="aspect-[635/460] w-full lg:aspect-auto lg:h-[460px] lg:flex-1" />
         </div>
-        <div class="flex w-full items-center justify-center gap-[var(--spacing-xlg)]">
-          <ProjectCard card={projectCards[2]} class="h-[460px] w-[624px] shrink-0" />
+        <div class="flex w-full flex-col items-center gap-[var(--spacing-md)] lg:flex-row lg:justify-center lg:gap-[var(--spacing-xlg)]">
+          <ProjectCard card={projectCards[2]} class="aspect-[624/460] w-full lg:aspect-auto lg:h-[460px] lg:w-[624px] lg:shrink-0" />
           <!-- 557x400 per Sarah's Figma link (node 123:220206, the "Project
                Cover" instance's real box size) — she called this MSC's
                correct size after flagging its previous box (624/635) as too big. -->
-          <ProjectCard card={projectCards[3]} class="h-[400px] w-[557px] shrink-0" />
+          <ProjectCard card={projectCards[3]} class="aspect-[557/400] w-full lg:aspect-auto lg:h-[400px] lg:w-[557px] lg:shrink-0" />
         </div>
       </div>
     </section>
@@ -103,7 +142,7 @@ const heroFanHeight = Math.max(...heroCovers.map((c) => c.top + c.height));
     <div class="flex flex-col gap-[var(--spacing-2xlg)]">
       {
         testimonials.map((t) => (
-          <div data-testimonial class="scroll-reveal testimonial-card flex w-[640px] flex-col gap-[var(--spacing-md)] rounded-[var(--radius-xl)] p-[var(--spacing-lg)]">
+          <div data-testimonial class="scroll-reveal testimonial-card flex w-full max-w-[640px] flex-col gap-[var(--spacing-md)] rounded-[var(--radius-xl)] p-[var(--spacing-lg)]">
             <p class="text-style-body text-[var(--color-text-primary)]" set:html={`&ldquo;${renderHighlight(t.quote)}&rdquo;`} />
             <div class="flex items-center gap-[var(--spacing-xmd)]">
               <img src={t.avatar} alt="" class="size-20 rounded-full object-cover" />
@@ -150,9 +189,12 @@ const heroFanHeight = Math.max(...heroCovers.map((c) => c.top + c.height));
   </section>
 
   <!-- COMPANIES -->
-  <section class="mx-auto flex max-w-[1440px] flex-col items-center gap-[var(--spacing-xmd)] px-4 pt-[var(--spacing-2xlg)] pb-[192px]">
+  <section class="mx-auto flex max-w-[1440px] flex-col items-center gap-[var(--spacing-xmd)] px-4 pt-[var(--spacing-2xlg)] pb-[var(--spacing-2xlg)] lg:pb-[192px]">
     <p class="text-style-subheading text-black">Some companies I've worked with</p>
-    <div class="flex items-center gap-[var(--spacing-xlg)]">
+    <!-- Fixed-width logos in a non-wrapping row overflowed below their
+         combined width (~850px); wraps onto multiple lines on mobile/tablet
+         instead — logo sizes themselves are untouched. -->
+    <div class="flex flex-wrap items-center justify-center gap-[var(--spacing-md)] lg:flex-nowrap lg:gap-[var(--spacing-xlg)]">
       {
         companyLogos.map((logo) => (
           <img
@@ -221,6 +263,9 @@ const heroFanHeight = Math.max(...heroCovers.map((c) => c.top + c.height));
     }, 100);
     requestAnimationFrame(() => fan.classList.add("is-mounted"));
 
+    // Reads each card's real on-screen position, whichever layout mode is
+    // active (mobile's flow stack or desktop's absolute canvas) — works
+    // unchanged either way.
     function measure() {
       cards.forEach((card, i) => {
         const r = card.getBoundingClientRect();

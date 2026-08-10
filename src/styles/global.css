@@ -94,19 +94,29 @@
   --font-body: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
 
   /* Type — scale. h1 is the one size Figma's "Mobile" variable mode
-     actually overrides in the case study frames. Intro was 20px on desktop
+     actually overrides in the case study frames — h2–h4 aren't used in the
+     case study template itself and have only ever had a single constant
+     value in the design system, no separate mobile size at all. That was
+     fine while nothing but the case study existed, but Home and About both
+     lean on h2/h3 for their big section headings, and rendering those at
+     the flat desktop size on a real phone read oversized (Sarah flagged
+     this directly, 2026-08-10, comparing against the case study which
+     never hits this since it only ever uses h1/intro). Since there's no
+     Figma mobile value to defer to here, these follow the same mobile-first
+     step-down h1 already uses, sized so each level stays clearly bigger
+     than the one below it (down to `intro` at 18px) without inventing a
+     new ratio per level — desktop values (in the min-width:1024px block
+     below) are unchanged, already-shipped sizes. Intro was 20px on desktop
      in Figma, but that read too large on a real laptop screen, so it's
-     pinned to the 18px mobile value at every width instead. h2–h4 aren't
-     used in the template itself and don't vary, so they're kept constant
-     at the value read from the design-system file. */
+     pinned to the 18px mobile value at every width instead. */
   --font-size-h1: 32px;
   --line-height-h1: 48px;
-  --font-size-h2: 48px;
-  --line-height-h2: 56px;
-  --font-size-h3: 32px;
-  --line-height-h3: 40px;
-  --font-size-h4: 24px;
-  --line-height-h4: 32px;
+  --font-size-h2: 28px;
+  --line-height-h2: 36px;
+  --font-size-h3: 24px;
+  --line-height-h3: 32px;
+  --font-size-h4: 20px;
+  --line-height-h4: 28px;
   --font-size-intro: 18px;
   --line-height-intro: 28px;
   --font-size-subheading: 16px;
@@ -142,6 +152,12 @@
   :root {
     --font-size-h1: 64px;
     --line-height-h1: 72px;
+    --font-size-h2: 48px;
+    --line-height-h2: 56px;
+    --font-size-h3: 32px;
+    --line-height-h3: 40px;
+    --font-size-h4: 24px;
+    --line-height-h4: 32px;
   }
 }
 
@@ -345,6 +361,33 @@ body {
   box-shadow: 4px 8px 40px 8px var(--color-grey-300);
 }
 
+/* Home hero fan (index.astro) — mobile/tablet: a plain vertical flex stack
+   in normal document flow (Sarah's call, 2026-08-10; an earlier pass tried
+   shrinking the desktop composition to fit instead, which still read as a
+   tiny horizontal fan rather than an actual mobile layout). Desktop
+   (min-width:1024px, the same breakpoint the rest of the page uses):
+   switches to the original fixed absolute-positioned canvas, sized off
+   --fan-native-w/-h (set inline from real Figma-derived values in
+   index.astro — the fan deliberately bleeds past the 846px header text
+   column, so it can't be pure CSS with no JS-known values) and centered
+   with a plain margin-inline: auto now that nothing needs to compose with
+   a scale transform. */
+.hero-fan {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+@media (min-width: 1024px) {
+  .hero-fan {
+    display: block;
+    position: relative;
+    width: var(--fan-native-w);
+    height: var(--fan-native-h);
+    margin-inline: auto;
+  }
+}
+
 /* Mobile nav (Navigation.astro) — full-screen opaque takeover, matching the
    pattern at figma.com/resource-library/design-tokens on mobile (Sarah's
    reference): nothing of the page shows through behind it, unlike the
@@ -446,8 +489,17 @@ body.nav-open {
    index.astro from Figma-real values); --offset-x/--offset-y/--velocity are
    written every frame by the spring-physics script in index.astro. Easing is
    --ease-bounce (see :root) — copied verbatim from spencergabor.work's real
-   CSS (a bounce/overshoot curve), not approximated. */
+   CSS (a bounce/overshoot curve), not approximated.
+
+   Position/size: mobile/tablet is a plain flow item, full width up to a
+   comfortable max, height from its own aspect-ratio (--card-w/--card-h,
+   also set inline, only consumed here at 1024px+). Desktop restores the
+   original fixed absolute canvas position via --card-top/--card-left —
+   unchanged from before the mobile/tablet pass. */
 .hero-card {
+  position: relative;
+  width: 100%;
+  max-width: 300px;
   rotate: calc(var(--rotate-base, 0) * 1deg - var(--velocity, 0) * 0.25deg);
   translate: calc(var(--offset-x, 0) * 1px) calc(var(--offset-y, 0) * 1px);
   scale: 0;
@@ -456,6 +508,17 @@ body.nav-open {
 }
 [data-hero-fan].is-mounted .hero-card {
   scale: 1;
+}
+@media (min-width: 1024px) {
+  .hero-card {
+    position: absolute;
+    top: var(--card-top);
+    left: var(--card-left);
+    width: var(--card-w);
+    height: var(--card-h);
+    max-width: none;
+    aspect-ratio: auto;
+  }
 }
 
 /* Tile hover-lift: a clearly-visible bounce/pop upward using the same real
