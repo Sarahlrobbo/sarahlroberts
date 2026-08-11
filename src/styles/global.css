@@ -583,6 +583,88 @@ body.nav-open {
 @media (min-width: 640px) {
   .project-tile {
     flex: 1 1 0%;
+    /* Overrides the unconditional aspect-[…] Tailwind class from
+       index.astro (still needed as a mobile floor below 640px). Per spec,
+       align-items: stretch is a no-op on a flex/grid item that has
+       aspect-ratio set — the browser uses the aspect-ratio-derived height
+       outright and ignores stretch. First pass here kept aspect-ratio
+       active through this tier and `.project-row { align-items: stretch }`
+       (below) silently did nothing — confirmed by measuring actual
+       rendered heights, not by eyeballing it. Neutralizing it here lets
+       stretch (and the grid-stacked photo/hover-panel content inside each
+       tile, see ProjectCard.astro) actually drive the height. */
+    aspect-ratio: auto;
+  }
+  /* CaseStudyImage sets `aspect-ratio` as an inline style (from its own
+     `image.aspect` prop) — inline styles beat any external class without
+     !important, so this is the only way to let the photo stretch past its
+     own natural ratio and fill the tile once the tile is taller than that
+     ratio (see the comment on this element in ProjectCard.astro for why
+     that happens at this tier and not at desktop). */
+  .project-tile-photo {
+    aspect-ratio: auto !important;
+  }
+  /* Real regression (2026-08-11, Sarah: "YOU BROKE DESKTOP!!!!", screenshot
+     at ~1400px — a completely ordinary laptop window width, still inside
+     this tier since it's short of the 1440 cutoff). Removing aspect-ratio
+     above made height PURELY content-driven with no floor at all — fine at
+     narrow tablet widths, where content always needs more room than the
+     original ratio gave anyway, but wrong once the column gets wide enough
+     that hover text wraps to fewer lines: content-driven height then
+     shrinks *below* the real Figma height, well before 1440px, and the
+     photo crops much tighter than intended (confirmed: 624×252 at 1400px,
+     a 2.48 ratio, vs. the real 624×460 — the "Growing FarmIQ's Design
+     Team" characters were losing their tops). min-height doesn't have
+     aspect-ratio's problem of blocking stretch, so it can restore each
+     card's real Figma height as a floor — content can still push a card
+     taller (min-height and auto-height combine as whichever is larger),
+     but it can no longer make one shorter than its designed size. */
+  .project-row:nth-of-type(1) .project-tile:not(.project-tile-fill) {
+    min-height: 400px;
+  }
+  .project-tile-fill {
+    min-height: 460px;
+  }
+  .project-row:nth-of-type(2) .project-tile:nth-child(1) {
+    min-height: 460px;
+  }
+  .project-row:nth-of-type(2) .project-tile:nth-child(2) {
+    min-height: 400px;
+  }
+}
+/* Row-mate height matching — REVERTED (2026-08-11, later the same day).
+   Originally added so a card whose hover content overflowed its floor
+   wouldn't leave its shorter row-mate looking gapped — but `align-items:
+   stretch` doesn't distinguish "content genuinely needs more room" from
+   "default state, nothing hovering": it force-matched EVERY row-mate's
+   height ALL the time, which is exactly what made the grid read as
+   uniform/boring well before 1440px ("Tiles are a boring grid on desktop
+   ... I've told you 2 times", 2026-08-11). Row 1 has never stretched at
+   desktop (its 400/460 Figma heights sit side by side via plain
+   `items-center`, unchanged all session) and nobody's ever flagged that as
+   a problem — so the fix is to let every tier behave like desktop already
+   does: each card sizes independently off its own min-height floor (see
+   above) plus its own content, no forced matching. On the rare occasion
+   hover content actually pushes one card past its row-mate, the shorter
+   one just centers in the row per the base `items-center` class, same as
+   row 1 always has — a real but minor tradeoff against the alternative of
+   the whole grid reading as flat and repetitive by default. */
+@media (min-width: 640px) and (max-width: 1439px) {
+  /* "Helping Farmers Thrive" needs a taller dark band here than its
+     card.scrim gives it (calc(100% - 88px)/(100% - 46px) — sized in
+     lib/home.ts for the title's real height, mostly reverse-engineered
+     from Figma's original desktop percentages). That's fine at desktop,
+     where the title stays within 2 lines, but at tablet widths the same
+     title wraps to 3 lines (measured 116px tall, not ~88px), so the top
+     line ("Helping Farmers") sat above the dark region entirely, over
+     bare photo (Sarah screenshotted this, 2026-08-11 — circled the top
+     line specifically, said the other card was fine). !important because
+     card.scrim renders as an inline `style`, which normally beats any
+     external class. Scoped to this tier only (not desktop, where the
+     shorter original band is correct and unchanged) — see the min+max
+     note above for why an explicit range, not cascade order. */
+  .project-row:nth-of-type(1) .project-tile:nth-child(2) .project-tile-scrim {
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.5) calc(100% - 160px), rgba(40, 49, 50, 0.5) calc(100% - 70px)) !important;
   }
 }
 @media (min-width: 1440px) {
@@ -603,7 +685,7 @@ body.nav-open {
     height: 460px;
   }
   .project-row:nth-of-type(2) .project-tile:nth-child(2) {
-    width: 557px;
+    width: 613px;
     height: 400px;
   }
 }

@@ -140,12 +140,18 @@ const heroFanWidth = Math.max(...heroCovers.map((c) => c.left + c.width)) - hero
           <ProjectCard card={projectCards[0]} class="project-tile aspect-[613/400] w-full" />
           <ProjectCard card={projectCards[1]} class="project-tile project-tile-fill aspect-[635/460] w-full" />
         </div>
-        <div class="project-row flex w-full flex-col items-center gap-[var(--spacing-md)] sm:flex-row min-[1440px]:justify-center min-[1440px]:gap-[var(--spacing-xlg)]">
+        <!-- justify-between: row 2's two cards (624 + 613 = 1237px) are
+             still narrower than row 1's combined 1312px, so -between keeps
+             both cards' own sizes untouched and puts the remaining 75px of
+             slack into the gap between them, landing flush with row 1's
+             edges either way. Much closer to row 1's own 64px gap now that
+             MSC matches DataPay's box (see the aspect comment on this card
+             in lib/home.ts) — before that it was 131px short, not 75. -->
+        <div class="project-row flex w-full flex-col items-center gap-[var(--spacing-md)] sm:flex-row min-[1440px]:justify-between min-[1440px]:gap-[var(--spacing-xlg)]">
           <ProjectCard card={projectCards[2]} class="project-tile aspect-[624/460] w-full" />
-          <!-- 557x400 per Sarah's Figma link (node 123:220206, the "Project
-               Cover" instance's real box size) — she called this MSC's
-               correct size after flagging its previous box (624/635) as too big. -->
-          <ProjectCard card={projectCards[3]} class="project-tile aspect-[557/400] w-full" />
+          <!-- 613x400 — matches DataPay's box exactly, see the aspect
+               comment on this card in lib/home.ts for why. -->
+          <ProjectCard card={projectCards[3]} class="project-tile aspect-[613/400] w-full" />
         </div>
       </div>
     </section>

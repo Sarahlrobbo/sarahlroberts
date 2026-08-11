@@ -97,7 +97,19 @@ export const projectCards: ProjectCard[] = [
     logoWidth: 140,
     logoHeight: 28,
     textTone: "light",
-    scrim: "linear-gradient(to bottom, rgba(255,255,255,0.5) 80.9%, rgba(40,49,50,0.5) 90.1%)",
+    // calc(), not the original Figma percentages (80.9%/90.1%) — those are
+    // percentages of the box's OWN height, correct only at the 460px
+    // desktop box they were measured against. The title band underneath
+    // this scrim is a fixed 96px regardless of box height, but tablet's
+    // box is much shorter (aspect-ratio-driven, ~260-290px), so the same
+    // percentages squeeze the dark region down to a ~26px sliver — well
+    // short of the 96px band, leaving the title's top line over bare photo
+    // (Sarah: "It's unreadable now", 2026-08-11, tablet screenshot).
+    // calc(100% - Npx) keeps the dark region's real pixel height constant
+    // — reverse-engineered from the original percentages at 460px (0.909
+    // dark-start ≈ 88px from bottom, 0.099 dark-end ≈ 46px) — so it covers
+    // the same real footprint at any box height, tablet included.
+    scrim: "linear-gradient(to bottom, rgba(255,255,255,0.5) calc(100% - 88px), rgba(40,49,50,0.5) calc(100% - 46px))",
     hover: {
       color: "#3d2df7",
       opacity: 0.98,
@@ -124,6 +136,17 @@ export const projectCards: ProjectCard[] = [
     href: "/case-studies/design-leadership",
     src: "/images/home/covers/farmiq-design-team.png",
     alt: "FarmIQ design team case study cover",
+    // 624/460 — deliberately smaller than Figma's real 691/509 (node
+    // 123:220205, "Frame 45" in the 3-row/6-card grid there). Tried the
+    // real Figma size 2026-08-11 while chasing a row-2 edge-alignment
+    // complaint, since 691+64+557 happens to sum to exactly row 1's 1312px
+    // — but Sarah called that out immediately: this card being smaller
+    // than row 1's cards, with row 2 reading as a narrower, offset block,
+    // is deliberate composition (this trimmed 4-card go-live grid doesn't
+    // map to any single real Figma row anyway — it pairs cards from two
+    // different Figma rows once Hatch/Metlink are cut). Reverted. Edge
+    // alignment against row 1 is handled with `justify-between` on
+    // `.project-row` in index.astro instead of resizing this card.
     aspect: "624/460",
     logoSrc: "/images/farmiq-thrive/farmiq-logo-white.svg",
     logoAlt: "FarmIQ",
@@ -131,7 +154,14 @@ export const projectCards: ProjectCard[] = [
     logoWidth: 140,
     logoHeight: 28,
     textTone: "light",
-    scrim: "linear-gradient(to bottom, rgba(255,255,255,0.5) 66.3%, rgba(106,106,114,0.5) 84.1%)",
+    // calc(), not the original Figma percentages (66.3%/84.1%) — same fix
+    // as "Helping Farmers Thrive" above, same reason: those percentages
+    // are only correct at the 460px desktop box they were measured
+    // against. Reverse-engineered to fixed pixels from bottom (0.337 dark-
+    // start ≈ 155px, 0.159 dark-end ≈ 73px) so the dark region's real
+    // height holds constant at any box height instead of shrinking to an
+    // unreadable sliver on tablet.
+    scrim: "linear-gradient(to bottom, rgba(255,255,255,0.5) calc(100% - 155px), rgba(106,106,114,0.5) calc(100% - 73px))",
     hover: {
       color: "#ffb2ea",
       opacity: 0.98,
@@ -156,8 +186,16 @@ export const projectCards: ProjectCard[] = [
     // other four) — left as a placeholder rather than guessing which of the
     // dozen raw screenshots in there is meant to be the composite cover.
     alt: "Plan My Walk / MSC Outdoor Safety case study cover",
-    // Matches the card's real box size (557x400), see index.astro.
-    aspect: "557/400",
+    // 613/400 — matches DataPay's box (index.astro row 1) exactly. Was
+    // 557/400 (Sarah's own earlier correction, at the time read off a
+    // Figma "Project Cover" instance that turned out on closer look to be
+    // the paused Hatch card sharing that row, not this one — an easy mix-up
+    // since every cover instance in that frame is generically named
+    // "Project Cover"). Sized off DataPay directly instead, 2026-08-11:
+    // Sarah circled the two and asked for them to match, which also closes
+    // most of row 2's oversized middle gap (624+64+613=1301, within 11px of
+    // row 1's 1312 instead of 131px short).
+    aspect: "613/400",
     // MSC Outdoor Safety logo — swapped 2026-08-09 to Sarah's own
     // "Company-MSC.svg" export (icon + wordmark, same file used in the
     // companies row below), replacing the old fuller council lockup PNG.

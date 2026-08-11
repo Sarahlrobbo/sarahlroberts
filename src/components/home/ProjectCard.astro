@@ -49,12 +49,31 @@ const logoBottomOffset = card.logoSrc ? `calc((var(--spacing-2xlg) - ${card.logo
 
 <a
   href={card.href}
-  class={`tile-hover-bounce group relative block overflow-hidden rounded-[var(--radius-l)] ${className}`}
+  class={`tile-hover-bounce group relative grid overflow-hidden rounded-[var(--radius-l)] ${className}`}
 >
-  <CaseStudyImage image={{ src: card.src, alt: card.alt, aspect: card.aspect }} class="absolute inset-0 size-full" />
+  <!-- `[grid-area:1/1]` (a grid item, not `absolute inset-0`) so it sits in
+       the same cell as the hover panel below. `project-tile-photo` is a
+       hook for global.css: CaseStudyImage's own root div always sets an
+       inline `aspect-ratio` style from `image.aspect` (used here as a
+       height floor at desktop, where the outer tile's explicit height and
+       this aspect-ratio agree exactly, by construction — same numbers,
+       both read off Figma). At tablet the tile's real height instead comes
+       from hover content (see the panel below) and is usually taller than
+       that ratio allows — an inline style beats `align-items: stretch`
+       every time (a plain class can't outrank it without `!important`),
+       so without the override below the photo just stops short of the
+       tile's real height, leaving blank space beneath it (Sarah flagged
+       this, 2026-08-11 — screenshotted the gap under the DataPay
+       illustration once tiles started growing for hover content). -->
+  <CaseStudyImage image={{ src: card.src, alt: card.alt, aspect: card.aspect }} class="project-tile-photo [grid-area:1/1] w-full" />
   {
     card.scrim && (
-      <div class="pointer-events-none absolute inset-0 mix-blend-multiply" style={`background: ${card.scrim};`} />
+      // project-tile-scrim: hook for a per-card !important override in
+      // global.css (inline `style` always wins over a plain class) — see
+      // the "Helping Farmers Thrive" override there for why one card
+      // needed a taller tablet-only dark band than its own `card.scrim`
+      // gives it.
+      <div class="project-tile-scrim pointer-events-none absolute inset-0 mix-blend-multiply" style={`background: ${card.scrim};`} />
     )
   }
 
@@ -67,16 +86,72 @@ const logoBottomOffset = card.logoSrc ? `calc((var(--spacing-2xlg) - ${card.logo
     <p class={`text-style-h4 ${textColor}`}>{card.title}</p>
   </div>
 
-  <!-- Hover state: accent panel + description + tags -->
+  <!-- Hover state: accent panel + description + tags. `[grid-area:1/1]`
+       instead of `absolute inset-0` — this is the one layer that needs to
+       actually PARTICIPATE in the tile's sizing rather than just fill it:
+       at tablet/mobile the tile's height is aspect-ratio-only, with nothing
+       to stop long descriptions/many tags overflowing and getting clipped
+       by `overflow-hidden` above (Sarah flagged this, 2026-08-11 — "if the
+       content is too much to fit... make the tile taller"). Making `<a>` a
+       grid container and this panel its sole grid item means the grid's
+       auto row-track sizes to this panel's real content height when that's
+       taller than the photo's aspect-ratio would otherwise give — then
+       default `align-items: stretch` fills the panel back out to whatever
+       height that resolves to, so it still always reads as a full-bleed
+       colour panel, never a content-height island. Desktop (1440px+,
+       .project-tile in global.css) still sets an explicit height, which
+       always wins outright regardless of content — verified none of the
+       four cards' hover content exceeds their real Figma height there, so
+       desktop is visually unchanged.
+
+       `relative` here (not just `[grid-area:1/1]`) matters for a subtler
+       reason: CaseStudyImage's own root div hardcodes `position: relative`
+       (it's shared with the case-study pages), which promotes the photo
+       into the browser's "positioned elements" paint layer — that layer
+       always paints above plain in-flow/static content, REGARDLESS of DOM
+       order. Without this, the photo (painted in that later layer) covered
+       the hover panel (left static) even though the panel comes later in
+       the markup — confirmed by hovering for real and finding
+       `document.elementFromPoint` still returned the photo's `<img>`
+       through the supposedly-visible panel. Giving the panel `relative`
+       too puts it in the same paint layer as the photo, where DOM order
+       (panel after photo) decides — restoring the intended stacking. -->
   <div
-    class="absolute inset-0 flex flex-col items-center justify-between p-[var(--spacing-xmd)] opacity-0 transition-opacity duration-300 ease-[var(--ease-reveal)] group-hover:opacity-100"
+    class="relative [grid-area:1/1] flex min-w-0 flex-col items-center justify-between gap-[var(--spacing-sm)] p-[var(--spacing-xmd)] opacity-0 transition-opacity duration-300 ease-[var(--ease-reveal)] group-hover:opacity-100"
     style={`background: ${hoverBg};`}
   >
-    <div class="flex flex-1 items-center px-[var(--spacing-xmd)] pt-[var(--spacing-xmd)]">
-      <p class={`w-3/4 text-style-body-semibold ${hoverTextColor}`}>{card.hover.description}</p>
+    <div class="flex min-w-0 flex-1 items-center px-[var(--spacing-xmd)] pt-[var(--spacing-xmd)]">
+      {
+        /* w-full below 1440px, not the Figma-original w-3/4 everywhere —
+           at tablet the card itself is already narrow (its width comes
+           from splitting the row 50/50, see .project-tile in global.css),
+           so 3/4 of that squeezed the description column down to ~243px,
+           wrapping to as few as 3-4 words/line (Sarah's guidance: copy
+           reads best around 6-8 words/line). w-3/4 still applies at
+           1440px+ where the desktop box has room to spare — unaffected. */
+      }
+      <p class={`w-full text-style-body-semibold min-[1440px]:w-3/4 ${hoverTextColor}`}>{card.hover.description}</p>
     </div>
-    <div class="flex w-full items-end pl-[var(--spacing-xmd)]" style={`padding-right: ${logoGutter};`}>
-      <div class="flex flex-wrap items-center gap-[var(--spacing-xs)]">
+    {
+      /* min-w-0 above and on the two rows below: flex items default to
+         min-width:auto, not 0 — without overriding it, a child that can't
+         shrink below its own content (the tag pills just below are
+         shrink-0 + whitespace-nowrap by design, so they wrap onto new
+         lines instead of squashing) forces that overflow back up through
+         every ancestor flex container that also defaults to min-width:auto,
+         including this SIBLING description block, even though nothing
+         about the description itself needed the extra room. That's what
+         was pushing the copy past the tile's right edge to get clipped by
+         its overflow-hidden (Sarah flagged this, 2026-08-11, tablet
+         screenshot — "needs padding on the right side"). gap-[…-sm] above
+         is the fix for her other note in the same message, spacing between
+         the copy and the tags — panel height is content-driven now (see
+         the [grid-area:1/1] comment above), so with no explicit gap
+         there's nothing forcing space between them once content fits
+         exactly. */
+    }
+    <div class="flex w-full min-w-0 items-end pl-[var(--spacing-xmd)]" style={`padding-right: ${logoGutter};`}>
+      <div class="flex min-w-0 flex-wrap items-center gap-[var(--spacing-xs)]">
         {
           card.hover.tags.map((tag) => (
             <span
