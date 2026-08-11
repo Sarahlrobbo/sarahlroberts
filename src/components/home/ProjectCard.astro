@@ -78,9 +78,17 @@ const logoBottomOffset = card.logoSrc ? `calc((var(--spacing-2xlg) - ${card.logo
   }
 
   <!-- Default state: title, bottom-anchored but vertically centered within a
-       fixed 2-line band so 1-line and 2-line titles both align with the logo -->
+       fixed 2-line band so 1-line and 2-line titles both align with the logo.
+       project-tile-title-row: hook for a mobile-only padding-right override
+       in global.css — this row's own logoGutter reserves space for the
+       logo at its FULL (unscaled) width, but .project-tile-logo's
+       transform: scale(0.75) on mobile only changes paint, not layout, so
+       on mobile this was reserving ~35px more than the logo actually
+       occupies there, taking width straight out of the title column (Sarah,
+       2026-08-11 — wanted "Helping Farmers Thrive" and "Growing FarmIQ's
+       Design Team" to wrap to 3 lines instead of 4). -->
   <div
-    class="absolute inset-x-0 bottom-0 flex min-h-[var(--spacing-2xlg)] items-center p-[var(--spacing-xmd)] opacity-100 transition-opacity duration-300 ease-[var(--ease-reveal)] group-hover:opacity-0"
+    class="project-tile-title-row absolute inset-x-0 bottom-0 flex min-h-[var(--spacing-2xlg)] items-center p-[var(--spacing-xmd)] opacity-100 transition-opacity duration-300 ease-[var(--ease-reveal)] group-hover:opacity-0"
     style={`padding-right: ${logoGutter};`}
   >
     <p class={`text-style-h4 ${textColor}`}>{card.title}</p>
@@ -117,7 +125,7 @@ const logoBottomOffset = card.logoSrc ? `calc((var(--spacing-2xlg) - ${card.logo
        too puts it in the same paint layer as the photo, where DOM order
        (panel after photo) decides — restoring the intended stacking. -->
   <div
-    class="relative [grid-area:1/1] flex min-w-0 flex-col items-center justify-between gap-[var(--spacing-sm)] p-[var(--spacing-xmd)] opacity-0 transition-opacity duration-300 ease-[var(--ease-reveal)] group-hover:opacity-100"
+    class="project-tile-hover-panel relative [grid-area:1/1] flex min-w-0 flex-col items-center justify-between gap-[var(--spacing-sm)] p-[var(--spacing-xmd)] opacity-0 transition-opacity duration-300 ease-[var(--ease-reveal)] group-hover:opacity-100"
     style={`background: ${hoverBg};`}
   >
     <div class="flex min-w-0 flex-1 items-center px-[var(--spacing-xmd)] pt-[var(--spacing-xmd)]">
@@ -165,14 +173,22 @@ const logoBottomOffset = card.logoSrc ? `calc((var(--spacing-2xlg) - ${card.logo
     </div>
   </div>
 
-  <!-- Logo: fixed in place, present in both states, never re-rendered on hover -->
+  <!-- Logo: fixed in place, present in both states, never re-rendered on hover.
+       project-tile-logo: hook for a mobile-only `transform: scale()` in
+       global.css (Sarah, 2026-08-11 — "25% smaller" on mobile). Scaling
+       rather than shrinking width/height directly means it doesn't need
+       !important to beat this element's own inline style, and with
+       transform-origin set to the same bottom-right corner this logo is
+       already anchored to (via `right`/`bottom` below), it shrinks toward
+       that corner instead of its center — keeping the corner it's meant to
+       align with visually fixed instead of introducing an uneven gap. -->
   {
     card.logoSrc && (
       <img
         src={card.logoSrc}
         alt={card.logoAlt}
         style={`width: ${card.logoWidth}px; height: ${card.logoHeight}px; bottom: ${logoBottomOffset};`}
-        class="pointer-events-none absolute right-[var(--spacing-xmd)] z-10 object-contain"
+        class="project-tile-logo pointer-events-none absolute right-[var(--spacing-xmd)] z-10 object-contain"
       />
     )
   }

@@ -580,6 +580,95 @@ body.nav-open {
    index.astro, unchanged) drives its height below 1440px; the four
    fixed-px sizes here are the real Figma box sizes, restored only once
    there's enough room (1440px, same ceiling as the hero fan). */
+/* Mobile-only (2026-08-11, Sarah): tiles should read as roughly 1:1
+   (portrait-ish square, same idea as tablet) instead of the Figma landscape
+   ratios these aspect-[…] classes give at every other tier — and since
+   mobile is touch-only (no real `:hover`), there's no hover-content-height
+   concern here the way there is at tablet, so a plain fixed ratio is
+   enough; no min-height floor or grid-stacking needed. Same trick as the
+   tablet/desktop overrides below: a plain `.project-tile` class placed
+   after Tailwind's own `@import` in the cascade beats the aspect-[…]
+   utility class at equal specificity, no !important needed. Logo also
+   shrinks 25% here — see the comment on .project-tile-logo in
+   ProjectCard.astro. */
+@media (max-width: 639px) {
+  .project-tile {
+    aspect-ratio: 1 / 1;
+  }
+  /* Same reason as the tablet-tier .project-tile-photo override further
+     down: the photo has its own (now-mismatched, landscape) aspect-ratio
+     from CaseStudyImage's inline style, which blocks `stretch` the same
+     way here as it does there — without this, the photo stops short of
+     the new square tile, leaving blank space below it. */
+  .project-tile-photo {
+    aspect-ratio: auto !important;
+  }
+  .project-tile-logo {
+    transform: scale(0.75);
+    transform-origin: bottom right;
+  }
+  /* The hover panel (description + tags) is invisible on mobile — real
+     touch devices never trigger CSS :hover — but it was still a live grid
+     item (`[grid-area:1/1]`) contributing its own min-content to this
+     tile's internal grid-track sizing regardless of opacity, the same way
+     it does at tablet (see the comment on it in ProjectCard.astro). With
+     nothing on mobile relying on that anymore (no min-height floor, no
+     hover-triggered growth), that stopped being useful and started being
+     harmful: it was inflating the photo's own laid-out size past the
+     square tile's real 358px, well beyond what aspect-ratio:auto + stretch
+     alone would give it. display:none removes it from grid layout
+     entirely, so only the photo (and the always-absolute default
+     title/logo/scrim) determine sizing here. */
+  .project-tile-hover-panel {
+    display: none;
+  }
+  /* Same title-wrap problem as the tablet-tier override further down
+     (search "Helping Farmers Thrive" there for the full story) — this
+     card's title needs a taller dark band than the base card.scrim's ~88px
+     gives it. "Growing FarmIQ's Design Team" isn't included here: its base
+     scrim already starts fading at 155px, comfortably covering its title,
+     so it doesn't need an override at this tier either (matches Sarah's
+     tablet-tier note that it was "fine" there for the same reason).
+
+     Two separate things went wrong here, fixed in two separate passes:
+     the dark colour was near-black, not this grey (fixed — see
+     lib/home.ts's own scrim, this override just needed to match). Then,
+     independently, the fade between the two stops kept getting compressed
+     down to 10px (130px/120px) while chasing "the top line reads as
+     washed out" — that made it read as a harsh hard-edged block once the
+     colour was right too, not a gradient at all. "Growing FarmIQ's Design
+     Team" was never touched and still uses its original base scrim
+     (155px/73px, an 82px fade) — that's WHY it reads as soft: the
+     transition is long, not because of anything about its size or
+     position. 210px/120px keeps the same 120px dark-stop (still the 4px
+     margin over the real 116px title — the one thing that can't move
+     without the top line going unreadable again) but widens the fade to
+     90px, matching that card's actual softness instead of its color alone. */
+  .project-row:nth-of-type(1) .project-tile:nth-child(2) .project-tile-scrim {
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.5) calc(100% - 210px), rgba(106, 106, 114, 0.5) calc(100% - 120px)) !important;
+  }
+  /* Recomputed padding-right per card: scaled logo width (its real
+     card.logoWidth × 0.75, matching .project-tile-logo's transform above)
+     + 24px gap, instead of the unscaled logoWidth + 24px the inline
+     logoGutter style still reserves (see the comment on
+     .project-tile-title-row in ProjectCard.astro). !important for the same
+     inline-style-beats-class reason as the other overrides in this file.
+     Card-by-card because each has its own real logo width:
+       row 1: DataPay 80→60px scaled (84px), FarmIQ 140→105px (129px)
+       row 2: FarmIQ 140→105px (129px), MSC 70→52.5px (77px) */
+  .project-row:nth-of-type(1) .project-tile:nth-child(1) .project-tile-title-row {
+    padding-right: 84px !important;
+  }
+  .project-row:nth-of-type(1) .project-tile:nth-child(2) .project-tile-title-row {
+    padding-right: 129px !important;
+  }
+  .project-row:nth-of-type(2) .project-tile:nth-child(1) .project-tile-title-row {
+    padding-right: 129px !important;
+  }
+  .project-row:nth-of-type(2) .project-tile:nth-child(2) .project-tile-title-row {
+    padding-right: 77px !important;
+  }
+}
 @media (min-width: 640px) {
   .project-tile {
     flex: 1 1 0%;
@@ -662,9 +751,18 @@ body.nav-open {
      card.scrim renders as an inline `style`, which normally beats any
      external class. Scoped to this tier only (not desktop, where the
      shorter original band is correct and unchanged) — see the min+max
-     note above for why an explicit range, not cascade order. */
+     note above for why an explicit range, not cascade order.
+
+     Same fix as the mobile-tier copy of this override (search "hard-edged
+     block" there for the full story): the dark colour being near-black was
+     one bug (fixed, now matches "Growing FarmIQ's Design Team"'s grey),
+     and separately, compressing the fade to 10px while chasing title
+     coverage made it read as a harsh block regardless of colour — that
+     card's actual softness comes from its 82px fade, never touched.
+     210px/120px keeps the same 120px dark-stop (4px margin over the real
+     116px title) but widens the fade to 90px to match. */
   .project-row:nth-of-type(1) .project-tile:nth-child(2) .project-tile-scrim {
-    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.5) calc(100% - 160px), rgba(40, 49, 50, 0.5) calc(100% - 70px)) !important;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.5) calc(100% - 210px), rgba(106, 106, 114, 0.5) calc(100% - 120px)) !important;
   }
 }
 @media (min-width: 1440px) {

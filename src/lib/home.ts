@@ -109,7 +109,20 @@ export const projectCards: ProjectCard[] = [
     // — reverse-engineered from the original percentages at 460px (0.909
     // dark-start ≈ 88px from bottom, 0.099 dark-end ≈ 46px) — so it covers
     // the same real footprint at any box height, tablet included.
-    scrim: "linear-gradient(to bottom, rgba(255,255,255,0.5) calc(100% - 88px), rgba(40,49,50,0.5) calc(100% - 46px))",
+    //
+    // Dark colour rgb(106,106,114), not the original rgb(40,49,50) — that
+    // was near-black, and even at the same 0.5 opacity, mix-blend-multiply
+    // against a near-black colour reads far harsher than against a mid
+    // grey (the alpha only interpolates toward the blend colour, it
+    // doesn't soften how dark that colour itself is). Matched to "Growing
+    // FarmIQ's Design Team" below, which uses this same grey and which
+    // Sarah pointed to directly as the softer, correct-looking one
+    // (2026-08-11 — "Even desktop gradient is too harsh... that's much
+    // better"). This is the base value so it's desktop's colour too, not
+    // just a tablet/mobile override — those two tiers have their own
+    // position-only calc() overrides in global.css that inherited the same
+    // wrong colour and needed the identical fix.
+    scrim: "linear-gradient(to bottom, rgba(255,255,255,0.5) calc(100% - 88px), rgba(106,106,114,0.5) calc(100% - 46px))",
     hover: {
       color: "#3d2df7",
       opacity: 0.98,
