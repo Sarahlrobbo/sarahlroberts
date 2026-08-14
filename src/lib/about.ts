@@ -243,7 +243,7 @@ export interface BioPhoto {
 // Order + tooltip captions reference-matched from sarah-roberts-portfolio-2.
 export const bioPhotos: BioPhoto[] = [
   { src: "/images/about/bio-mountains.png", alt: "Sarah in the mountains", tooltip: "In the mountains" },
-  { src: "/images/about/bio-its-me.png", alt: "Sarah looking fancy", tooltip: "Hi! 👋 Me looking fancy" },
+  { src: "/images/about/bio-me-chch.png", alt: "Sarah smiling by the river in Christchurch", tooltip: "Hi! 👋 That's me" },
   { src: "/images/about/bio-hut.png", alt: "Sarah at a hut", tooltip: "In a hut" },
 ];
 

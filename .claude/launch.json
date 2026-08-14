@@ -3,7 +3,7 @@
   "configurations": [
     {
       "name": "astro-dev",
-      "runtimeExecutable": "npm",
+      "runtimeExecutable": "/Users/sarahlrobbo/.local-tools/node/bin/npm",
       "runtimeArgs": ["run", "dev"],
       "port": 4321
     }
