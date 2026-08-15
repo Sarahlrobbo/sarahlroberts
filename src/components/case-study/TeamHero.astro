@@ -1,0 +1,215 @@
+---
+import type { CaseStudyImage, TeamHeroPerson } from "../../lib/case-study";
+import Navigation from "../Navigation.astro";
+
+interface Props {
+  title: string;
+  authorName: string;
+  background: CaseStudyImage;
+  people: TeamHeroPerson[];
+}
+const { title, authorName, background, people } = Astro.props;
+const titleLines = title.split("\n");
+
+// Evenly split across the board's width — 4 people = column centres at
+// 12.5/37.5/62.5/87.5%. Recompute if `people.length` ever isn't 4.
+const colWidth = 100 / people.length;
+
+// Each avatar's width as a % of the *board's* width (not the viewport) —
+// scales correctly at every breakpoint. 0.56 calibrated against the
+// original desktop pass (200px avatar over a 360px column ≈ 0.56). Doubled
+// at tablet (`sm`–`lg`, 640–1023px) only, per Sarah's explicit call
+// (2026-08-15) — see the `--avatar-w` custom property below for how a
+// per-person computed % survives a responsive override (Tailwind can't
+// build a responsive class straight from an interpolated JS value, but it
+// *can* reference a CSS custom property inside an arbitrary value, and the
+// custom property itself is free to be dynamic).
+const AVATAR_WIDTH_RATIO = 0.56;
+---
+
+<!--
+  One-off hero for Design Leadership (2026-08-15), built after Sarah tried
+  Thrive's photo+device-mockup Cover on her team-retro-board asset and it
+  didn't work: the crop chopped off her 4th column, and stacking a near-
+  identical illustration on top of itself didn't read as "background +
+  screens". This version instead: plain title first (not overlaid on a
+  photo), then the board image, with each teammate's photo parallax-
+  scrolling below it at a different rate than the board scrolls underneath.
+
+  Scoped to this case study only — see the "team" cover variant in
+  lib/case-study.ts. Thrive's Cover.astro is untouched.
+
+  TOTAL HERO HEIGHT must match Thrive's Cover exactly (810px, measured live
+  off Thrive's own `[data-parallax-root]` — Sarah's explicit requirement,
+  2026-08-15). Thrive hits 810 by overlaying its title *on top of* the
+  photo inside one fixed box; this hero can't do that (title sits in normal
+  flow above the board, plain, per Sarah's earlier "remove the photo-
+  overlay treatment" call) — so the budget has to be split instead:
+  measured live at this viewport, Navigation renders 60px and the title
+  block 280px, leaving exactly 470px for the image to hit the same 810
+  total. That 470/810 split only holds at `sm` and up because the title's
+  `max-w-[900px]` doesn't change with viewport width (it wraps to the same
+  2 lines at 900px or 2560px alike) — unlike the board image itself, whose
+  natural height genuinely does scale with viewport width, nav+title's
+  combined height here does not, which is what makes a flat pixel value
+  safe here in a way it wasn't for the image crop in earlier attempts.
+-->
+<div class="relative left-1/2 w-screen -translate-x-1/2 rounded-b-[var(--radius-xl)] bg-[#FFFCF2] lg:rounded-b-[var(--radius-2xlg)]">
+  <Navigation authorName={authorName} />
+
+  <h1 class="text-style-h1 mx-auto max-w-[900px] px-4 pt-[var(--spacing-lg)] pb-[var(--spacing-2xlg)] text-center text-[var(--color-text-primary)] lg:px-0">
+    {titleLines.map((line, i) => (
+      <>
+        {i > 0 && <br />}
+        {line}
+      </>
+    ))}
+  </h1>
+
+  <div data-team-hero-root class="relative overflow-x-auto [-webkit-overflow-scrolling:touch]">
+    {
+      /*
+        Swipe affordance (2026-08-15, Sarah's call: keep the mobile swipe
+        rather than shrink to fit, but make it obvious) — mobile-only
+        (hidden from `sm` up, where the board already fits without
+        scrolling so there's nothing to hint at). Two parts: a fading edge
+        so the cut-off 2nd column visibly peeks in rather than looking like
+        a hard stop, and a small "Swipe" pill with an animated arrow so
+        it's not just a subtle visual cue. `pointer-events-none` on both so
+        neither blocks the actual swipe gesture.
+      */
+    }
+    <div class="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-gradient-to-l from-[#FFFCF2] to-transparent sm:hidden" />
+    <div class="pointer-events-none absolute bottom-4 right-4 z-10 flex items-center gap-[6px] rounded-full bg-[var(--color-text-primary)]/80 px-3 py-[6px] sm:hidden">
+      <span class="text-style-caption not-italic text-[var(--color-text-invert)]">Swipe</span>
+      <span aria-hidden="true" class="animate-[team-hero-swipe-hint_1.4s_ease-in-out_infinite] text-[var(--color-text-invert)]">→</span>
+    </div>
+    <div class="relative w-[1400px] sm:w-full">
+      {
+        /*
+          Everything — image AND the avatar row — lives inside this one
+          clipped box now (2026-08-15, Sarah's explicit call: avatars must
+          stay *within* the 810px total, not add height below it). Avatars
+          are bottom-0 inside this same frame, so they necessarily overlay
+          the board's own bottom-most content rather than sitting in clear
+          space below it — there's no way to satisfy "within 810px" and
+          "never overlap board content" simultaneously once nav+title
+          already spend 340 of that 810 budget, so this prioritises the
+          height constraint. h-[300px]/sm:h-[470px]: 470 is measured to
+          make nav(60)+title(280)+this(470)=810, matching Thrive's Cover
+          height exactly.
+
+          That 470 applies at `lg:` (1024px+) ONLY, not `sm:` — checked
+          Thrive's own Cover directly and its 810px is *also* `lg:`-only
+          (`lg:h-[810px]` in Cover.astro); below `lg` it's auto/natural
+          height (661px measured at 768px width, not 810). Sarah caught
+          this the moment `sm:` was live: applying 470 from 640px up made
+          this hero hit 810 at tablet widths where Thrive itself doesn't —
+          matching Thrive means matching its *breakpoint*, not just its
+          number. Mobile's 300 (unrelated, own fixed-width scroll
+          treatment) and the 640–1023 gap both stay auto/natural now, same
+          as Thrive's own tablet range.
+
+          `shadow-cover` (2026-08-16) made the rounding visible but Sarah
+          found it ugly and asked for it gone — swapped for a 1px
+          `--color-border` (#ddd) outline instead, same purpose (the
+          rounded cut is real, confirmed with a debug border test, but
+          disappears at normal size against the near-identical #FFFCF2
+          page behind it) with a much lighter touch than a drop shadow.
+        */
+      }
+      <div class="relative h-[300px] overflow-hidden rounded-b-[var(--radius-xl)] border-x border-b border-[var(--color-border)] sm:h-auto lg:h-[470px] lg:rounded-b-[var(--radius-2xlg)]">
+        {
+          background.src ? (
+            <img src={background.src} alt={background.alt} class="block w-full h-auto" />
+          ) : (
+            <div class="flex aspect-[2400/1197] w-full items-center justify-center bg-[var(--color-grey-300)]">
+              <span class="text-style-caption not-italic text-[var(--color-text-secondary)]">{background.alt}</span>
+            </div>
+          )
+        }
+
+        <div data-team-hero-fg class="absolute inset-x-0 bottom-0">
+          {
+            people.map((person, i) => (
+              <div
+                class="absolute bottom-0 -translate-x-1/2 w-[var(--avatar-w)] sm:w-[calc(var(--avatar-w)*2)] lg:w-[var(--avatar-w)]"
+                style={`left: ${colWidth * (i + 0.5)}%; --avatar-w: ${colWidth * AVATAR_WIDTH_RATIO}%;`}
+              >
+                {person.image.src ? (
+                  <img src={person.image.src} alt={person.image.alt} class="block w-full h-auto" />
+                ) : (
+                  <div class="flex aspect-square w-full items-center justify-center rounded-full bg-[var(--color-grey-300)]">
+                    <span class="text-style-caption not-italic text-[var(--color-text-secondary)]">{person.name}</span>
+                  </div>
+                )}
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* Small side-to-side nudge for the mobile swipe-hint arrow — plain CSS
+     keyframes since Tailwind's `animate-[name_...]` arbitrary value only
+     supplies the animation *properties*, the @keyframes itself still has
+     to be defined somewhere. */
+  @keyframes team-hero-swipe-hint {
+    0%,
+    100% {
+      transform: translateX(0);
+    }
+    50% {
+      transform: translateX(4px);
+    }
+  }
+</style>
+
+<script>
+  // Same mechanic as Cover.astro's device-image parallax: the team-photos
+  // group rises faster than the board as the hero scrolls out of view.
+  // Kept as its own copy rather than a shared util — both are small,
+  // one-off, page-local scripts already (see About page's own parallax).
+  const PARALLAX_FACTOR = 0.2;
+
+  function initTeamHeroParallax(root: HTMLElement) {
+    const fg = root.querySelector<HTMLElement>("[data-team-hero-fg]");
+    if (!fg) return;
+
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (reduceMotion.matches) return;
+
+    let ticking = false;
+
+    // Thrive's Cover always starts at viewport y=0, so `top` alone is
+    // already "how far it's scrolled." This hero's root sits below
+    // Navigation+the title instead, so its resting `top` is a large
+    // positive number (not 0) — using raw `top` the way Thrive's script
+    // does applied a wrong ~68px offset before the user had scrolled at
+    // all. Tracking the delta from the *initial* top fixes it: zero offset
+    // at rest, then shifts as the page actually scrolls, same as Thrive.
+    const initialTop = root.getBoundingClientRect().top;
+
+    function update() {
+      ticking = false;
+      const { top, bottom } = root.getBoundingClientRect();
+      if (bottom < 0 || top > window.innerHeight) return;
+      fg!.style.transform = `translateY(${(top - initialTop) * PARALLAX_FACTOR}px)`;
+    }
+
+    function onScroll() {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(update);
+      }
+    }
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    update();
+  }
+
+  document.querySelectorAll<HTMLElement>("[data-team-hero-root]").forEach(initTeamHeroParallax);
+</script>

@@ -179,16 +179,37 @@ export type CaseStudySection = (
   background?: "dots" | "solid";
 };
 
+export interface TeamHeroPerson {
+  name: string;
+  image: CaseStudyImage;
+}
+
 export interface CaseStudy {
   slug: string;
   /** Hero title; `\n` marks the manual Figma line break. */
   title: string;
-  cover: {
-    background: CaseStudyImage;
-    deviceImage: CaseStudyImage;
-    /** Separate mobile crop/composition of the device mockup, if supplied — falls back to `deviceImage` when omitted. */
-    deviceImageMobile?: CaseStudyImage;
-  };
+  cover:
+    | {
+        variant?: "photo";
+        background: CaseStudyImage;
+        deviceImage: CaseStudyImage;
+        /** Separate mobile crop/composition of the device mockup, if supplied — falls back to `deviceImage` when omitted. */
+        deviceImageMobile?: CaseStudyImage;
+      }
+    | {
+        /**
+         * One-off alternate hero built for Design Leadership's team-retro-
+         * board asset (2026-08-15, Sarah's call to keep this case-study-
+         * specific rather than a general template option) — title renders
+         * plain above the hero instead of overlaid on a photo, then a
+         * full-width, uncropped board image with each team member's photo
+         * parallax-scrolling over it at its own rate. See TeamHero.astro.
+         */
+        variant: "team";
+        /** Full-width, never cropped — renders at its own natural aspect ratio. */
+        background: CaseStudyImage;
+        people: TeamHeroPerson[];
+      };
   authorName: string;
   /** Where the side nav's "Back" link and the top nav's "All Projects" go. */
   backHref?: string;

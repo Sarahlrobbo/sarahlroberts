@@ -36,16 +36,31 @@ export const designLeadership: CaseStudy = {
   title: "Growing FarmIQ's Design Team, Practice & Systems",
   authorName: "Sarah Roberts",
   backHref: "/",
+  // Sarah rejected the first pass (Thrive's photo+device-mockup treatment,
+  // 2026-08-15) — this asset is one big illustrated team-retro board, not a
+  // photo+app-screens pair, and Thrive's crop/zoom chopped off her 4th
+  // column. Replaced with the one-off "team" hero variant: plain title,
+  // then this full-width uncropped board with each teammate's photo
+  // (Smita/Sarah/Holly/Marco, real exports, all 480x480) parallax-scrolling
+  // over it. Kept scoped to this case study only, per her call — see
+  // TeamHeroPerson/the "team" cover variant in lib/case-study.ts.
   cover: {
-    // TODO(assets): background photo + device/screenshot image, once chosen.
+    variant: "team",
     background: {
-      alt: "TBD — cover background photo for Growing FarmIQ's Design Team",
-      aspect: "16/9",
+      src: "/images/design-leadership/01-hero-board.png",
+      alt: "Team retro board — strengths, weaknesses, and working styles for Smita, Sarah, Holly, and Marco",
+      // Pre-cropped by Sarah in Figma to her exact chosen bottom edge
+      // (01-hero-cover-CROP.png, 2026-08-15) — not consumed by TeamHero.astro
+      // itself (it reads the image's own natural size), kept accurate here
+      // for documentation/consistency with the rest of the schema.
+      aspect: "2400/1197",
     },
-    deviceImage: {
-      alt: "TBD — cover device/screenshot image",
-      aspect: "1000/563",
-    },
+    people: [
+      { name: "Smita", image: { src: "/images/design-leadership/01-team-Smita.png", alt: "Smita", aspect: "1/1" } },
+      { name: "Sarah", image: { src: "/images/design-leadership/01-team-Sarah.png", alt: "Sarah", aspect: "1/1" } },
+      { name: "Holly", image: { src: "/images/design-leadership/01-team-Holly.png", alt: "Holly", aspect: "1/1" } },
+      { name: "Marco", image: { src: "/images/design-leadership/01-team-Marco.png", alt: "Marco", aspect: "1/1" } },
+    ],
   },
   sections: [
     {

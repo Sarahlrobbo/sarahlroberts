@@ -2,6 +2,7 @@
 import type { CaseStudy, SpacingBefore } from "../../lib/case-study";
 import { slugify } from "../../lib/case-study";
 import Cover from "./Cover.astro";
+import TeamHero from "./TeamHero.astro";
 import IntroSection from "./IntroSection.astro";
 import TextSection from "./TextSection.astro";
 import TextImageSection from "./TextImageSection.astro";
@@ -93,13 +94,24 @@ const afterRange = renderableSections.slice(lastNavIndex + 1);
 ---
 
 <article id="top" class="mx-auto max-w-[1440px]">
-  <Cover
-    title={caseStudy.title}
-    authorName={caseStudy.authorName}
-    background={caseStudy.cover.background}
-    deviceImage={caseStudy.cover.deviceImage}
-    deviceImageMobile={caseStudy.cover.deviceImageMobile}
-  />
+  {
+    caseStudy.cover.variant === "team" ? (
+      <TeamHero
+        title={caseStudy.title}
+        authorName={caseStudy.authorName}
+        background={caseStudy.cover.background}
+        people={caseStudy.cover.people}
+      />
+    ) : (
+      <Cover
+        title={caseStudy.title}
+        authorName={caseStudy.authorName}
+        background={caseStudy.cover.background}
+        deviceImage={caseStudy.cover.deviceImage}
+        deviceImageMobile={caseStudy.cover.deviceImageMobile}
+      />
+    )
+  }
 
   <div class="lg:flex lg:items-start lg:gap-[var(--spacing-xmd)] lg:pl-[var(--spacing-lg)]">
     <SectionNav items={navItems} backHref={caseStudy.backHref ?? "/"} />
