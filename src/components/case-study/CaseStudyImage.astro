@@ -14,6 +14,20 @@ const {
 } = Astro.props;
 const tone = image.captionTone ?? "light";
 const fit = image.fit ?? "cover";
+// captionBg colours can be a bold accent (dark enough for white text) or a
+// pale swatch pulled straight from the image (needs dark text instead) —
+// picking white unconditionally made pale bars unreadable. Standard
+// relative-luminance check, same threshold used for WCAG-ish light/dark
+// text decisions elsewhere on the web (~0.55 on the 0-1 scale).
+function captionBgTextClass(hex?: string) {
+  if (!hex) return "";
+  const clean = hex.replace("#", "");
+  const r = parseInt(clean.slice(0, 2), 16) / 255;
+  const g = parseInt(clean.slice(2, 4), 16) / 255;
+  const b = parseInt(clean.slice(4, 6), 16) / 255;
+  const luminance = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+  return luminance > 0.55 ? "text-[var(--color-text-primary)]" : "text-[var(--color-text-invert)]";
+}
 // A loaded contain-fit image can letterbox (its own shape doesn't match the
 // box). White reads as page background peeking through; grey-400 is only
 // needed for the no-image-yet placeholder, where it has to contrast with
@@ -93,12 +107,31 @@ const aspectClass = image.aspectMobile
     )
   }
   {
-    !image.youtubeId && image.caption && tone === "light" && (
+    !image.youtubeId && image.caption && !image.captionBg && tone === "light" && (
       <div class="pointer-events-none absolute inset-0 bg-gradient-to-b from-white/50 from-75% to-[#283132]/50 mix-blend-multiply" />
     )
   }
   {
-    !image.youtubeId && image.caption && (
+    /*
+      captionBg (2026-09-05): a solid, full-width colour bar under the
+      caption instead of the usual left-aligned overlay — for images with
+      no clean, low-detail spot for the caption to sit against. Bypasses
+      captionTone entirely (always white text on the solid colour, real
+      contrast rather than a gradient guess).
+    */
+  }
+  {
+    !image.youtubeId && image.caption && image.captionBg && (
+      <div
+        class="pointer-events-none absolute inset-x-0 bottom-0 px-[var(--spacing-xmd)] py-[10px]"
+        style={`background-color: ${image.captionBg};`}
+      >
+        <p class={`text-style-caption ${captionBgTextClass(image.captionBg)}`}>{image.caption}</p>
+      </div>
+    )
+  }
+  {
+    !image.youtubeId && image.caption && !image.captionBg && (
       <div class="pointer-events-none absolute bottom-0 left-0 px-[var(--spacing-xmd)] py-[10px]">
         <p
           class={`text-style-caption ${

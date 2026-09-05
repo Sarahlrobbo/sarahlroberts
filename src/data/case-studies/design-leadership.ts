@@ -1,21 +1,22 @@
 import type { CaseStudy } from "../../lib/case-study";
 
-// Content: farmiq-team-case-study-FINAL.md (Sarah's handover doc, 2026-08-13).
-// Structure: verified against Figma (aX33B4dvgRAkY1eo6olJj6, node 245:233155,
-// "Case Study - Design Leadership") — that frame is a straight duplicate of
-// the FarmIQ Thrive case study frame with only the Cover title/Intro block
-// customised so far; every other block (My Role, Situation, Calls I Made,
-// Solution, Image grid, Shift, Outcome, Quote slider, What I Learned) still
-// has Thrive's old typeset copy sitting in it. So section ORDER/TYPES below
-// come from Figma (proven-safe, since it matches Thrive's already-shipped
-// template 1:1 — see farmiq-thrive.ts), but all COPY comes from the MD, not
-// from what's currently typeset in the Figma duplicate.
+// Content: originally farmiq-team-case-study-FINAL.md (2026-08-13), since
+// superseded section-by-section by Figma's own now-finalised copy where the
+// two differ (Solution's "Farmer Building Blocks" framing, Outcome's 4 real
+// signals) — see the inline comments on those two sections.
+// Structure: verified against Figma (aX33B4dvgRAkY1eo6olJj6). NOTE the
+// frame's node id has changed at least twice as Sarah iterated
+// (245:233155 → 248:272049 as of 2026-09-05) — always re-resolve the node
+// id from her latest URL rather than trusting one saved here, per
+// [[case-study-figma-first-workflow]]'s frame-renaming/reuse gotcha. Section
+// order/types match Thrive's shared template (see farmiq-thrive.ts).
 //
-// Nav side-bar differs from Thrive in one place: this frame's own Cover nav
-// lists "Quotes" as its own linked item (Thrive's doesn't link its Quote
-// section at all) and does NOT shorten "The Situation I Walked Into" the
-// way Thrive's nav does — both followed literally here since that's what's
-// actually in this frame's Navigation instance.
+// Nav side-bar matches Thrive's shared pattern exactly (corrected
+// 2026-09-05, Sarah's call) — no "Quotes" nav item, and "The Situation"
+// shortened in the sidebar even though the on-page heading stays "The
+// Situation I Walked Into" in full. An earlier pass followed this frame's
+// own Cover/Navigation instance literally instead, which added both back —
+// wrong call, reverted.
 //
 // STILL OPEN — flagged in the MD's own status note, not resolved here:
 // the four Design Principle cards (Reduce Reuse Recycle, Built for Farm
@@ -24,13 +25,13 @@ import type { CaseStudy } from "../../lib/case-study";
 // still needs to decide whether they go in Calls I Made #1 or The Solution.
 // See the TODO comment on Calls I Made #1 below.
 //
-// ASSETS: every image below is a structural placeholder (no `src`) — Sarah
-// is sourcing real photos/screenshots next. Aspects/layout come from the
-// Figma frame's own slots where a matching slot exists there; where the MD
-// doesn't specify what a Figma slot should show (the post-Calls single wide
-// image, the Situation/Solution/Shift supporting images, the image-grid
-// band), that's flagged inline — don't assume these captions from Thrive's
-// leftover copy in Figma, they're Thrive's, not this case study's.
+// ASSETS: all real now (2026-09-05) — Sarah placed every image directly in
+// a newer Figma frame (node 248:272049, same file) with real captions.
+// Pulled via the cloud Figma connector's download_assets/get_design_context
+// (not her loose asset folder, which had ambiguous filename variants —
+// going straight to what's actually placed in Figma sidesteps that
+// entirely) and reprocessed into public/images/design-leadership/. Captions
+// below are typed exactly as they render in Figma.
 export const designLeadership: CaseStudy = {
   slug: "design-leadership",
   title: "Growing FarmIQ's Design Team, Practice & Systems",
@@ -83,13 +84,13 @@ export const designLeadership: CaseStudy = {
         },
         {
           label: "Mobile recording CSAT",
-          value: "~80%",
-          context: "Average customer satisfaction score (CSAT) for new mobile recording flows farmers use most.",
+          value: "80%",
+          context: "Average CSAT for new mobile recording flows farmers use most.",
         },
       ],
       paragraphs: [
         "I led FarmIQ's shift from ad-hoc design and fragmented UI to a repeatable operating model and multi-platform design system, grounded in real farmer roles and jobs-to-be-done.",
-        "What started as inconsistent products and a newly re-formed team became a governed system that let us move fast without sacrificing quality, the same foundations that went on to power two of FarmIQ's most-used features, Diary and Tasks.",
+        "What started as inconsistent products and a newly re-formed team became a governed system that let us move fast without sacrificing quality. The same foundations that went on to power two of FIQ's most-used features that I crafted, Diary and Tasks.",
       ],
       quote: {
         quote:
@@ -97,21 +98,24 @@ export const designLeadership: CaseStudy = {
         attribution: "Holly Feary, Senior Product Designer, FarmIQ",
       },
     },
-    // Matches Thrive's own imageBand right after Intro (Figma's "Top images"
-    // slot on this frame still literally shows Thrive's two captions — not
-    // reused here since they're Thrive-specific, but the layout/spacing is).
     {
       type: "imageBand",
       spacingBefore: "tighter",
       layout: "two-equal",
       images: [
         {
-          alt: "TBD — image 1, right after intro",
+          src: "/images/design-leadership/07-brand-consistency.png",
+          alt: "Whilst at FIQ I uplifted the brand by adding consistency across the products.",
+          caption: "Uplifting brand consistency across the products.",
+          captionTone: "light",
           aspect: "600/400",
           aspectMobile: "1/1",
         },
         {
-          alt: "TBD — image 2, right after intro",
+          src: "/images/design-leadership/08-design-principles.png",
+          alt: "Design Principles Holly created with coaching.",
+          caption: "Design Principles Holly created with coaching.",
+          captionTone: "light",
           aspect: "600/400",
           aspectMobile: "1/1",
         },
@@ -123,20 +127,24 @@ export const designLeadership: CaseStudy = {
       background: "dots",
       heading: "My Role",
       paragraphs: [
-        "**Lead Product Designer, FarmIQ.** Led a team of 2 Product Designers and a Graphic Designer, building the operating model and design system that took FarmIQ from fragmented, inconsistent UI to a governed, multi-platform practice. Partnered with Product Managers, Engineering Leads, Customer Success, and farming SMEs throughout.",
+        "As Lead Product Designer at FarmIQ, I led a team of 2 Product Designers and a Graphic Designer, building the operating model and design system that took FarmIQ from fragmented, inconsistent UI to a governed, multi-platform practice. Partnered with Product Managers, Engineering Leads, Customer Success, and farming SMEs throughout.",
       ],
     },
     {
       type: "text",
-      // Not shortened — Figma's own nav for this frame spells it out in full,
-      // unlike Thrive's which shortens to "The Situation".
-      navLabel: "The Situation I Walked Into",
+      // Corrected (2026-09-05, Sarah's call) — this page follows Thrive's
+      // shared nav pattern, short nav label but full heading below.
+      navLabel: "The Situation",
       background: "dots",
       heading: "The Situation I Walked Into",
       paragraphs: [
-        "FarmIQ had grown organically. Across web and mobile, the products felt inconsistent, designers solved the same problems twice, engineers rebuilt near-identical patterns with similar behaviours, and delivery slowed.",
+        // "across products" (2026-09-05 re-pull) reads a little redundant
+        // right after "Across web and mobile" a few words earlier — typed
+        // verbatim from Figma rather than smoothed out, flag to Sarah in
+        // case it's an unintentional duplicate on her end.
+        "FarmIQ had grown organically. Across web and mobile, the products felt inconsistent, across products designers solved the same problems twice, engineers rebuilt near-identical patterns with similar behaviours, and delivery slowed.",
         "After a significant restructure, we had a newly re-formed team with different backgrounds and working styles, but no shared operating model, mission, rituals, measures, to keep quality high while moving quickly.",
-        "Our customer understanding also needed to mature. The existing personas were too narrow and didn't reflect roles, context, or device use, so discovery inputs lacked the clarity needed for confident prioritisation.",
+        "Our customer understanding needed to mature. The existing personas were too narrow and didn't reflect roles, context, or device use, so discovery inputs lacked the clarity needed for confident prioritisation.",
       ],
     },
     {
@@ -145,8 +153,20 @@ export const designLeadership: CaseStudy = {
       background: "dots",
       layout: "two-equal",
       images: [
-        { alt: "TBD — Situation supporting image 1", aspect: "600/400" },
-        { alt: "TBD — Situation supporting image 2", aspect: "600/400" },
+        {
+          src: "/images/design-leadership/02-situation-before.png",
+          alt: "Products before aligned design system.",
+          caption: "Products before aligned design system.",
+          captionTone: "dark",
+          aspect: "600/400",
+        },
+        {
+          src: "/images/design-leadership/03-situation-after.png",
+          alt: "Products after understanding customers roles and JTBD.",
+          caption: "Products after design system, roles & JTBD.",
+          captionTone: "dark",
+          aspect: "600/400",
+        },
       ],
     },
     {
@@ -156,9 +176,23 @@ export const designLeadership: CaseStudy = {
       layout: "single",
       images: [
         {
-          alt: "TBD — Situation wide image",
-          aspect: "1010/266",
-          fit: "contain",
+          src: "/images/design-leadership/04-situation-wide.png",
+          alt: "Aligning all product and visual design across FarmIQ.",
+          // Caption removed (Sarah's call, 2026-09-05) — the collage's own
+          // 4 library labels (Core/Mobile app/Web-ex/Design Bible) already
+          // say what this image is, a caption on top was redundant.
+          // No `fit` override (defaults to "cover") — "contain" was the
+          // actual cause of the corner/width complaint: the image's real
+          // ratio (2020/664 ≈ 3.04) doesn't quite match this box's 1010/327
+          // (≈3.09), so "contain" left a ~8px letterbox gap on each side.
+          // That gap is what the rounded-corner mask was clipping into
+          // (reads as a "notch"), and what made the band look narrower
+          // than the two-image row above it. "cover" fills the box exactly
+          // flush with that row, at the cost of an imperceptible ~5px
+          // total vertical crop — the periwinkle backdrop runs edge-to-edge
+          // in the source file with no real content near the top/bottom
+          // edge to lose. Rounded corners restored (default).
+          aspect: "1010/327",
         },
       ],
     },
@@ -178,7 +212,7 @@ export const designLeadership: CaseStudy = {
         },
         {
           heading: "Modernised customer understanding",
-          body: 'I led a refresh of our customer understanding through research. Every interview began with consistent "farmer introduction" questions, and each session produced a farmer-on-a-page summary. With SMEs, we co-created role definitions across farm owners, farm managers, stock managers, workers, and third-party users, and paired them with Jobs-to-Be-Done to focus on outcomes that matter.',
+          body: 'I led a refresh of our customer understanding through research. Every interview began with consistent "farmer introduction" questions, and each session produced a farmer-on-a-page summary. With SMEs, we co-created role definitions across farm owners, farm managers, stock managers, workers, and third-party users, and paired them with Jobs-to-Be-Done to focus on outcomes that matter. We then validated them with customers and kept them upto date every season.',
         },
         {
           heading: "Closed the loop with in-product feedback",
@@ -200,17 +234,16 @@ export const designLeadership: CaseStudy = {
       // and Figma's own Frame 23 doesn't show one either. Dropped, not lost —
       // flagging here rather than silently discarding it.
     },
-    // Figma's template has a single wide image/video slot here (Thrive uses
-    // a real YouTube embed of the app). No equivalent asset exists for a
-    // design-team story yet — Sarah to decide whether this slot applies at
-    // all here (e.g. a design-system walkthrough clip) or should be dropped.
     {
       type: "imageBand",
       layout: "single",
       images: [
         {
-          alt: "TBD — wide image/video after Calls I Made (may not apply to this case study, see comment above)",
-          aspect: "710/400",
+          src: "/images/design-leadership/05-design-jams.png",
+          alt: "Cross-team DesignJams: faster, more collaborative, and genuinely fun. FWFP was a team effort with Holly, Marco, and me.",
+          caption: "Cross-team DesignJams: faster, more collaborative, and genuinely fun.",
+          captionTone: "dark",
+          aspect: "1010/569",
         },
       ],
     },
@@ -219,16 +252,22 @@ export const designLeadership: CaseStudy = {
       navLabel: "The Solution",
       background: "solid",
       heading: "The Solution",
+      // Updated to match Figma's now-finalised copy (2026-09-05) — the
+      // "Farmer Building Blocks" framing is new since the last pass.
       paragraphs: [
         "The design system isn't a component library sitting untouched in Figma. It runs on a contribution model, propose, review, approve, document, so any designer or engineer can suggest a new pattern, and it gets debated and documented rather than quietly duplicated.",
-        "Customer understanding works the same way. Roles and Jobs-to-Be-Done aren't a slide deck, they're the reference point a designer opens before starting any new flow. And the feedback loop closes it: in-product pulses turn a shipped release into evidence for what to build next, not a one-off survey that gets filed away.",
+        "Customer understanding become shared in a similar way. Our Farmer Building Blocks consist of the individuals: technology adoption, FIQ pack, Role and Jobs-to-Be-Done. I created the research system that enabled Designers and Product Managers to keep our roles on a page upto date every time we spoke to customers. As behaviours and attitudes shifted overtime, we kept our understanding their sentiment. Our Farmer Building Blocks are the reference point for Product and Design Discovery, opening them up before starting a new feature or flow, and during build. I also enabled a post go-live feedback loop: in-product pulses turn a shipped release into measures of success or evidence for what to enhance or build next.",
         'The result: a designer proposing a new pattern, a PM prioritising a feature, and an engineer building a component are all working from the same source of truth, not three separate interpretations of "what good looks like."',
       ],
+      // Figma's slot for this is now a 339x339 square (was portrait before) —
+      // aspectTablet/Mobile dropped since there's no distinct crop shown
+      // for those in Figma for this slot, "1/1" holds at every size.
       image: {
-        alt: "TBD — Solution portrait image",
-        aspect: "267/400",
-        aspectMobile: "1/1",
-        aspectTablet: "600/400",
+        src: "/images/design-leadership/06-solution-processes.png",
+        alt: "The product processes I uplifted.",
+        caption: "The product processes I uplifted.",
+        captionTone: "dark",
+        aspect: "1/1",
       },
     },
     {
@@ -238,9 +277,35 @@ export const designLeadership: CaseStudy = {
       background: "solid",
       layout: "three-grid",
       images: [
-        { alt: "TBD — image grid 1", aspect: "400/600", aspectMobile: "1/1" },
-        { alt: "TBD — image grid 2", aspect: "400/600", aspectMobile: "1/1" },
-        { alt: "TBD — image grid 3", aspect: "400/600", aspectMobile: "1/1" },
+        {
+          src: "/images/design-leadership/09-customer-roles.png",
+          alt: "Every customer we spoke to in discovery shared our roles.",
+          caption: "Every customer in discovery shaped our roles.",
+          // Solid band instead of overlaying the persona collage directly
+          // (Sarah's call, 2026-09-05) — exact hex from her own colour
+          // picker.
+          captionBg: "#E0CCFB",
+          aspect: "400/600",
+          aspectMobile: "1/1",
+        },
+        {
+          src: "/images/design-leadership/10-farmer-building-blocks.png",
+          alt: "Farmer building blocks: tech adoption, packs, roles & JTBD.",
+          caption: "Farmer Building Blocks: adoption, packs, roles & JTBD.",
+          captionTone: "dark",
+          aspect: "400/600",
+          aspectMobile: "1/1",
+        },
+        {
+          src: "/images/design-leadership/11-roles-on-a-page.png",
+          alt: "Roles on a page helped Product understand customers needs.",
+          caption: "Roles-on-a-page helped Product understand customers.",
+          // Solid band instead of overlaying the grid directly (Sarah's
+          // call, 2026-09-05) — exact hex from her own colour picker.
+          captionBg: "#F7FEE7",
+          aspect: "400/600",
+          aspectMobile: "1/1",
+        },
       ],
     },
     {
@@ -250,8 +315,20 @@ export const designLeadership: CaseStudy = {
       background: "solid",
       layout: "two-equal",
       images: [
-        { alt: "TBD — image grid 4", aspect: "600/400" },
-        { alt: "TBD — image grid 5", aspect: "600/400" },
+        {
+          src: "/images/design-leadership/12-diary-desktop.png",
+          alt: "Diary: farm-wide view for in-field decisions.",
+          caption: "Diary: farm-wide view for in-field decisions.",
+          captionTone: "light",
+          aspect: "600/400",
+        },
+        {
+          src: "/images/design-leadership/13-diary-mobile.png",
+          alt: "Diary on the mobile app: 80% CSAT on launch.",
+          caption: "Diary on the mobile app: 80% CSAT on launch.",
+          captionTone: "light",
+          aspect: "600/400",
+        },
       ],
     },
     {
@@ -259,7 +336,7 @@ export const designLeadership: CaseStudy = {
       navLabel: "The Shift",
       heading: "The Shift",
       paragraphs: [
-        "Before, design and engineering worked from fragmented libraries with no shared principles, and problem-solving was reactive rather than systematic. After, a governed design system and shared rhythm mean the whole team works from one source of truth. PMs and engineering leads reported fewer surprises and clearer trade-offs, designers reported greater autonomy. The same foundations went on to underpin Diary and Tasks, two of FarmIQ's most-used features.",
+        "Before, design and engineering worked from fragmented libraries with no shared principles, and problem-solving was reactive rather than systematic. After, a governed design system and shared rhythm mean the whole team works from one source of truth. PMs and engineering leads reported fewer surprises and clearer trade-offs, designers reported greater autonomy. The same foundations went on to underpin Diary and Tasks, two of FarmIQ's most-used features that I crafted.",
       ],
     },
     {
@@ -267,89 +344,101 @@ export const designLeadership: CaseStudy = {
       spacingBefore: "tight",
       layout: "two-equal",
       images: [
-        { alt: "TBD — Shift supporting image 1", aspect: "600/400" },
-        { alt: "TBD — Shift supporting image 2", aspect: "600/400" },
+        {
+          src: "/images/design-leadership/14-shift-feedback.png",
+          alt: "Introducing in-product feedback allowed us to move with confidence.",
+          caption: "In-product feedback let us move with confidence.",
+          captionTone: "dark",
+          fit: "contain",
+          aspect: "600/400",
+        },
+        {
+          src: "/images/design-leadership/15-shift-farmers.png",
+          alt: "Farmers happier to help with discovery, they could see our progress.",
+          caption: "Farmers happier to help, they could see our progress.",
+          captionTone: "dark",
+          aspect: "600/400",
+        },
       ],
     },
     {
       type: "outcome",
       heading: "The Outcome",
+      // Updated to match Figma's now-finalised copy (2026-09-05): stat 2
+      // dropped its "~"/"new" wording, and 4 real signals now exist instead
+      // of the earlier 2-signal reshaping (last pass only had 2 real facts
+      // to work with and left 3 Figma slots TBD — all but one are filled
+      // now; the schema's 5th signal slot, a 3rd "up", is still genuinely
+      // unfilled in Figma itself, not a gap on this end).
       stats: [
         {
           value: "75–80%",
-          label: "response rate on in-product surveys",
+          label: "response rate on surveys",
           context: "reaching farm workers our previous research had missed entirely.",
         },
         {
-          value: "~80%",
-          label: "CSAT on new mobile recording flows",
+          value: "80%",
+          label: "CSAT on mobile recording",
           context: "the workflows farmers rely on most.",
         },
       ],
-      // MD's outcome section reads as 3 prose lines (CSAT/NPS trend, Design
-      // Jams cadence, refreshed customer model) rather than Thrive's clean
-      // up/down signal list. Reshaped into the schema's signalsIntro +
-      // signals shape below — both existing signals genuinely read positive
-      // ("replaced ad-hoc" / "extended coverage"), so both are "up"; flagging
-      // this reshaping since it's not verbatim from the MD.
-      signalsIntro: "CSAT and NPS scores increased season-on-season as feedback fed directly back into iteration:",
+      signalsIntro: "With conservative measurement, we also saw strong behavioural signals:",
       signals: [
+        { direction: "up", text: "NPS scores increased season-on-season." },
         {
           direction: "up",
-          text: "3x weekly Design Jams replaced ad-hoc, reactive problem-solving with a structured rhythm the whole team could rely on.",
+          text: "30% average increase in feature requests via in-product surveys, helping us maintain the backlog and build the roadmap with confidence.",
+        },
+        {
+          direction: "down",
+          text: "Less ad-hoc, reactive problem-solving. Replaced with 3 weekly design jams creating a structured rhythm the whole team could rely on.",
         },
         {
           direction: "up",
-          text: "Design coverage extended to workers and third-party users — roles earlier personas had missed — with roles + JTBD as FarmIQ's single source of truth for framing new discovery.",
+          text: "We could do more with less. Design coverage extended to workers and third-party users, roles earlier personas had missed entirely.",
         },
       ],
     },
-    // MD's "One Quote" section originally had just Todd's — Sarah asked
-    // (2026-08-15) to add Holly's intro quote back in as a second slide, to
-    // match Thrive's own convention of repeating its top-of-page quote
-    // later in the slider (Thrive's Chris Hursthouse slide is verbatim the
-    // intro quote). Both are real, attributed quotes already used elsewhere
-    // on the site — no new content invented. Figma's template has a 3rd
-    // slide slot still sitting on Thrive's old Alistair Bird quote/photo —
-    // open whether Sarah wants a 3rd real quote or to drop that slide.
-    // Figma's Cover nav links this section as "Quotes" (its own nav item,
-    // unlike Thrive which doesn't link its Quote section at all) — kept
-    // that navLabel here.
+    // Corrected (2026-09-05, Sarah's call) — matches Thrive's shared nav
+    // pattern, no "Quotes" nav item; not linked in the sidebar.
     {
       type: "quoteSlider",
-      navLabel: "Quotes",
       slides: [
         {
           image: {
-            alt: "Todd White, Head of Product, FarmIQ",
+            src: "/images/design-leadership/16-quote-todd.jpg",
+            alt: "Todd White, Head of Product, FarmIQ, on farm with the team and their dogs",
             aspect: "834/440",
           },
           quote:
             "Sarah is laser focused on improving the customers' overall experience of the product, but she knows that won't be best served unless the whole team functions well. She has worked hard to improve collaboration within the Product Team, taking on extra work to ensure development always had what they needed. She tackles problems with expertise, energy, and a great attitude.",
-          attribution: "Todd White, Head of Product, FarmIQ",
-          // TODO(assets): side/accentColor are placeholders — per the site's
-          // convention (see design-decision-workflow), accentColor must be
-          // hand-picked from Todd's actual photo once chosen, never averaged.
+          attribution: "Todd White · Head of Product, FarmIQ",
+          // Real photo: group farm shot, subjects spread across the frame —
+          // text sits on the left per Figma, over the more open grass area.
           side: "left",
-          accentColor: "#5E6566",
+          // Hand-picked from the photo's own foliage, not averaged (see
+          // design-decision-workflow) — muted forest green from the trees
+          // behind the group.
+          accentColor: "#3D4A2E",
         },
         {
+          // Real event/stage photo (colourful stage-lighting backdrop,
+          // people on stage) — not a flat gradient graphic as it first
+          // looked at thumbnail size when picking this asset; correcting
+          // that assumption here since it's a genuine photo, not a
+          // placeholder illustration.
           image: {
-            // Her existing avatar (/images/about/10-avatar-holly-feary.png)
-            // is a portrait headshot, not this slide's landscape 834/440
-            // format — Sarah will need a different/wider photo of Holly for
-            // this slot, not just a reuse of the About-page avatar crop.
-            alt: "Holly Feary, Senior Product Designer, FarmIQ",
+            src: "/images/design-leadership/17-quote-holly.png",
+            alt: "Holly Feary, Senior Product Designer, FarmIQ, on stage at a conference",
             aspect: "834/440",
           },
-          // Verbatim repeat of the intro quote, same as Thrive's pattern.
           quote:
             "Sarah uplifted how we did research at FarmIQ, and she made sure I was part of shaping it, not just delivering it. Working closely with her on our principles, I grew more confident making my own calls. The work we did together raised the bar for design output across the product.",
           attribution: "Holly Feary, Senior Product Designer, FarmIQ",
-          // TODO(assets): side/accentColor placeholders — hand-pick once a
-          // real photo is chosen, never averaged (see design-decision-workflow).
           side: "left",
-          accentColor: "#5E6566",
+          // Hand-picked from the gradient's own dominant hue (magenta/pink),
+          // not averaged.
+          accentColor: "#8B2F6B",
         },
       ],
     },
@@ -371,14 +460,10 @@ export const designLeadership: CaseStudy = {
           heading: "Roles and Jobs-to-Be-Done gave us more than generic personas ever did",
           body: "Once we modelled users by role, context, and job, discovery became something we could act on, with confidence.",
         },
-        {
-          heading: "In-product feedback reached a wider number of users",
-          body: "Targeted, in-the-moment pulses surfaced insight from workers we'd struggled to hear from before.",
-        },
-        {
-          heading: "None of it holds without repeatable habits",
-          body: "Cadences, a contribution model, and living documentation stopped things sliding back into one-off decisions and opinion.",
-        },
+        // Figma trimmed this list to 3 items (2026-09-05 re-pull) — the
+        // "In-product feedback reached a wider number of users" and "None
+        // of it holds without repeatable habits" items that used to be
+        // here are gone from the frame, not just visually reordered.
       ],
     },
     { type: "backToTop" },

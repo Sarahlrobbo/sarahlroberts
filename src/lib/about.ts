@@ -29,7 +29,7 @@ export interface AccentPhoto {
 export const heroPhoto: AccentPhoto = {
   src: "/images/about/01-roles-cover.png",
   alt: "",
-  caption: "Farmer roles guiding decisions",
+  caption: "Farmer roles guiding decisions.",
   aspect: "335/229",
   widthPx: 335,
 };
@@ -37,7 +37,7 @@ export const heroPhoto: AccentPhoto = {
 export const currentRolePhoto: AccentPhoto = {
   src: "/images/about/02-team-collab-sessions.png",
   alt: "",
-  caption: "Team Collab Sessions",
+  caption: "Team Collab Sessions.",
   aspect: "287/413",
   widthPx: 287,
 };
@@ -46,14 +46,14 @@ export const careerTimelinePhotos: AccentPhoto[] = [
   {
     src: "/images/about/03-helping-trampers-stay-safe.png",
     alt: "",
-    caption: "Helping trampers stay safe",
+    caption: "Helping trampers stay safe.",
     aspect: "1/1",
     widthPx: 228,
   },
   {
     src: "/images/about/05-data-at-fingertips.png",
     alt: "",
-    caption: "Data at your fingertips",
+    caption: "Data at your fingertips.",
     aspect: "1/1",
     widthPx: 235,
   },
@@ -62,7 +62,7 @@ export const careerTimelinePhotos: AccentPhoto[] = [
 export const leadershipPhoto: AccentPhoto = {
   src: "/images/about/04-team-learning.png",
   alt: "",
-  caption: "Team Learning",
+  caption: "Team Learning.",
   aspect: "335/229",
   widthPx: 335,
 };

@@ -12,6 +12,18 @@ export interface CaseStudyImage {
   caption?: string;
   /** White caption over a photo, or muted-grey caption over a plain screenshot. */
   captionTone?: "light" | "dark";
+  /**
+   * Renders the caption on a solid, full-width colour bar along the bottom
+   * of the image instead of overlaid directly on the image content — for
+   * busy/edge-to-edge images where there's no clean spot for the caption to
+   * sit (Sarah's call, 2026-09-05: code-drawn band rather than baking more
+   * padding into the image itself). Hex value; caption text auto-picks
+   * white or dark for contrast against it (regardless of `captionTone`),
+   * so this works for a bold accent or a pale swatch alike. Hand-pick from
+   * a real colour already present in that image (see design-decision-workflow) rather
+   * than an arbitrary brand colour, so the bar reads as part of the image.
+   */
+  captionBg?: string;
   /** Tailwind aspect-ratio value, e.g. "600/400", "400/600", "1000/563". */
   aspect: string;
   /**
