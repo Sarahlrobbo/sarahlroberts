@@ -143,7 +143,13 @@ export type CaseStudySection = (
     }
   | {
       type: "imageBand";
-      layout: "single" | "two-equal" | "three-grid";
+      /**
+       * "two-uneven" is a 2/5 + 3/5 split (left/right) — Figma's post-intro
+       * band where the right photo runs larger. Images keep their own
+       * aspect ratios, so the wider column simply renders taller; pair it
+       * with `wide` for the full-bleed version shown in the design.
+       */
+      layout: "single" | "two-equal" | "two-uneven" | "three-grid";
       images: CaseStudyImage[];
       /** Breaks out to the full 1440 canvas instead of the 1010 content column (Figma's "Image grid" band). */
       wide?: boolean;
@@ -225,6 +231,16 @@ export interface CaseStudy {
   authorName: string;
   /** Where the side nav's "Back" link and the top nav's "All Projects" go. */
   backHref?: string;
+  /**
+   * The desktop side nav wipes out of the way (bottom-up `mask-image`
+   * sweep + fade) whenever a full-bleed element — a `wide` image band or
+   * the pinned quote carousel, anything marked `data-covers-nav` — scrolls
+   * through its pinned zone, then wipes back once it passes. Honours
+   * `prefers-reduced-motion`. **On by default** for every case study; set
+   * this to `false` to opt a page out. Inert on pages with no full-bleed
+   * elements (the observer finds nothing to watch).
+   */
+  dimNavOverWideBands?: boolean;
   sections: CaseStudySection[];
 }
 

@@ -49,11 +49,14 @@ export const designLeadership: CaseStudy = {
     variant: "team",
     background: {
       src: "/images/design-leadership/01-hero-board.png",
-      alt: "Team retro board — strengths, weaknesses, and working styles for Smita, Sarah, Holly, and Marco",
-      // Pre-cropped by Sarah in Figma to her exact chosen bottom edge
-      // (01-hero-cover-CROP.png, 2026-08-15) — not consumed by TeamHero.astro
-      // itself (it reads the image's own natural size), kept accurate here
-      // for documentation/consistency with the rest of the schema.
+      alt: "Team charter board — strengths, working styles, and collaboration agreements for Smita, Sarah, Holly, and Marco",
+      // Pre-cropped by Sarah in Figma to her exact chosen bottom edge, then
+      // re-exported 2026-09-06 with the candy-heart stickers removed ("Cover-
+      // Less Hearts.png" in New Website/Leadership/) — they read too playful
+      // at hero scale and undercut the leadership framing; the stickies stay.
+      // Not consumed by TeamHero.astro itself (it reads the image's own
+      // natural size), kept accurate here for schema consistency. Resized to
+      // 2400px wide on import (from 4060) — same crop, same 2400/1197 ratio.
       aspect: "2400/1197",
     },
     people: [
@@ -89,7 +92,7 @@ export const designLeadership: CaseStudy = {
         },
       ],
       paragraphs: [
-        "I led FarmIQ's shift from ad-hoc design and fragmented UI to a repeatable operating model and multi-platform design system, grounded in real farmer roles and jobs-to-be-done.",
+        "I led FarmIQ's shift from ad-hoc design and fragmented UI to a repeatable operating model and multi-platform design system, grounded in real farmer roles and jobs-to-be-done. It started with the team itself. In a charter session, we mapped our strengths, working styles, and how we'd collaborate.",
         "What started as inconsistent products and a newly re-formed team became a governed system that let us move fast without sacrificing quality. The same foundations that went on to power two of FIQ's most-used features that I crafted, Diary and Tasks.",
       ],
       quote: {
@@ -101,7 +104,8 @@ export const designLeadership: CaseStudy = {
     {
       type: "imageBand",
       spacingBefore: "tighter",
-      layout: "two-equal",
+      wide: true,
+      layout: "two-uneven",
       images: [
         {
           src: "/images/design-leadership/07-brand-consistency.png",
@@ -150,6 +154,7 @@ export const designLeadership: CaseStudy = {
     {
       type: "imageBand",
       spacingBefore: "tight",
+      wide: true,
       background: "dots",
       layout: "two-equal",
       images: [
@@ -172,6 +177,7 @@ export const designLeadership: CaseStudy = {
     {
       type: "imageBand",
       spacingBefore: "tighter",
+      wide: true,
       background: "dots",
       layout: "single",
       images: [
@@ -272,7 +278,7 @@ export const designLeadership: CaseStudy = {
     },
     {
       type: "imageBand",
-      spacingBefore: "tighter",
+      spacingBefore: "tight",
       wide: true,
       background: "solid",
       layout: "three-grid",
@@ -411,7 +417,7 @@ export const designLeadership: CaseStudy = {
             aspect: "834/440",
           },
           quote:
-            "Sarah is laser focused on improving the customers' overall experience of the product, but she knows that won't be best served unless the whole team functions well. She has worked hard to improve collaboration within the Product Team, taking on extra work to ensure development always had what they needed. She tackles problems with expertise, energy, and a great attitude.",
+            "Sarah is laser focused on the customer experience, but she knows that won't be served unless the whole team functions well. She worked hard to improve collaboration within the Product Team, taking on extra work so development had what they needed.",
           attribution: "Todd White · Head of Product, FarmIQ",
           // Real photo: group farm shot, subjects spread across the frame —
           // text sits on the left per Figma, over the more open grass area.
@@ -433,9 +439,9 @@ export const designLeadership: CaseStudy = {
             aspect: "834/440",
           },
           quote:
-            "Sarah uplifted how we did research at FarmIQ, and she made sure I was part of shaping it, not just delivering it. Working closely with her on our principles, I grew more confident making my own calls. The work we did together raised the bar for design output across the product.",
+            "Sarah uplifted how we did research at FarmIQ, and she made sure I was part of shaping it, not just delivering it. Working closely with her on our principles, I grew more confident making my own calls.",
           attribution: "Holly Feary, Senior Product Designer, FarmIQ",
-          side: "left",
+          side: "right",
           // Hand-picked from the gradient's own dominant hue (magenta/pink),
           // not averaged.
           accentColor: "#8B2F6B",

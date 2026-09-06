@@ -114,7 +114,11 @@ const afterRange = renderableSections.slice(lastNavIndex + 1);
   }
 
   <div class="lg:flex lg:items-start lg:gap-[var(--spacing-xmd)] lg:pl-[var(--spacing-lg)]">
-    <SectionNav items={navItems} backHref={caseStudy.backHref ?? "/"} />
+    <SectionNav
+      items={navItems}
+      backHref={caseStudy.backHref ?? "/"}
+      dimOverWideBands={caseStudy.dimNavOverWideBands !== false}
+    />
     <div class="lg:min-w-0 lg:flex-1">
       {
         inRange.map((entry) => {

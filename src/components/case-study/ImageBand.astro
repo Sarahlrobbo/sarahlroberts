@@ -12,7 +12,9 @@ const gridClass =
     ? "grid grid-cols-1"
     : section.layout === "two-equal"
       ? "grid grid-cols-1 sm:grid-cols-2"
-      : "grid grid-cols-1 sm:grid-cols-3";
+      : section.layout === "two-uneven"
+        ? "grid grid-cols-1 sm:grid-cols-[2fr_3fr] sm:items-center"
+        : "grid grid-cols-1 sm:grid-cols-3";
 
 // Wide bands break out of the flex row's content column back to the full
 // article width. 244px = the row's own 40px left padding + the nav's
@@ -23,7 +25,7 @@ const containerClass = section.wide
   : "mx-auto max-w-[1010px] px-4 lg:mx-0 lg:ml-auto lg:mr-[var(--spacing-lg)] lg:px-0";
 ---
 
-<div class={containerClass}>
+<div class={containerClass} data-covers-nav={section.wide ? "" : undefined}>
   <div class={`${gridClass} gap-[var(--spacing-md)]`}>
     {section.images.map((image) => <CaseStudyImage image={image} class="w-full" />)}
   </div>

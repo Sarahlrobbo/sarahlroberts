@@ -71,20 +71,21 @@ export const farmiqThrive: CaseStudy = {
     {
       type: "imageBand",
       spacingBefore: "tighter",
-      layout: "two-equal",
+      wide: true,
+      layout: "two-uneven",
       images: [
         {
-          src: "/images/farmiq-thrive/02-fast-decisions-field.jpg",
-          alt: "Farmers making fast decisions in the field.",
-          caption: "Farmers making fast decisions in the field.",
+          src: "/images/farmiq-thrive/03-recording-data-moment.jpg",
+          alt: "Recording data in the moment, no catching up at night.",
+          caption: "Recording data in the moment, no catching up at night.",
           captionTone: "light",
           aspect: "600/400",
           aspectMobile: "1/1",
         },
         {
-          src: "/images/farmiq-thrive/03-recording-data-moment.jpg",
-          alt: "Recording data in the moment, no catching up at night.",
-          caption: "Recording data in the moment, no catching up at night.",
+          src: "/images/farmiq-thrive/02-fast-decisions-field.jpg",
+          alt: "Farmers making fast decisions in the field.",
+          caption: "Farmers making fast decisions in the field.",
           captionTone: "light",
           aspect: "600/400",
           aspectMobile: "1/1",
@@ -113,6 +114,7 @@ export const farmiqThrive: CaseStudy = {
     {
       type: "imageBand",
       spacingBefore: "tight",
+      wide: true,
       background: "dots",
       layout: "two-equal",
       images: [
@@ -135,6 +137,7 @@ export const farmiqThrive: CaseStudy = {
     {
       type: "imageBand",
       spacingBefore: "tighter",
+      wide: true,
       background: "dots",
       layout: "single",
       images: [
@@ -212,7 +215,7 @@ export const farmiqThrive: CaseStudy = {
     },
     {
       type: "imageBand",
-      spacingBefore: "tighter",
+      spacingBefore: "tight",
       wide: true,
       background: "solid",
       layout: "three-grid",

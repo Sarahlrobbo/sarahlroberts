@@ -148,7 +148,7 @@ export const projectCards: ProjectCard[] = [
     // 404s until the case study is built.
     href: "/case-studies/design-leadership",
     src: "/images/home/covers/farmiq-design-team.png",
-    alt: "FarmIQ design team case study cover",
+    alt: "FarmIQ design system libraries with the design team",
     // 624/460 — deliberately smaller than Figma's real 691/509 (node
     // 123:220205, "Frame 45" in the 3-row/6-card grid there). Tried the
     // real Figma size 2026-08-11 while chasing a row-2 edge-alignment
@@ -161,20 +161,21 @@ export const projectCards: ProjectCard[] = [
     // alignment against row 1 is handled with `justify-between` on
     // `.project-row` in index.astro instead of resizing this card.
     aspect: "624/460",
-    logoSrc: "/images/farmiq-thrive/farmiq-logo-white.svg",
+    // Dark navy logo + dark title text since the 2026-09-06 cover swap
+    // (Memoji + design-system libraries + a baked lavender title bar on a
+    // light cream ground — replaced the old Memoji+hearts+pill graphic).
+    // The lavender bar is part of the art itself: at ≥1440px the card box
+    // (624/460) matches the export's ratio almost exactly so it lands where
+    // composed. Below 1440 the tile goes ~square/portrait and the bar
+    // drifts — left as-is per Sarah (2026-09-06), mobile/tablet polish
+    // deferred. No scrim (mix-blend-multiply darken-only is no help on a
+    // light image).
+    logoSrc: "/images/farmiq-thrive/farmiq-logo.svg",
     logoAlt: "FarmIQ",
     // Matches "Helping Farmers Thrive" above — see note there.
     logoWidth: 140,
     logoHeight: 28,
-    textTone: "light",
-    // calc(), not the original Figma percentages (66.3%/84.1%) — same fix
-    // as "Helping Farmers Thrive" above, same reason: those percentages
-    // are only correct at the 460px desktop box they were measured
-    // against. Reverse-engineered to fixed pixels from bottom (0.337 dark-
-    // start ≈ 155px, 0.159 dark-end ≈ 73px) so the dark region's real
-    // height holds constant at any box height instead of shrinking to an
-    // unreadable sliver on tablet.
-    scrim: "linear-gradient(to bottom, rgba(255,255,255,0.5) calc(100% - 155px), rgba(106,106,114,0.5) calc(100% - 73px))",
+    textTone: "dark",
     hover: {
       color: "#ffb2ea",
       opacity: 0.98,
@@ -369,7 +370,7 @@ export const heroCovers: HeroCover[] = [
   },
   {
     src: "/images/home/hero/03-design-leadership.png",
-    alt: "Leading the Design Team",
+    alt: "FarmIQ design system libraries with the design team",
     top: 120,
     left: 258,
     width: 355,
