@@ -88,7 +88,7 @@ export const projectCards: ProjectCard[] = [
     // URL still resolves via the redirect in astro.config.mjs.
     href: "/case-studies/helping-farmers-thrive",
     src: "/images/home/covers/farmiq-essential-app.png",
-    alt: "FarmIQ essential app case study cover",
+    alt: "Farmer on a quad bike using the FarmIQ app, with the map and treatment-details screens alongside",
     aspect: "635/460",
     logoSrc: "/images/farmiq-thrive/farmiq-logo-white.svg",
     logoAlt: "FarmIQ",
