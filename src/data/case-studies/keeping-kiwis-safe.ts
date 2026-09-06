@@ -79,7 +79,8 @@ export const keepingKiwisSafe: CaseStudy = {
         {
           src: "/images/keeping-kiwis-safe/top-rescue.jpg",
           alt: "A rescue helicopter winching a person off a bush-clad ridge",
-          caption: "Check the weather for the time of the trip you’re planning.",
+          caption:
+            "6,000 incidents. 540 search and rescues. Every year, and rising. Plan My Walk was built to bring that number down.",
           captionTone: "light",
           aspect: "1/1",
         },
@@ -160,14 +161,14 @@ export const keepingKiwisSafe: CaseStudy = {
     },
     {
       // Figma "Case-Study Assets" (245:233187), same slot Thrive uses for
-      // its walkthrough video (there's a Video.png in the Plan My Walk
-      // asset folder) — swap to a YouTube embed (`youtubeId`) if that's
-      // the intent, otherwise a single wide still.
+      // its walkthrough video. Renders the YouTube thumbnail with a play
+      // button; click opens the watch page in a new window (same as
+      // farmiq-thrive.ts — this video also has embedding disabled).
       type: "imageBand",
       layout: "single",
       images: [
         {
-          src: "/images/keeping-kiwis-safe/video-still.png",
+          youtubeId: "k4YzJ4wNcVM",
           alt: "Plan My Walk “Want to be inspired?” promo — trampers walking a valley track toward snowy mountains",
           aspect: "710/400",
         },
@@ -305,13 +306,14 @@ export const keepingKiwisSafe: CaseStudy = {
     },
     {
       type: "quoteSlider",
-      // accentColors are placeholders — hand-pick each from its final photo
-      // (see design-decision-workflow) once the quote images are exported.
+      // Figma "Quotes" (307:353620). accentColors hand-picked from a named
+      // feature in each photo (see design-decision-workflow): 1 = sunlit
+      // bush green, 2 = the deep alpine lake, 3 = the tramper's red pack.
       slides: [
         {
           image: {
-            src: "/images/keeping-kiwis-safe/quote-laptop.png",
-            alt: "A woman and a boy looking at a track page on the Plan My Walk website",
+            src: "/images/keeping-kiwis-safe/quote-laptop.jpg",
+            alt: "A woman and a boy at a kitchen bench looking at a track page on the Plan My Walk website",
             aspect: "834/440",
           },
           quote:
@@ -322,25 +324,27 @@ export const keepingKiwisSafe: CaseStudy = {
         },
         {
           image: {
-            alt: "Hiker on a New Zealand track",
+            src: "/images/keeping-kiwis-safe/quote-vista.jpg",
+            alt: "Three trampers looking out over a broad river valley and alpine lake from a mountain saddle",
             aspect: "834/440",
           },
           quote:
             "I love this app! It has made finding new tracks, gear lists and planning a trip safely so easy. Highly recommend to anyone considering a hike short or long in NZ.",
           attribution: "Plan My Walk user · App Store review",
           side: "left",
-          accentColor: "#2E5A6B",
+          accentColor: "#123F44",
         },
         {
           image: {
-            alt: "Alice Adventuring on a backcountry trip",
+            src: "/images/keeping-kiwis-safe/quote-forest.jpg",
+            alt: "A tramper with a red-covered pack pausing on a moss-lined beech forest track",
             aspect: "834/440",
           },
           quote:
             "I’m a relatively risk-averse tramper, I always let someone know where I’m going, and often overpack ‘just in case.’ On Plan My Walk, I write down all my plans and the app emailed this to my chosen emergency contact person. My husband had all the info he needed in case I didn’t contact him at our designated time.",
           attribution: "Alice Adventuring · Content Creator",
           side: "right",
-          accentColor: "#6B4A2F",
+          accentColor: "#B23A26",
         },
       ],
     },

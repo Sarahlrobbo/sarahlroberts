@@ -209,12 +209,23 @@ function scrimFor(side: "left" | "right") {
       // -translate-50% trick, which only self-cancels when its parent is
       // itself centred on the viewport (this one isn't; it's offset by the
       // nav sidebar).
-      const edgeOffset = root.getBoundingClientRect().left;
-      root.style.marginLeft = `${-edgeOffset}px`;
+      const rawEdgeOffset = root.getBoundingClientRect().left;
+      root.style.marginLeft = `${-rawEdgeOffset}px`;
       root.style.width = "100vw";
-      // The track needs the same offset back as left padding, so cards
-      // still start aligned with the content column at rest instead of
-      // flush with the true viewport edge.
+      // The track needs that offset back as left padding, so cards start
+      // aligned with the content column at rest instead of flush with the
+      // true viewport edge — BUT never so far in that card 1's right edge
+      // runs past the viewport. On a narrow desktop/tablet width (or the
+      // in-app browser pane) the content-column inset plus an 834px card
+      // exceeds the viewport, which left card 1 permanently clipped and
+      // un-readable at rest. Clamp the inset so card 1 always fits with a
+      // small gutter; on wide screens the raw offset wins and nothing changes.
+      const GUTTER = 16;
+      // offsetWidth, not getBoundingClientRect().width — the cards start at
+      // scale-90 until revealed, and the client rect would report that
+      // shrunk width, under-clamping.
+      const cardWidth = cards[0].offsetWidth;
+      const edgeOffset = Math.max(0, Math.min(rawEdgeOffset, window.innerWidth - cardWidth - GUTTER));
       track!.style.paddingLeft = `${edgeOffset}px`;
 
       // Pin the row vertically centred in the viewport, not near the top
