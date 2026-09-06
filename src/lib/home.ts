@@ -196,10 +196,8 @@ export const projectCards: ProjectCard[] = [
     // URL scheme assigned 2026-08-10 (Sarah's call); 404s until the case
     // study is built.
     href: "/case-studies/keeping-kiwis-safe",
-    // No dedicated "cover" file found in the Plan My Walk folder (unlike the
-    // other four) — left as a placeholder rather than guessing which of the
-    // dozen raw screenshots in there is meant to be the composite cover.
-    alt: "Plan My Walk / MSC Outdoor Safety case study cover",
+    src: "/images/home/covers/plan-my-walk.png",
+    alt: "Plan My Walk app — the Tongariro Alpine Crossing track screen, over a tramper on the trail",
     // 613/400 — matches DataPay's box (index.astro row 1) exactly. Was
     // 557/400 (Sarah's own earlier correction, at the time read off a
     // Figma "Project Cover" instance that turned out on closer look to be
@@ -216,11 +214,15 @@ export const projectCards: ProjectCard[] = [
     // Natural size is 100x72, but at that size it's the single biggest logo
     // on the grid (7200px² vs Datapay's 6400px² and FarmIQ's 3920px²) and
     // Sarah flagged it as visibly oversized — scaled down, aspect preserved.
-    logoSrc: "/images/home/logos/msc-company-logo.svg",
+    logoSrc: "/images/home/logos/msc-logo-white.svg",
     logoAlt: "MSC Outdoor Safety",
     logoWidth: 70,
     logoHeight: 50,
     textTone: "light",
+    // Photo cover (PlanMyWalk.png, added 2026-09-06) — same light→dark
+    // bottom scrim as the "Helping Farmers Thrive" card so the white title
+    // reads over the tussock/trail at the bottom of the shot.
+    scrim: "linear-gradient(to bottom, rgba(255,255,255,0.5) calc(100% - 88px), rgba(106,106,114,0.5) calc(100% - 46px))",
     hover: {
       color: "#cfe739",
       opacity: 0.95,
@@ -228,7 +230,7 @@ export const projectCards: ProjectCard[] = [
       description:
         "MSC's existing safety tool was outdated and underused. I facilitated a five-day Design Sprint and led the UX and UI, shipping an app that's since reached over 1 million users and was a Best Design Awards Finalist.",
       tags: ["Design Sprint", "Awards Finalist"],
-      logoSrc: "/images/home/logos/msc-company-logo.svg",
+      logoSrc: "/images/home/logos/msc-logo-white.svg",
       logoAlt: "MSC Outdoor Safety",
       logoWidth: 70,
       logoHeight: 50,

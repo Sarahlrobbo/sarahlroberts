@@ -3,8 +3,11 @@ import { projectCards } from "../lib/home";
 
 interface Props {
   authorName: string;
+  /** Light nav links, for a dark hero background (see Cover's invertText). Only the desktop bar + hamburger invert; the mobile takeover panel is opaque so it stays dark. */
+  invert?: boolean;
 }
-const { authorName } = Astro.props;
+const { authorName, invert = false } = Astro.props;
+const navLink = invert ? "text-[var(--color-text-invert)]" : "text-[var(--color-text-primary)]";
 
 // The 4 go-live cards each carry their own short navLabel (the real
 // `title`s are full sentences) — reused here so the submenu and the home
@@ -15,7 +18,7 @@ const navProjects = projectCards.filter((card) => card.navLabel);
 <nav data-nav class="relative flex items-center justify-between px-[var(--spacing-xmd)] py-[var(--spacing-sm)] lg:mx-auto lg:px-[var(--spacing-lg)] lg:w-[1440px] lg:max-w-full">
   <a
     href="/"
-    class="text-style-intro-medium text-[var(--color-text-primary)] rounded-[var(--radius-m)] px-0 py-[var(--spacing-sm)] underline-offset-4 transition-colors hover:text-[var(--color-text-brand)] hover:underline lg:px-[var(--spacing-xmd)]"
+    class={`text-style-intro-medium ${navLink} rounded-[var(--radius-m)] px-0 py-[var(--spacing-sm)] underline-offset-4 transition-colors hover:text-[var(--color-text-brand)] hover:underline lg:px-[var(--spacing-xmd)]`}
   >
     {authorName}
   </a>
@@ -23,13 +26,13 @@ const navProjects = projectCards.filter((card) => card.navLabel);
   <div class="hidden items-center gap-[6px] lg:flex">
     <a
       href="/#work"
-      class="text-style-intro-medium text-[var(--color-text-primary)] rounded-[var(--radius-m)] px-[var(--spacing-xmd)] py-[var(--spacing-sm)] underline-offset-4 transition-colors hover:text-[var(--color-text-brand)] hover:underline"
+      class={`text-style-intro-medium ${navLink} rounded-[var(--radius-m)] px-[var(--spacing-xmd)] py-[var(--spacing-sm)] underline-offset-4 transition-colors hover:text-[var(--color-text-brand)] hover:underline`}
     >
       All Projects
     </a>
     <a
       href="/about"
-      class="text-style-intro-medium text-[var(--color-text-primary)] rounded-[var(--radius-m)] px-[var(--spacing-xmd)] py-[var(--spacing-sm)] underline-offset-4 transition-colors hover:text-[var(--color-text-brand)] hover:underline"
+      class={`text-style-intro-medium ${navLink} rounded-[var(--radius-m)] px-[var(--spacing-xmd)] py-[var(--spacing-sm)] underline-offset-4 transition-colors hover:text-[var(--color-text-brand)] hover:underline`}
     >
       About
     </a>
@@ -47,7 +50,7 @@ const navProjects = projectCards.filter((card) => card.navLabel);
     aria-label="Open menu"
     aria-expanded="false"
     aria-controls="mobile-nav-menu"
-    class="relative z-20 flex size-6 items-center justify-center text-[var(--color-text-primary)] lg:hidden"
+    class={`relative z-20 flex size-6 items-center justify-center ${navLink} lg:hidden`}
   >
     <span class="nav-toggle-bars" aria-hidden="true">
       <span class="nav-toggle-bar"></span>

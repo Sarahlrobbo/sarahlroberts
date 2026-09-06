@@ -19,6 +19,8 @@ export const keepingKiwisSafe: CaseStudy = {
   authorName: "Sarah Roberts",
   backHref: "/",
   cover: {
+    // Dark mountain photo — light title + nav for contrast.
+    invertText: true,
     background: {
       src: "/images/keeping-kiwis-safe/cover-bg.jpg",
       alt: "Tramper on a boardwalk track heading toward snow-covered mountains",
@@ -33,6 +35,12 @@ export const keepingKiwisSafe: CaseStudy = {
   sections: [
     {
       type: "intro",
+      logo: {
+        src: "/images/home/logos/msc-company-logo.svg",
+        alt: "Mountain Safety Council",
+        aspect: "100/72",
+      },
+      logoLarge: true,
       company: "Mountain Safety Council",
       role: "Solo Senior UX/UI Designer (Somar Digital)",
       dateRange: "May 2021",
@@ -59,14 +67,18 @@ export const keepingKiwisSafe: CaseStudy = {
       },
     },
     {
-      // Figma "Top images" (245:233189) — two images after the intro.
+      // Figma "Top images" (245:233189) — full-bleed band after the intro
+      // (same as the other case studies' first band). Left is a square
+      // (helicopter), right is a shorter landscape shot that vertically
+      // centres against it (see `sm:items-center` on two-equal in ImageBand).
       type: "imageBand",
       spacingBefore: "tighter",
+      wide: true,
       layout: "two-equal",
       images: [
         {
-          src: "/images/keeping-kiwis-safe/top-rescue.png",
-          alt: "A Search & Rescue crew winching a tramper off a bush ridge",
+          src: "/images/keeping-kiwis-safe/top-rescue.jpg",
+          alt: "A rescue helicopter winching a person off a bush-clad ridge",
           caption: "Check the weather for the time of the trip you’re planning.",
           captionTone: "light",
           aspect: "1/1",

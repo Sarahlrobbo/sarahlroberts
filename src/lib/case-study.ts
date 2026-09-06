@@ -122,6 +122,13 @@ export type CaseStudySection = (
       type: "intro";
       /** Client/company logo, 160×32 on desktop (Figma's "PlaceOfWork" component) — omit if none supplied yet. */
       logo?: CaseStudyImage;
+      /**
+       * Render the logo at ~2 lines tall (matching the company + date block
+       * beside it) with auto width, instead of the default 160×32 wordmark
+       * slot — for square-ish icon+wordmark lockups (e.g. MSC) that read as
+       * a sliver at 32px.
+       */
+      logoLarge?: boolean;
       company: string;
       role: string;
       dateRange: string;
@@ -213,6 +220,12 @@ export interface CaseStudy {
         deviceImage: CaseStudyImage;
         /** Separate mobile crop/composition of the device mockup, if supplied — falls back to `deviceImage` when omitted. */
         deviceImageMobile?: CaseStudyImage;
+        /**
+         * Render the hero title + top nav in inverted (light) text — for a
+         * dark background photo where the default dark text can't hold
+         * contrast (e.g. Keeping Kiwis Safe's mountain shot).
+         */
+        invertText?: boolean;
       }
     | {
         /**
