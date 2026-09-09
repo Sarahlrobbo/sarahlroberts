@@ -138,7 +138,16 @@ const logoBottomOffset = card.logoSrc ? `calc((var(--spacing-2xlg) - ${card.logo
            reads best around 6-8 words/line). w-3/4 still applies at
            1440px+ where the desktop box has room to spare — unaffected. */
       }
-      <p class={`w-full text-style-body-semibold min-[1440px]:w-3/4 ${hoverTextColor}`}>{card.hover.description}</p>
+      {/* Hover description: body font, regular weight, 18/28 — up from the
+          16px `text-style-body` size, which read small inside the large
+          accent panel (Sarah, 2026-09-09). Inline so it beats the token's
+          own font-size without touching the shared class. */}
+      <p
+        class={`w-full text-style-body min-[1440px]:w-3/4 ${hoverTextColor}`}
+        style="font-size: 18px; line-height: 28px;"
+      >
+        {card.hover.description}
+      </p>
     </div>
     {
       /* min-w-0 above and on the two rows below: flex items default to

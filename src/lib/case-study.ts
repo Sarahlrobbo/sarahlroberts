@@ -24,6 +24,14 @@ export interface CaseStudyImage {
    * than an arbitrary brand colour, so the bar reads as part of the image.
    */
   captionBg?: string;
+  /**
+   * Strengthens the light-tone caption scrim: swaps the soft multiply
+   * gradient (which barely darkens a near-white image) for a solid
+   * bottom-anchored black fade, so a long white caption stays readable over
+   * a very light photo. Only affects `captionTone: "light"` without
+   * `captionBg`.
+   */
+  captionScrimStrong?: boolean;
   /** Tailwind aspect-ratio value, e.g. "600/400", "400/600", "1000/563". */
   aspect: string;
   /**

@@ -359,15 +359,26 @@ export interface HeroCover {
 // the real Figma screenshot, not just trusting the numbering. Slot 5 (the
 // Hatch dashboard) had no numbered match in that folder; reused from the
 // Hatch case-study cover instead, flagged as inferred rather than confirmed.
+// width/height are the Figma values ×1.12 (2026-09-09, Sarah — "make these
+// images bigger, ~1.25x, small on all devices"). top/left/rotate stay at
+// the original Figma positions: the 1440+ desktop canvas keeps each card's
+// top-left anchor fixed and just grows the card. A full 1.25x here buried
+// the middle card (the neighbours overlapped it to a ~13px visible sliver)
+// AND would have pushed --fan-native-w past 1440 — so desktop is held to
+// 1.12x (fan footprint ≈ 1343px, still clears the breakpoint). The stack
+// (<640) and grid (640–1439) tiers get the fuller ~1.25–1.3x via max-width
+// / a wider .hero-fan instead (see .hero-card / .hero-fan in global.css);
+// below 1440 only the aspect-ratio (w/h) is read from these values, so
+// scaling both by one factor is a no-op there.
 export const heroCovers: HeroCover[] = [
-  { src: "/images/home/hero/01-datapay.png", alt: "Datapay screens preview", top: 39, left: -220, width: 357, height: 246, rotate: 3.78 },
+  { src: "/images/home/hero/01-datapay.png", alt: "Datapay screens preview", top: 39, left: -220, width: 400, height: 276, rotate: 3.78 },
   {
     src: "/images/home/hero/02-fiq-diary.png",
     alt: "Farmer using FarmIQ in the field",
     top: 0,
     left: 28,
-    width: 354,
-    height: 241,
+    width: 396,
+    height: 270,
     rotate: -3,
   },
   {
@@ -375,19 +386,19 @@ export const heroCovers: HeroCover[] = [
     alt: "FarmIQ design system libraries with the design team",
     top: 120,
     left: 258,
-    width: 355,
-    height: 242,
+    width: 398,
+    height: 271,
     rotate: 0,
   },
-  { src: "/images/home/hero/04-list.png", alt: "Plan My Walk packing list on phone", top: 18, left: 501, width: 356, height: 245, rotate: -3.57 },
+  { src: "/images/home/hero/04-list.png", alt: "Plan My Walk packing list on phone", top: 18, left: 501, width: 399, height: 274, rotate: -3.57 },
   {
     // Best-guess match, not folder-confirmed like the other four — see note above.
     src: "/images/home/hero/05-hatch-tax-time.png",
     alt: "Hatch Tax Time Calculator dashboard",
     top: 78,
     left: 735,
-    width: 346,
-    height: 229,
+    width: 388,
+    height: 256,
     rotate: 0,
   },
 ];

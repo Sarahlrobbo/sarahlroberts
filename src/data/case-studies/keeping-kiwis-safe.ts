@@ -94,14 +94,14 @@ export const keepingKiwisSafe: CaseStudy = {
           src: "/images/keeping-kiwis-safe/top-rescue.jpg",
           alt: "A rescue helicopter winching a person off a bush-clad ridge",
           caption:
-            "6,000 incidents. 540 search and rescues. Every year, and rising. Plan My Walk was built to bring that number down.",
+            "Every year: 6,000 incidents, 540 rescues, and rising. Plan My Walk was built to change that.",
           captionTone: "light",
           aspect: "1/1",
         },
         {
           src: "/images/keeping-kiwis-safe/top-laptop.jpg",
           alt: "A woman and a boy looking at the Plan My Walk website on a laptop",
-          caption: "An easy way to find tracks you’re comfortable with.",
+          caption: "Pick a track that suits everyone you’re walking with.",
           captionTone: "light",
           aspect: "736/490",
           aspectMobile: "1/1",
@@ -147,8 +147,10 @@ export const keepingKiwisSafe: CaseStudy = {
           src: "/images/keeping-kiwis-safe/situation-sprint-map.jpg",
           alt: "A topo map with track markers and a Cass Saddle Hut detail card",
           caption:
-            "In the Design Sprint with the experts in the room we co-designed the solution.",
+            "Research said it plainly: the draw isn’t safety, it’s helping a group find the right trip. Safety follows, and it’s the youngest, keenest, least-prepared trampers who need that most.",
           captionTone: "light",
+          // Near-white topo map + a long caption — needs the stronger scrim.
+          captionScrimStrong: true,
           aspect: "600/400",
         },
       ],
@@ -157,7 +159,8 @@ export const keepingKiwisSafe: CaseStudy = {
       // Figma "Frame 28" (306:353485), lower row — the 5-phase Design Sprint
       // diagram (Understand / Sketch / Decide / Prototype / Test) on a topo
       // map ground. Kept at the export's native ~3.04 ratio so no phase card
-      // clips. Caption sits on the light map, so dark text, no scrim.
+      // clips. White caption + strong scrim to match the "Research said it
+      // plainly" map image above (Sarah's call, 2026-09-09).
       type: "imageBand",
       spacingBefore: "tighter",
       wide: true,
@@ -167,8 +170,10 @@ export const keepingKiwisSafe: CaseStudy = {
         {
           src: "/images/keeping-kiwis-safe/situation-design-sprint.jpg",
           alt: "Design Sprint phases: Understand, Sketch, Decide, Prototype, Test",
-          caption: "Design Sprint",
-          captionTone: "dark",
+          caption:
+            "A 5-day Design Sprint with MSC’s stakeholders, moving from research to a tested prototype in a week.",
+          captionTone: "light",
+          captionScrimStrong: true,
           aspect: "2400/790",
         },
       ],
@@ -220,11 +225,11 @@ export const keepingKiwisSafe: CaseStudy = {
       heading: "The Solution",
       paragraphs: [
         "Plan My Walk gives users a comprehensive database of walking and tramping tracks across New Zealand, so they can plan their adventure with confidence, not guesswork. It’s organised around five clear destinations, accessed through bottom navigation: Track, Alerts, Weather, Gear, and Plan.",
-        "**Track** — Search New Zealand’s tramping database by location, difficulty, duration, and distance to find the right walk. Each track carries a difficulty rating from the community itself, whether it felt as expected, harder, or easier than described, so people know what they’re walking into before they commit.",
-        "**Alerts** — Track-specific alerts flag closures, hazards, and avalanche warnings, the kind of information that changes a plan, surfaced before people set out, not after.",
-        "**Weather** — Track-specific forecasts and warnings, provided in partnership with MetService, New Zealand’s official public weather forecaster, so people can check conditions for the exact place they’re headed, not just the general region.",
-        "**Gear** — An interactive gear list tailored to each trip, so packing matches the actual conditions and duration.",
-        "**Plan** — A trip planner that ties it together: add the people joining, set an emergency contact, upload trip notes. If someone hasn’t returned by their planned date, their emergency contact is prompted to call Search & Rescue, turning a simple trip plan into a real safety mechanism, not just a checklist.",
+        "**Track**: Search New Zealand’s tramping database by location, difficulty, duration, and distance to find the right walk. Each track carries a difficulty rating from the community itself, whether it felt as expected, harder, or easier than described, so people know what they’re walking into before they commit.",
+        "**Alerts**: Track-specific alerts flag closures, hazards, and avalanche warnings, the kind of information that changes a plan, surfaced before people set out, not after.",
+        "**Weather**: Track-specific forecasts and warnings, provided in partnership with MetService, New Zealand’s official public weather forecaster, so people can check conditions for the exact place they’re headed, not just the general region.",
+        "**Gear**: An interactive gear list tailored to each trip, so packing matches the actual conditions and duration.",
+        "**Plan**: A trip planner that ties it together: add the people joining, set an emergency contact, upload trip notes. If someone hasn’t returned by their planned date, their emergency contact is prompted to call Search & Rescue, turning a simple trip plan into a real safety mechanism, not just a checklist.",
         "Once the plan is complete, share it and go, peace of mind that if something goes wrong, help is already on the way. Free to use, and made by trampers, for trampers.",
       ],
       // Figma 306:353591 — 339px square asset, 71px gap to the copy column.
@@ -242,9 +247,8 @@ export const keepingKiwisSafe: CaseStudy = {
     },
     {
       // Figma image grid (322:354690) — full-bleed two-up, 6:4 each.
-      // NOTE: rows 1 & 2 carry the same two captions in Figma ("Search for
-      // a track…" / "On all tracks…") — placeholder copy Sarah still has to
-      // work through; transcribed verbatim for now, revisit before launch.
+      // Captions finalised with Sarah 2026-09-09 (the Figma placeholders on
+      // rows 1 & 2 are replaced).
       type: "imageBand",
       spacingBefore: "tighter",
       wide: true,
@@ -254,14 +258,14 @@ export const keepingKiwisSafe: CaseStudy = {
         {
           src: "/images/keeping-kiwis-safe/grid-track-search.jpg",
           alt: "Three phone screens: track search, the Tongariro Alpine Crossing, and a date picker",
-          caption: "Search for a track that works for your comfort zone.",
+          caption: "Search for your next trip, right from your phone.",
           captionTone: "light",
           aspect: "600/400",
         },
         {
           src: "/images/keeping-kiwis-safe/grid-web-reviews.jpg",
           alt: "The Plan My Walk web track page for the Tongariro Northern Circuit, with community reviews",
-          caption: "On all tracks you can see other’s reviews.",
+          caption: "Real reviews from people who’ve walked it, so you know if it’s for you.",
           captionTone: "light",
           aspect: "600/400",
         },
@@ -278,14 +282,14 @@ export const keepingKiwisSafe: CaseStudy = {
         {
           src: "/images/keeping-kiwis-safe/grid-alerts-weather.jpg",
           alt: "Three phone screens: the Alpine Crossing, MSC alerts, and a track weather forecast",
-          caption: "Search for a track that works for your comfort zone.",
+          caption: "One track view: current alerts and the weather for your trip window.",
           captionTone: "light",
           aspect: "600/400",
         },
         {
           src: "/images/keeping-kiwis-safe/grid-hand-phone-map.jpg",
           alt: "A tramper checking a track weather forecast on their phone over a paper map",
-          caption: "On all tracks you can see other’s reviews.",
+          caption: "Check the mountain forecast for the exact days you’ll be on the track.",
           captionTone: "light",
           aspect: "600/400",
         },
@@ -302,14 +306,14 @@ export const keepingKiwisSafe: CaseStudy = {
         {
           src: "/images/keeping-kiwis-safe/grid-hand-phone-gear.jpg",
           alt: "A tramper checking a suggested gear list on their phone, gear laid out on the ground",
-          caption: "Tick off the gear as you prepare for your trip.",
+          caption: "Tick each item off as it goes in your pack.",
           captionTone: "light",
           aspect: "600/400",
         },
         {
           src: "/images/keeping-kiwis-safe/grid-trip-plan.jpg",
           alt: "Three phone screens: the gear list, trip-plan builder, and shared-plan confirmation",
-          caption: "Share your plan with your emergency contact.",
+          caption: "Your emergency contact holds your plan, so Search & Rescue knows where to look.",
           captionTone: "light",
           aspect: "600/400",
         },
@@ -324,9 +328,12 @@ export const keepingKiwisSafe: CaseStudy = {
       ],
     },
     {
-      // Figma "The Shift" band (328:356326) — content-column two-up (not
-      // full-bleed), no overlay captions; the italic line below is Figma's
-      // standalone note (316:354311).
+      // Figma "The Shift" band (328:356326) — content-column (not full-bleed).
+      // The Figma second image was atmospheric filler (a generic tramper);
+      // dropped 2026-09-09 on Sarah's call. Kept as `two-equal` with a single
+      // image so it stays half-width (its original size) with the empty
+      // right column, and the note lines up under it. The image is the MSC
+      // promo shot the standalone note (316:354311) is actually about.
       type: "imageBand",
       spacingBefore: "tight",
       layout: "two-equal",
@@ -335,11 +342,6 @@ export const keepingKiwisSafe: CaseStudy = {
         {
           src: "/images/keeping-kiwis-safe/shift-advert.jpg",
           alt: "The Plan My Walk home screen on a phone over a tussock ridge, a tramper with arms raised behind it",
-          aspect: "600/400",
-        },
-        {
-          src: "/images/keeping-kiwis-safe/shift-mountains.jpg",
-          alt: "A hooded tramper on a boardwalk track heading toward mist-covered snowy mountains",
           aspect: "600/400",
         },
       ],

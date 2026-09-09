@@ -409,6 +409,13 @@ body {
        instead of the default auto-placement flush-left under cards 1–2. */
     grid-template-columns: repeat(6, 1fr);
     align-items: start;
+    /* Break out past the 846px hero text column (same idea as the 1440+
+       fixed canvas below) so the cards aren't squeezed into ~814px — the
+       parent section is flex+items-center, so this overflows symmetrically
+       and body{overflow-x:hidden} keeps it off the scrollbar. Bumped here
+       2026-09-09 with the max-width above (Sarah: cards too small). */
+    width: min(calc(100vw - 3rem), 1180px);
+    max-width: none;
   }
   .hero-card:nth-child(1) {
     grid-column: 1 / 3;
@@ -547,7 +554,11 @@ body.nav-open {
 .hero-card {
   position: relative;
   width: 100%;
-  max-width: 300px;
+  /* Bumped 300 → 380 (~1.25x, 2026-09-09, Sarah — "small on all devices").
+     Caps each card in the stack (<640) and grid (640–1439) tiers; the
+     grid tier also widens .hero-fan past the 846px text column so cards
+     can actually reach this. Desktop (1440+) ignores it (uses --card-w). */
+  max-width: 380px;
   rotate: calc(var(--rotate-base, 0) * 1deg - var(--velocity, 0) * 0.25deg);
   translate: calc(var(--offset-x, 0) * 1px) calc(var(--offset-y, 0) * 1px);
   scale: 0;
@@ -580,18 +591,17 @@ body.nav-open {
    index.astro, unchanged) drives its height below 1440px; the four
    fixed-px sizes here are the real Figma box sizes, restored only once
    there's enough room (1440px, same ceiling as the hero fan). */
-/* Mobile-only (2026-08-11, Sarah): tiles should read as roughly 1:1
-   (portrait-ish square, same idea as tablet) instead of the Figma landscape
-   ratios these aspect-[…] classes give at every other tier — and since
-   mobile is touch-only (no real `:hover`), there's no hover-content-height
-   concern here the way there is at tablet, so a plain fixed ratio is
-   enough; no min-height floor or grid-stacking needed. Same trick as the
-   tablet/desktop overrides below: a plain `.project-tile` class placed
-   after Tailwind's own `@import` in the cascade beats the aspect-[…]
-   utility class at equal specificity, no !important needed. Logo also
-   shrinks 25% here — see the comment on .project-tile-logo in
-   ProjectCard.astro. */
-@media (max-width: 639px) {
+/* Below Sarah's tablet breakpoint (900px = MUI's `md` — 2026-09-09):
+   single stacked column, tiles read as roughly 1:1 (portrait-ish square)
+   instead of the Figma landscape ratios their aspect-[…] classes give at
+   the pair/desktop tiers, and the hover panel is dropped entirely (touch,
+   no real `:hover`) — so no min-height floor or grid-stacking is needed
+   here. Same trick as the pair/desktop overrides below: a plain
+   `.project-tile` class placed after Tailwind's own `@import` in the
+   cascade beats the aspect-[…] utility class at equal specificity, no
+   !important needed. Logo also shrinks 25% here — see the comment on
+   .project-tile-logo in ProjectCard.astro. */
+@media (max-width: 899px) {
   .project-tile {
     aspect-ratio: 1 / 1;
   }
@@ -669,45 +679,37 @@ body.nav-open {
     padding-right: 77px !important;
   }
 }
-@media (min-width: 640px) {
+/* Pair tier — 900px (Sarah's tablet breakpoint) up to the 1440 desktop
+   cutoff: two cards side by side, fluid. */
+@media (min-width: 900px) {
   .project-tile {
     flex: 1 1 0%;
     /* Overrides the unconditional aspect-[…] Tailwind class from
-       index.astro (still needed as a mobile floor below 640px). Per spec,
+       index.astro (still the mobile floor below 900px). Per spec,
        align-items: stretch is a no-op on a flex/grid item that has
        aspect-ratio set — the browser uses the aspect-ratio-derived height
-       outright and ignores stretch. First pass here kept aspect-ratio
-       active through this tier and `.project-row { align-items: stretch }`
-       (below) silently did nothing — confirmed by measuring actual
-       rendered heights, not by eyeballing it. Neutralizing it here lets
-       stretch (and the grid-stacked photo/hover-panel content inside each
-       tile, see ProjectCard.astro) actually drive the height. */
+       outright and ignores stretch. Neutralizing it here lets stretch (and
+       the grid-stacked photo/hover-panel content inside each tile, see
+       ProjectCard.astro) actually drive the height. */
     aspect-ratio: auto;
   }
   /* CaseStudyImage sets `aspect-ratio` as an inline style (from its own
      `image.aspect` prop) — inline styles beat any external class without
      !important, so this is the only way to let the photo stretch past its
      own natural ratio and fill the tile once the tile is taller than that
-     ratio (see the comment on this element in ProjectCard.astro for why
-     that happens at this tier and not at desktop). */
+     ratio (hover content growing it in this tier, or the fixed Figma height
+     at desktop). */
   .project-tile-photo {
     aspect-ratio: auto !important;
   }
-  /* Real regression (2026-08-11, Sarah: "YOU BROKE DESKTOP!!!!", screenshot
-     at ~1400px — a completely ordinary laptop window width, still inside
-     this tier since it's short of the 1440 cutoff). Removing aspect-ratio
-     above made height PURELY content-driven with no floor at all — fine at
-     narrow tablet widths, where content always needs more room than the
-     original ratio gave anyway, but wrong once the column gets wide enough
-     that hover text wraps to fewer lines: content-driven height then
-     shrinks *below* the real Figma height, well before 1440px, and the
-     photo crops much tighter than intended (confirmed: 624×252 at 1400px,
-     a 2.48 ratio, vs. the real 624×460 — the "Growing FarmIQ's Design
-     Team" characters were losing their tops). min-height doesn't have
-     aspect-ratio's problem of blocking stretch, so it can restore each
-     card's real Figma height as a floor — content can still push a card
-     taller (min-height and auto-height combine as whichever is larger),
-     but it can no longer make one shorter than its designed size. */
+  /* Real regression once (2026-08-11, "YOU BROKE DESKTOP!!!!", ~1400px):
+     removing aspect-ratio above made height PURELY content-driven with no
+     floor — fine at narrow widths, wrong once the column gets wide enough
+     that hover text wraps to fewer lines, so content-driven height then
+     shrinks below the real Figma height and the photo crops too tight.
+     min-height doesn't block stretch the way aspect-ratio does, so it
+     restores each card's real Figma height as a floor — content can still
+     push a card taller, it just can't go shorter than its designed size. */
   .project-row:nth-of-type(1) .project-tile:not(.project-tile-fill) {
     min-height: 400px;
   }
@@ -738,12 +740,12 @@ body.nav-open {
    one just centers in the row per the base `items-center` class, same as
    row 1 always has — a real but minor tradeoff against the alternative of
    the whole grid reading as flat and repetitive by default. */
-@media (min-width: 640px) and (max-width: 1439px) {
+@media (min-width: 900px) and (max-width: 1439px) {
   /* "Helping Farmers Thrive" needs a taller dark band here than its
      card.scrim gives it (calc(100% - 88px)/(100% - 46px) — sized in
      lib/home.ts for the title's real height, mostly reverse-engineered
      from Figma's original desktop percentages). That's fine at desktop,
-     where the title stays within 2 lines, but at tablet widths the same
+     where the title stays within 2 lines, but at pair-tier widths the same
      title wraps to 3 lines (measured 116px tall, not ~88px), so the top
      line ("Helping Farmers") sat above the dark region entirely, over
      bare photo (Sarah screenshotted this, 2026-08-11 — circled the top
@@ -857,6 +859,57 @@ body.nav-open {
 @media (min-width: 1024px) {
   .case-study-image-aspect-tablet {
     aspect-ratio: var(--aspect-desktop);
+  }
+}
+
+/* TextImageSection "pinned" variant (2026-09-09, Sarah) — only
+   keeping-kiwis-safe's Solution, which sets an explicit 339px Figma image
+   width. The 600px copy column stays fixed, so side-by-side only holds
+   while the leftover space keeps the image >= ~250px (viewport ~1210px).
+   Below that the image stacks under the copy, capped near an image-grid
+   band's height (~380px) rather than ballooning to a full-width square. */
+.cs-ti--pinned {
+  flex-direction: column;
+}
+/* Stacked, mobile (<640): the image goes full-width, matching the other
+   square images in the bands above/below when they stack 1-up (Sarah,
+   2026-09-09). 640px+, where the image-grid bands go 2-up, a full-width
+   square would tower over them, so cap the image's WIDTH (= its height,
+   being square) to roughly a grid image's rendered HEIGHT at that width —
+   "never taller than the grid images below" was Sarah's rule there. The
+   grid band's width changes again at 1024 (it breaks out wide), hence two
+   formulas; 380px is a hard ceiling. */
+.cs-ti--pinned .cs-ti-media {
+  width: 100%;
+  justify-content: flex-start;
+}
+@media (min-width: 640px) {
+  .cs-ti--pinned .cs-ti-img {
+    max-width: min(380px, calc((min(100vw, 1010px) - 3.5rem) / 3));
+  }
+}
+@media (min-width: 1024px) {
+  .cs-ti--pinned .cs-ti-img {
+    max-width: min(380px, calc(100vw / 3.35));
+  }
+}
+@media (min-width: 1210px) {
+  .cs-ti--pinned {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: var(--cs-copy-image-gap);
+  }
+  .cs-ti--pinned .cs-ti-copy {
+    width: 600px;
+    flex-shrink: 0;
+  }
+  .cs-ti--pinned .cs-ti-media {
+    width: auto;
+    flex: 1 1 0%;
+    justify-content: center;
+  }
+  .cs-ti--pinned .cs-ti-img {
+    max-width: var(--cs-image-max-width);
   }
 }
 

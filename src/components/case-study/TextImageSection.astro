@@ -9,27 +9,39 @@ interface Props {
 const { section } = Astro.props;
 // Desktop image width + copy/image gap come from the Figma asset frame per
 // case study (keeping-kiwis-safe's Solution asset is 339px with a 71px gap,
-// vs the 267/40 the shared layout was first built around). Applied as CSS
-// vars so only the `lg:` layer changes — mobile stacking is untouched.
+// vs the 267/40 the shared layout was first built around).
 const imageMaxWidth = section.imageMaxWidth ?? 267;
 const copyImageGap = section.copyImageGap ?? 40;
+
+// "Pinned" = this section carries an explicit Figma image width (only
+// keeping-kiwis-safe's Solution today). The copy column stays a fixed 600px,
+// so a large image would collapse in the leftover space until the viewport
+// is very wide — instead, `.cs-ti--pinned` in global.css keeps side-by-side
+// only while the image can stay >= 250px (~1210px viewport) and otherwise
+// stacks the image under the copy at image-grid-band size. farmiq-thrive /
+// design-leadership don't set imageMaxWidth, so they keep the original
+// `lg:`-driven layout untouched.
+const pinned = section.imageMaxWidth != null;
+
+const sectionCls = pinned
+  ? "cs-ti cs-ti--pinned mx-auto flex max-w-[1010px] flex-col gap-[var(--spacing-md)] px-4 lg:mx-0 lg:ml-auto lg:mr-[var(--spacing-lg)] lg:px-0"
+  : "cs-ti mx-auto flex max-w-[1010px] flex-col gap-[var(--spacing-md)] px-4 lg:mx-0 lg:ml-auto lg:mr-[var(--spacing-lg)] lg:flex-row lg:items-start lg:gap-[var(--cs-copy-image-gap)] lg:px-0";
+const copyCls = pinned ? "cs-ti-copy flex flex-col gap-4" : "cs-ti-copy flex flex-col gap-4 lg:w-[600px] lg:shrink-0";
+const mediaCls = pinned ? "cs-ti-media flex items-center" : "cs-ti-media flex flex-1 items-center justify-center";
 ---
 
-<section
-  class="mx-auto flex max-w-[1010px] flex-col gap-[var(--spacing-md)] px-4 lg:mx-0 lg:ml-auto lg:mr-[var(--spacing-lg)] lg:flex-row lg:items-start lg:gap-[var(--cs-copy-image-gap)] lg:px-0"
-  style={`--cs-copy-image-gap: ${copyImageGap}px; --cs-image-max-width: ${imageMaxWidth}px;`}
->
-  <div class="flex flex-col gap-4 lg:w-[600px] lg:shrink-0">
+<section class={sectionCls} style={`--cs-copy-image-gap: ${copyImageGap}px; --cs-image-max-width: ${imageMaxWidth}px;`}>
+  <div class={copyCls}>
     <p class="text-style-intro text-[var(--color-text-primary)]">{section.heading}</p>
     <div class="flex flex-col gap-[var(--spacing-md)] text-style-body text-[var(--color-text-primary)]">
       {section.paragraphs.map((p) => <p set:html={renderInline(p)} />)}
     </div>
   </div>
 
-  <div class="flex flex-1 items-center justify-center">
+  <div class={mediaCls}>
     <CaseStudyImage
       image={section.image}
-      class="w-full sm:max-w-[400px] lg:max-w-[var(--cs-image-max-width)]"
+      class={pinned ? "cs-ti-img w-full" : "w-full sm:max-w-[400px] lg:max-w-[var(--cs-image-max-width)]"}
     />
   </div>
 </section>

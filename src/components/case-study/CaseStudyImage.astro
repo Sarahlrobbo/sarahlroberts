@@ -107,8 +107,18 @@ const aspectClass = image.aspectMobile
     )
   }
   {
-    !image.youtubeId && image.caption && !image.captionBg && tone === "light" && (
+    !image.youtubeId && image.caption && !image.captionBg && tone === "light" && !image.captionScrimStrong && (
       <div class="pointer-events-none absolute inset-0 bg-gradient-to-b from-white/50 from-75% to-[#283132]/50 mix-blend-multiply" />
+    )
+  }
+  {
+    /* Strong scrim: solid black fade anchored to the bottom (no multiply,
+       so it darkens even a near-white image), for long white captions over
+       very light photos. */
+  }
+  {
+    !image.youtubeId && image.caption && !image.captionBg && tone === "light" && image.captionScrimStrong && (
+      <div class="pointer-events-none absolute inset-x-0 bottom-0 h-[70%] bg-gradient-to-t from-black/45 via-black/28 via-40% to-transparent" />
     )
   }
   {
