@@ -39,7 +39,20 @@ const { section } = Astro.props;
           <div class="flex w-full flex-col gap-[var(--spacing-sm)] sm:w-[320px] lg:gap-[var(--spacing-xmd)]">
             <div class="flex flex-col">
               <p class="text-style-subheading text-[var(--color-text-secondary)]">{stat.label}</p>
-              <p class="text-style-h1-tight text-[var(--color-text-primary)]">{stat.value}</p>
+              {/* Value row height is driven by the text only — the badge is
+                  absolutely placed and its baseline sits level with the
+                  value's, so it grows upward instead of pushing the context
+                  paragraph below its counterpart in the other column. */}
+              <div class="relative w-fit">
+                <p class="text-style-h1-tight text-[var(--color-text-primary)]">{stat.value}</p>
+                {stat.badge?.src && (
+                  <img
+                    src={stat.badge.src}
+                    alt={stat.badge.alt}
+                    class="pointer-events-none absolute bottom-0 left-full ml-[var(--spacing-md)] h-[64px] w-auto sm:h-[88px]"
+                  />
+                )}
+              </div>
             </div>
             <p class="text-style-body text-[var(--color-text-secondary)]">{stat.context}</p>
           </div>

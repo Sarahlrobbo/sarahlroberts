@@ -29,4 +29,11 @@ const containerClass = section.wide
   <div class={`${gridClass} gap-[var(--spacing-md)]`}>
     {section.images.map((image) => <CaseStudyImage image={image} class="w-full" />)}
   </div>
+  {
+    section.note && (
+      <p class="mt-[var(--spacing-sm)] text-style-caption text-[var(--color-text-secondary)] sm:max-w-[493px]">
+        {section.note}
+      </p>
+    )
+  }
 </div>

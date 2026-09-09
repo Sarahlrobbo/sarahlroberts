@@ -75,6 +75,11 @@ export interface StatCallout {
   label: string;
   value: string;
   context: string;
+  /**
+   * Small badge image shown beside the value (Figma's "Best." award roundel
+   * next to the Finalist stat). Rendered ~72px tall, alpha preserved.
+   */
+  badge?: CaseStudyImage;
 }
 
 export interface NumberedItem {
@@ -147,6 +152,17 @@ export type CaseStudySection = (
       heading: string;
       paragraphs: string[];
       image: CaseStudyImage;
+      /**
+       * Desktop max-width of the image column in px, from the Figma asset
+       * frame. Defaults to 267 (the farmiq-thrive portrait slot the shared
+       * layout was first built for).
+       */
+      imageMaxWidth?: number;
+      /**
+       * Desktop gap between the copy column and the image, in px, from the
+       * Figma spacing. Defaults to 40 (`--spacing-lg`).
+       */
+      copyImageGap?: number;
     }
   | {
       type: "imageBand";
@@ -160,6 +176,12 @@ export type CaseStudySection = (
       images: CaseStudyImage[];
       /** Breaks out to the full 1440 canvas instead of the 1010 content column (Figma's "Image grid" band). */
       wide?: boolean;
+      /**
+       * Italic caption printed below the whole band (not overlaid on an
+       * image) — Figma's standalone note under a band, e.g. the Shift
+       * band's "Every shoulder season, MSC promotes Plan My Walk…".
+       */
+      note?: string;
     }
   | {
       type: "numberedList";
