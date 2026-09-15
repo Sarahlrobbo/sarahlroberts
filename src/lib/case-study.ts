@@ -147,7 +147,12 @@ export type CaseStudySection = (
       dateRange: string;
       stats: [StatCallout, StatCallout];
       paragraphs: string[];
-      quote: { quote: string; attribution: string };
+      /**
+       * One quote is the default; two renders stacked underneath each other
+       * (Datapay's AI delegation intro, 2026-09-16, Sarah's call — the CAB
+       * participant quotes needed room for both rather than picking one).
+       */
+      quotes: { quote: string; attribution: string }[];
     }
   | {
       type: "text";

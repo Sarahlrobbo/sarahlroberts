@@ -95,11 +95,13 @@ export const designLeadership: CaseStudy = {
         "I led FarmIQ's shift from ad-hoc design and fragmented UI to a repeatable operating model and multi-platform design system, grounded in real farmer roles and jobs-to-be-done. It started with the team itself. In a charter session, we mapped our strengths, working styles, and how we'd collaborate.",
         "What started as inconsistent products and a newly re-formed team became a governed system that let us move fast without sacrificing quality. The same foundations that went on to power two of FIQ's most-used features that I crafted, Diary and Tasks.",
       ],
-      quote: {
-        quote:
-          "Sarah uplifted how we did research at FarmIQ, and she made sure I was part of shaping it, not just delivering it. Working closely with her on our principles, I grew more confident making my own calls. The work we did together raised the bar for design output across the product.",
-        attribution: "Holly Feary, Senior Product Designer, FarmIQ",
-      },
+      quotes: [
+        {
+          quote:
+            "Sarah uplifted how we did research at FarmIQ, and she made sure I was part of shaping it, not just delivering it. Working closely with her on our principles, I grew more confident making my own calls. The work we did together raised the bar for design output across the product.",
+          attribution: "Holly Feary, Senior Product Designer, FarmIQ",
+        },
+      ],
     },
     {
       type: "imageBand",

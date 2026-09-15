@@ -74,11 +74,13 @@ export const keepingKiwisSafe: CaseStudy = {
         "Creating an app for the Mountain Safety Council (MSC) that enables people to enjoy the outdoors and promotes safety messaging. Plan My Walk helps people plan and prepare for their NZ outdoor adventure.",
         "MSC had an existing safety tool on their website, but it was outdated and cumbersome. Through user research, focus groups, and a heuristic evaluation, we identified exactly where it was failing people, then rebuilt it as a purpose-built app. As solo Designer at Somar Digital, I facilitated a 5-day Design Sprint with MSC’s key stakeholders and led the full UX/UI design, working closely with MSC’s in-house designer to meet WCAG government accessibility standards throughout.",
       ],
-      quote: {
-        quote:
-          "I’m a relatively risk-averse tramper, I always let someone know where I’m going, and often overpack ‘just in case.’ Plan My Walk simplified all of that. On the app, I could write down all my plans and the app emailed this to my chosen emergency contact person. My husband had all the info he needed in case I didn’t contact him at our designated time. Such a good feature!",
-        attribution: "Alice · Alice Adventuring",
-      },
+      quotes: [
+        {
+          quote:
+            "I’m a relatively risk-averse tramper, I always let someone know where I’m going, and often overpack ‘just in case.’ Plan My Walk simplified all of that. On the app, I could write down all my plans and the app emailed this to my chosen emergency contact person. My husband had all the info he needed in case I didn’t contact him at our designated time. Such a good feature!",
+          attribution: "Alice · Alice Adventuring",
+        },
+      ],
     },
     {
       // Figma "Top images" (245:233189) — full-bleed band after the intro

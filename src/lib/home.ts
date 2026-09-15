@@ -51,8 +51,8 @@ export interface ProjectCard {
 // folder with exactly one obvious "Cover" file, and was visually verified.
 export const projectCards: ProjectCard[] = [
   {
-    title: "Designing Datapay's Greenfields Future: From Evidence to Screens",
-    navLabel: "Designing Datapay",
+    title: "Customers Delegating to AI, One Job at a Time",
+    navLabel: "Customers Delegating to AI",
     // URL scheme assigned 2026-08-10 (Sarah's call) so the nav's "All
     // Projects" submenu and this card point at the same place — the case
     // study itself isn't built yet, so this 404s until it is.

@@ -63,10 +63,12 @@ export const farmiqThrive: CaseStudy = {
         "I led the redesign of FarmIQ's mobile app and its sister web application, setting direction, building principles, and guiding a team of 3 through a sequence of releases that gave farmers their farm at their fingertips.",
         "App stickiness reached 32.4%, a 17.5% year-on-year increase, far surpassing the 20% SaaS benchmark for exceptional engagement. Mobile closed to within 4% of web. The app went from something farmers struggled with to something they relied on every day.",
       ],
-      quote: {
-        quote: "I’m using FarmIQ as I shift the stock through the gate and don’t have to worry about it when getting home.",
-        attribution: "Chris Hursthouse · Haddington, Hawkes Bay · 220ha lambs and bull-beef",
-      },
+      quotes: [
+        {
+          quote: "I’m using FarmIQ as I shift the stock through the gate and don’t have to worry about it when getting home.",
+          attribution: "Chris Hursthouse · Haddington, Hawkes Bay · 220ha lambs and bull-beef",
+        },
+      ],
     },
     {
       type: "imageBand",
