@@ -181,11 +181,14 @@ export type CaseStudySection = (
       type: "imageBand";
       /**
        * "two-uneven" is a 2/5 + 3/5 split (left/right) — Figma's post-intro
-       * band where the right photo runs larger. Images keep their own
-       * aspect ratios, so the wider column simply renders taller; pair it
-       * with `wide` for the full-bleed version shown in the design.
+       * band where the right photo runs larger. "two-uneven-reverse" is the
+       * mirror (roughly 880/457, ~66/34 — designing-datapay's Situation
+       * "Image grid" middle row, where the LEFT photo runs larger instead).
+       * Images keep their own aspect ratios, so the wider column simply
+       * renders taller; pair with `wide` for the full-bleed version shown
+       * in the design.
        */
-      layout: "single" | "two-equal" | "two-uneven" | "three-grid";
+      layout: "single" | "two-equal" | "two-uneven" | "two-uneven-reverse" | "three-grid";
       images: CaseStudyImage[];
       /** Breaks out to the full 1440 canvas instead of the 1010 content column (Figma's "Image grid" band). */
       wide?: boolean;

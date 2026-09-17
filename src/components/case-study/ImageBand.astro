@@ -14,7 +14,9 @@ const gridClass =
       ? "grid grid-cols-1 sm:grid-cols-2 sm:items-center"
       : section.layout === "two-uneven"
         ? "grid grid-cols-1 sm:grid-cols-[2fr_3fr] sm:items-center"
-        : "grid grid-cols-1 sm:grid-cols-3";
+        : section.layout === "two-uneven-reverse"
+          ? "grid grid-cols-1 sm:grid-cols-[880fr_457fr] sm:items-center"
+          : "grid grid-cols-1 sm:grid-cols-3";
 
 // Wide bands break out of the flex row's content column back to the full
 // article width. 244px = the row's own 40px left padding + the nav's
@@ -29,7 +31,7 @@ const containerClass = section.wide
 // --spacing-md = 24px, so a 2-col column is 50%-12px, a 3-col is
 // 33.333%-16px). `single` bands get a plain readable measure.
 const noteMaxWidth =
-  section.layout === "two-equal" || section.layout === "two-uneven"
+  section.layout === "two-equal" || section.layout === "two-uneven" || section.layout === "two-uneven-reverse"
     ? "sm:max-w-[calc(50%-12px)]"
     : section.layout === "three-grid"
       ? "sm:max-w-[calc(33.333%-16px)]"
