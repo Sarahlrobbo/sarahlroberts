@@ -57,21 +57,34 @@ export const projectCards: ProjectCard[] = [
     // Projects" submenu and this card point at the same place — the case
     // study itself isn't built yet, so this 404s until it is.
     href: "/case-studies/designing-datapay",
-    src: "/images/home/covers/datapay-greenfields.png",
-    alt: "Datapay Greenfields case study cover",
+    // Cover replaced 2026-09-23 — the old "Greenfields" cover no longer
+    // matched the case study's real story. New cover: the Pay Run
+    // self-service resolve/review screen (flagged items, AI-assisted
+    // status) floating over a real workshop photo.
+    src: "/images/home/covers/datapay-ai-payroll.png",
+    alt: "Datapay's Pay Run resolve screen, flagging items that need attention, floating over a workshop photo",
     aspect: "613/400",
     logoSrc: "/images/about/logos/datapay-icon.svg",
     logoAlt: "Datapay",
     logoWidth: 80,
     logoHeight: 80,
-    textTone: "dark",
+    // Switched dark → light 2026-09-23 with the new cover — the old
+    // Greenfields cover had a light patch behind the title; this photo is
+    // mid-to-dark throughout, dark text was unreadable. Same scrim
+    // treatment as the FarmIQ card above (identical gradient/colour,
+    // already the one Sarah confirmed as the correct, non-harsh grey).
+    textTone: "light",
+    scrim: "linear-gradient(to bottom, rgba(255,255,255,0.5) calc(100% - 88px), rgba(106,106,114,0.5) calc(100% - 46px))",
     hover: {
       color: "#0ab8d7",
       opacity: 0.98,
       textTone: "dark",
+      // Rewritten 2026-09-23 — the old copy described the earlier
+      // "Greenfields" feature-prioritisation story; this reflects the
+      // current AI delegation framework story the case study now tells.
       description:
-        "Datapay had 300+ competing feature requests and no structured way to prioritise them. I built a JTBD framework from 21 research studies, then led an AI-era discovery process validated with our Customer Advisory Board.",
-      tags: ["JTBD", "Strategy", "Workshop Facilitation", "Cross-functional Leadership"],
+        "D1–D5 gave Datapay a shared vocabulary for AI delegation. Customer validation told us where to start. Payroll consultants chose the winning job themselves, a two-sided workflow: customer self-service up front, AI mapping data in the backend for consultants to review.",
+      tags: ["AI Delegation", "Workshop Facilitation", "JTBD", "Cross-functional Leadership"],
       logoSrc: "/images/about/logos/datapay-icon.svg",
       logoAlt: "Datapay",
       logoWidth: 80,
