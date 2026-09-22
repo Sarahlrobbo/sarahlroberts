@@ -41,17 +41,25 @@ const aspectClass = image.aspectMobile
       ? "case-study-image-aspect-sm"
       : "case-study-image-aspect"
   : "";
+// Below lg, the caption (if any) moves out from an overlay on the photo to
+// plain text underneath it — no image is guaranteed to have a clean, low-
+// detail spot for white text at every crop, so overlaying doesn't hold up
+// across breakpoints. At lg+ the original overlay treatment (scrim/
+// captionBg/positioned text) is unchanged. Only images with a caption get
+// the extra wrapper; captionless usages (ProjectCard, about.astro photos,
+// the home hero fan) keep the exact single-div markup other CSS relies on
+// (e.g. ProjectCard's `position: relative` root assumption).
+const hasCaption = Boolean(image.caption) && !image.youtubeId;
+const boxStyle = image.aspectMobile
+  ? `--aspect-mobile: ${image.aspectMobile}; ${image.aspectTablet ? `--aspect-tablet: ${image.aspectTablet};` : ""} --aspect-desktop: ${image.aspect};`
+  : `aspect-ratio: ${image.aspect};`;
+const boxClass = `relative overflow-hidden ${rounded} ${wrapperBg} ${aspectClass}`;
 ---
 
-<div
-  class={`relative overflow-hidden ${rounded} ${wrapperBg} ${className} ${aspectClass}`}
-  style={
-    image.aspectMobile
-      ? `--aspect-mobile: ${image.aspectMobile}; ${image.aspectTablet ? `--aspect-tablet: ${image.aspectTablet};` : ""} --aspect-desktop: ${image.aspect};`
-      : `aspect-ratio: ${image.aspect};`
-  }
->
-  {
+{hasCaption && (
+<div class={className}>
+  <div class={boxClass} style={boxStyle}>
+    {
     image.youtubeId ? (
       // This video's owner has embedding turned off (YouTube error 153 on
       // both the embed domains), and it isn't ours to override — link out
@@ -107,33 +115,24 @@ const aspectClass = image.aspectMobile
     )
   }
   {
-    !image.youtubeId && image.caption && !image.captionBg && tone === "light" && !image.captionScrimStrong && (
-      <div class="pointer-events-none absolute inset-0 bg-gradient-to-b from-white/50 from-75% to-[#283132]/50 mix-blend-multiply" />
+    /* Overlay caption treatment — lg+ only below. Below lg the caption
+       renders as plain text under the image instead (see the closing
+       paragraph below), so no scrim is needed there. */
+  }
+  {
+    !image.captionBg && tone === "light" && !image.captionScrimStrong && (
+      <div class="pointer-events-none absolute inset-0 hidden bg-gradient-to-b from-white/50 from-75% to-[#283132]/50 mix-blend-multiply lg:block" />
     )
   }
   {
-    /* Strong scrim: solid black fade anchored to the bottom (no multiply,
-       so it darkens even a near-white image), for long white captions over
-       very light photos. */
-  }
-  {
-    !image.youtubeId && image.caption && !image.captionBg && tone === "light" && image.captionScrimStrong && (
-      <div class="pointer-events-none absolute inset-x-0 bottom-0 h-[70%] bg-gradient-to-t from-black/45 via-black/28 via-40% to-transparent" />
+    !image.captionBg && tone === "light" && image.captionScrimStrong && (
+      <div class="pointer-events-none absolute inset-x-0 bottom-0 hidden h-[70%] bg-gradient-to-t from-black/45 via-black/28 via-40% to-transparent lg:block" />
     )
   }
   {
-    /*
-      captionBg (2026-09-05): a solid, full-width colour bar under the
-      caption instead of the usual left-aligned overlay — for images with
-      no clean, low-detail spot for the caption to sit against. Bypasses
-      captionTone entirely (always white text on the solid colour, real
-      contrast rather than a gradient guess).
-    */
-  }
-  {
-    !image.youtubeId && image.caption && image.captionBg && (
+    image.captionBg && (
       <div
-        class="pointer-events-none absolute inset-x-0 bottom-0 px-[var(--spacing-xmd)] py-[10px]"
+        class="pointer-events-none absolute inset-x-0 bottom-0 hidden px-[var(--spacing-xmd)] py-[10px] lg:block"
         style={`background-color: ${image.captionBg};`}
       >
         <p class={`text-style-caption ${captionBgTextClass(image.captionBg)}`}>{image.caption}</p>
@@ -141,8 +140,8 @@ const aspectClass = image.aspectMobile
     )
   }
   {
-    !image.youtubeId && image.caption && !image.captionBg && (
-      <div class="pointer-events-none absolute bottom-0 left-0 px-[var(--spacing-xmd)] py-[10px]">
+    !image.captionBg && (
+      <div class="pointer-events-none absolute bottom-0 left-0 hidden px-[var(--spacing-xmd)] py-[10px] lg:block">
         <p
           class={`text-style-caption ${
             tone === "light" ? "text-[var(--color-text-invert)]" : "text-[var(--color-text-secondary)]"
@@ -153,7 +152,69 @@ const aspectClass = image.aspectMobile
       </div>
     )
   }
+  </div>
+  <p class="text-style-caption pt-[var(--spacing-sm)] text-[var(--color-text-secondary)] italic lg:hidden">
+    {image.caption}
+  </p>
 </div>
+)}
+{!hasCaption && (
+<div class={`${boxClass} ${className}`} style={boxStyle}>
+  {
+    image.youtubeId ? (
+      // This video's owner has embedding turned off (YouTube error 153 on
+      // both the embed domains), and it isn't ours to override — link out
+      // to the real watch page instead of trying to force an inline embed.
+      <a
+        href={`https://www.youtube.com/watch?v=${image.youtubeId}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label={`Watch "${image.alt}" on YouTube`}
+        class="group absolute inset-0"
+        data-open-popup
+      >
+        <img
+          src={`https://img.youtube.com/vi/${image.youtubeId}/maxresdefault.jpg`}
+          alt=""
+          class="size-full object-cover"
+          loading="lazy"
+        />
+        <div class="absolute inset-0 flex items-center justify-center bg-black/20 transition-colors group-hover:bg-black/35">
+          <div class="flex size-16 items-center justify-center rounded-full bg-white/90 shadow-lg transition-transform group-hover:scale-110">
+            <svg viewBox="0 0 24 24" class="ml-1 size-7 fill-[#283132]"><path d="M8 5v14l11-7z" /></svg>
+          </div>
+        </div>
+      </a>
+    ) : image.src && image.srcMobile ? (
+      <Fragment>
+        <img
+          src={image.srcMobile}
+          alt={image.alt}
+          class={`absolute inset-0 size-full ${earlyDesktop ? "sm:hidden" : "lg:hidden"} ${fit === "cover" ? "object-cover" : "object-contain"}`}
+          loading="lazy"
+        />
+        <img
+          src={image.src}
+          alt={image.alt}
+          class={`absolute inset-0 hidden size-full ${earlyDesktop ? "sm:block" : "lg:block"} ${fit === "cover" ? "object-cover" : "object-contain"}`}
+          loading="lazy"
+        />
+      </Fragment>
+    ) : image.src ? (
+      <img
+        src={image.src}
+        alt={image.alt}
+        class={`absolute inset-0 size-full ${fit === "cover" ? "object-cover" : "object-contain"}`}
+        loading="lazy"
+      />
+    ) : (
+      <div class="absolute inset-0 flex items-center justify-center border-2 border-dashed border-[var(--color-text-invert)]/30 text-center">
+        <span class="text-style-caption not-italic px-4 text-[var(--color-text-invert)]">{image.alt}</span>
+      </div>
+    )
+  }
+</div>
+)}
 
 <script>
   // target="_blank" opens a new tab in most browsers. Passing explicit

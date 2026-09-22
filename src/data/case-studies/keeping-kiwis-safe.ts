@@ -144,6 +144,7 @@ export const keepingKiwisSafe: CaseStudy = {
             "Plan My Trip: fill out a form, download a PDF. Not how people actually plan an adventure.",
           captionTone: "light",
           aspect: "600/400",
+          aspectMobile: "1/1",
         },
         {
           src: "/images/keeping-kiwis-safe/situation-sprint-map.jpg",
@@ -154,6 +155,7 @@ export const keepingKiwisSafe: CaseStudy = {
           // Near-white topo map + a long caption — needs the stronger scrim.
           captionScrimStrong: true,
           aspect: "600/400",
+          aspectMobile: "1/1",
         },
       ],
     },
@@ -171,12 +173,18 @@ export const keepingKiwisSafe: CaseStudy = {
       images: [
         {
           src: "/images/keeping-kiwis-safe/situation-design-sprint.jpg",
+          // Mobile crop added 2026-09-22, replaced same day with a more
+          // compact 2-column layout ("Design Sprint - mobile2.png") — a
+          // restacked composition Sarah built in Figma, same pattern as
+          // design-leadership's wide-band mobile crops.
+          srcMobile: "/images/keeping-kiwis-safe/situation-design-sprint-mobile.png",
           alt: "Design Sprint phases: Understand, Sketch, Decide, Prototype, Test",
           caption:
             "A 5-day Design Sprint with MSC’s stakeholders, moving from research to a tested prototype in a week.",
           captionTone: "light",
           captionScrimStrong: true,
           aspect: "2400/790",
+          aspectMobile: "900/1471",
         },
       ],
     },
@@ -244,6 +252,9 @@ export const keepingKiwisSafe: CaseStudy = {
         // to trim.
         src: "/images/keeping-kiwis-safe/solution-tramping-bush.jpg",
         alt: "Two trampers with packs walking a bush track in New Zealand",
+        // Caption added 2026-09-22, ties back to the Situation section's
+        // research finding (youngest/keenest/least-prepared trampers).
+        caption: "Our research found young men are the least prepared, most at risk.",
         aspect: "1/1",
       },
     },

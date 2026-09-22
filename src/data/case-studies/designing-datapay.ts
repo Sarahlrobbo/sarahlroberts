@@ -130,18 +130,19 @@ export const designingDatapay: CaseStudy = {
           // framing Sarah set up in Figma (was a tighter portrait crop).
           src: "/images/designing-datapay/02-office-harbour.png",
           alt: "A payroll professional at her desk, hand in her hair, with an Auckland harbour view behind her",
-          caption:
-            "Payroll Professionals work under intense, deadline‑driven pressure. Our JTBD work highlighted consistent stress points during pay periods and clarified where our product should actively guide users and reduce cognitive load.",
+          caption: "Deadline-driven, high-stress work, especially around payday. Research showed us where to reduce the cognitive load.",
           aspect: "600/400",
           aspectMobile: "1/1",
         },
         {
           // New 2026-09-17 — replaces the old team-video-call placeholder.
+          // Stays 6:4 on mobile (no square aspectMobile, removed
+          // 2026-09-22) — a dense diagram with small text throughout, a
+          // square crop would make the labels unreadable.
           src: "/images/designing-datapay/07-top-ai-risk-matrix.png",
           alt: "AI risk matrix: set the delegation ceiling, place the job on D1–D5, guardrails wrap every level",
-          caption: "AI risk matrix for AI delegation",
+          caption: "Risk matrix guiding AI delegation",
           aspect: "600/400",
-          aspectMobile: "1/1",
         },
       ],
     },
@@ -174,15 +175,13 @@ export const designingDatapay: CaseStudy = {
         {
           src: "/images/designing-datapay/04-research-illustration.png",
           alt: "Illustration of a payroll professional at a desk surrounded by research quote bubbles",
-          caption:
-            "Insights synthesised from 21 past research projects (including five I led at Datapay), highlighting consistent themes around accuracy, trust, and the consequences of getting payroll wrong.",
+          caption: "Synthesised from 21 research projects, five of mine. The theme was always accuracy and trust.",
           aspect: "600/400",
         },
         {
           src: "/images/designing-datapay/05-payroll-ecosystem-diagram.png",
           alt: "Diagram of payroll as an interconnected system of roles and controlled access",
-          caption:
-            "A visual representation of payroll as an interconnected system, showing how employees, approvers, payroll professionals, auditors, and secondary roles rely on controlled data flows and safeguards.",
+          caption: "Employee, approver, payroll professional: data flows out and back. Auditor and secondary roles, a downstream, controlled view.",
           aspect: "600/400",
         },
       ],
@@ -199,31 +198,17 @@ export const designingDatapay: CaseStudy = {
       layout: "single",
       images: [
         {
+          // Mobile crop added 2026-09-22 — restacked portrait composition
+          // Sarah built in Figma ("AI delgation-mobile.png"), same pattern
+          // as the other wide-band mobile crops on this site: the 5 cards
+          // stack vertically with the delegation arrow running down the
+          // left side instead of along the bottom.
           src: "/images/designing-datapay/08-situation-delegation-levels.png",
+          srcMobile: "/images/designing-datapay/08-situation-delegation-levels-mobile.png",
           alt: "The five delegation levels from Human does to Routine in rules, with a Human-to-100%-AI-delegation scale",
-          aspect: "2200/614",
-          fit: "contain",
-        },
-      ],
-    },
-    {
-      // Still a FarmIQ stand-in — Sarah's own note on this slot in Figma
-      // (unchanged 2026-09-17, only the box's aspect grew, 1010/266 →
-      // 1010/569): "TBD — wide image/video after Calls I Made (may not
-      // apply to this case study — no equivalent asset in the handover MD)".
-      type: "imageBand",
-      spacingBefore: "tighter",
-      wide: true,
-      background: "dots",
-      layout: "single",
-      images: [
-        {
-          src: "/images/farmiq-thrive/06-retiring-app.jpg",
-          srcMobile: "/images/farmiq-thrive/06-retiring-app-mobile.png",
-          alt: "TEMP (FarmIQ stand-in) — image band",
-          aspect: "1010/569",
-          aspectMobile: "900/1316",
-          earlyDesktop: true,
+          caption: "Five levels of delegation, from human does to AI autonomy.",
+          aspect: "1358/396",
+          aspectMobile: "900/2824",
           fit: "contain",
         },
       ],
@@ -271,8 +256,7 @@ export const designingDatapay: CaseStudy = {
         // of the raw source relying on CSS object-cover's plain centre-crop.
         src: "/images/designing-datapay/06-solution-validation-call.png",
         alt: "Sarah Roberts on a video call during a validation session",
-        caption:
-          "Enjoying the deep validation work with SMEs, spending hours asking “why” to refine roles, job boundaries, and dependencies. Uncovering critical insights that shaped the market canvas.",
+        caption: "Validating with SMEs, shaping the market canvas.",
         aspect: "1/1",
       },
     },
@@ -295,7 +279,7 @@ export const designingDatapay: CaseStudy = {
         {
           src: "/images/designing-datapay/11-grid-survey-insights.png",
           alt: "Survey infographic: Payroll Consultants' progressive autonomy across D1–D5, by statement",
-          caption: "High level survey insights and workshop delegation differences",
+          caption: "Survey insights showing delegation differences by sentiment",
           captionTone: "light",
           fit: "contain",
           aspect: "600/400",
@@ -306,14 +290,11 @@ export const designingDatapay: CaseStudy = {
       // Row 2 — a 66/34 split (Figma: 880px left, 457px square right),
       // the mirror of the site's existing "two-uneven".
       //
-      // NOTE: the left caption ("Recording health treatments offline") does
-      // not describe this image (a payroll customer-journey-map diagram) —
-      // reads like a leftover placeholder from a different context.
-      // Transcribed verbatim from Figma rather than invented; flagged to
-      // Sarah to replace in Figma. Its scrim is also set to 0% opacity in
-      // Figma (no darkening), which would leave white caption text
-      // illegible over this light diagram — used `captionTone: "dark"`
-      // instead so it's at least readable in the meantime.
+      // Left caption written directly with Sarah (2026-09-22), replacing
+      // the old Figma placeholder ("Recording health treatments offline")
+      // that didn't describe this image. Figma's own scrim is 0% opacity
+      // on this diagram (no darkening), which would leave white caption
+      // text illegible — used `captionTone: "dark"` instead.
       type: "imageBand",
       spacingBefore: "tighter",
       wide: true,
@@ -323,14 +304,14 @@ export const designingDatapay: CaseStudy = {
         {
           src: "/images/designing-datapay/12-grid-customer-journey-map.png",
           alt: "Customer Journey Map — Pay Run Submission & Review, showing the Payroll Admin and Payroll Consultant tracks",
-          caption: "Recording health treatments offline",
+          caption: "The winning AI job, confirming incoming data is correct, Admin submits and Consultant reviews.",
           captionTone: "dark",
           aspect: "880/473",
         },
         {
           src: "/images/designing-datapay/13-grid-workshop-video-call.png",
           alt: "A grid of colleagues on a video call workshop",
-          caption: "Workshop sessions with customers on AI and reporting needs",
+          caption: "Workshops with customers: AI and reporting needs",
           captionTone: "light",
           aspect: "1/1",
         },
@@ -374,21 +355,23 @@ export const designingDatapay: CaseStudy = {
       ],
     },
     {
-      // New 2026-09-17 — real Datapay analytics screenshots, replacing the
-      // FarmIQ stand-ins. No captions on either (Figma's caption layers are
-      // present but empty).
+      // Updated 2026-09-22 — replaced with the two real assets Sarah added
+      // to Figma (Frame 27, node 248:310746). Captions written directly
+      // with Sarah, not from Figma (its caption layers are empty).
       type: "imageBand",
       spacingBefore: "tight",
       layout: "two-equal",
       images: [
         {
-          src: "/images/designing-datapay/16-shift-mau-stickiness.png",
-          alt: "MAU trend chart across New, Web, and Classic products, with a 32.4% stickiness year-average callout",
+          src: "/images/designing-datapay/16-shift-presenting-secure-ai.png",
+          alt: "Presenting Secure AI in Payroll: a slide deck being shared, with survey callouts showing 71% workflow-embedded guidance, 48% chat Q&A, and 63% AI-does-you-approve preferences",
+          caption: "Presenting Secure AI in Payroll to NZPPA",
           aspect: "600/400",
         },
         {
-          src: "/images/designing-datapay/17-shift-event-comparison.png",
-          alt: "Event value comparison chart with month-over-month deltas",
+          src: "/images/designing-datapay/17-shift-survey-evidence.png",
+          alt: "Survey dashboards: AI-help theme clusters across 52 responses, and a 54-response breakdown of comfort with secure AI in payroll",
+          caption: "Sentiment shifts constantly, so evidence gathering never stops.",
           aspect: "600/400",
         },
       ],
@@ -445,7 +428,7 @@ export const designingDatapay: CaseStudy = {
           quote:
             "Everyone has varying confidence in AI, but we are all on the same track on what we would like to use it for in payroll... The whole day was worthwhile, and I think the best to date.",
           attribution: "CAB participant",
-          side: "right",
+          side: "left",
           accentColor: "#343b74", // Datapay navy (confirmed, about.ts CAB tile)
         },
       ],

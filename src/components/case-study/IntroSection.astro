@@ -65,7 +65,15 @@ const { section } = Astro.props;
     {section.paragraphs.map((p) => <p>{p}</p>)}
   </div>
 
-  <div class="flex flex-col gap-[var(--spacing-lg)]">
+  {
+    /* Extra mt on mobile only: the section's own gap-lg already spaces
+       every child block evenly, but the paragraph-to-quote break reads as
+       too tight there — bumping it to match the section's desktop gap
+       (spacing-lg + spacing-md = spacing-xlg), the usual larger spacer,
+       rather than a one-off value. Desktop is unaffected (mt-0), it
+       already gets spacing-xlg from the section's own lg:gap. */
+  }
+  <div class="mt-[var(--spacing-md)] flex flex-col gap-[var(--spacing-lg)] lg:mt-0">
     {
       section.quotes.map((quote) => (
         <div class="flex flex-col gap-2">

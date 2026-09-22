@@ -185,10 +185,18 @@ export const designLeadership: CaseStudy = {
       images: [
         {
           src: "/images/design-leadership/04-situation-wide.png",
+          // Mobile crop added 2026-09-22 — a genuinely different portrait
+          // composition (Sarah built this in Figma, exported as "All
+          // libraries-mobile.png"), not a CSS crop of the wide image: the
+          // 4 cards restack vertically instead of sitting side by side, so
+          // cropping the wide asset to a portrait box would've just zoomed
+          // into the middle card and lost the other three. Ratio (900/1717)
+          // is just whatever height that stack needed, same pattern as
+          // farmiq-thrive's 06-retiring-app-mobile.png.
+          srcMobile: "/images/design-leadership/04-situation-wide-mobile.png",
           alt: "Aligning all product and visual design across FarmIQ.",
-          // Caption removed (Sarah's call, 2026-09-05) — the collage's own
-          // 4 library labels (Core/Mobile app/Web-ex/Design Bible) already
-          // say what this image is, a caption on top was redundant.
+          // Caption re-added 2026-09-22 (supersedes the 2026-09-05 removal
+          // note below) — Sarah wants it on both breakpoints now.
           // No `fit` override (defaults to "cover") — "contain" was the
           // actual cause of the corner/width complaint: the image's real
           // ratio (2020/664 ≈ 3.04) doesn't quite match this box's 1010/327
@@ -200,7 +208,9 @@ export const designLeadership: CaseStudy = {
           // total vertical crop — the periwinkle backdrop runs edge-to-edge
           // in the source file with no real content near the top/bottom
           // edge to lose. Rounded corners restored (default).
+          caption: "The full library set: Core, Mobile, Web-ex, Brand.",
           aspect: "1010/327",
+          aspectMobile: "900/1717",
         },
       ],
     },
@@ -248,10 +258,15 @@ export const designLeadership: CaseStudy = {
       images: [
         {
           src: "/images/design-leadership/05-design-jams.png",
+          // Mobile crop added 2026-09-22 — restacked portrait composition
+          // Sarah built in Figma ("DesignJam-mobile.png"), same pattern as
+          // 04-situation-wide's mobile crop just above.
+          srcMobile: "/images/design-leadership/05-design-jams-mobile.png",
           alt: "Cross-team DesignJams: faster, more collaborative, and genuinely fun. FWFP was a team effort with Holly, Marco, and me.",
           caption: "Cross-team DesignJams: faster, more collaborative, and genuinely fun.",
           captionTone: "dark",
           aspect: "1010/569",
+          aspectMobile: "900/1448",
         },
       ],
     },
@@ -279,6 +294,11 @@ export const designLeadership: CaseStudy = {
       },
     },
     {
+      // Stays portrait (400/600) on mobile, no square aspectMobile override
+      // (removed 2026-09-22) — these are dense, text-heavy research
+      // artifacts, not photos, so a square crop would lose real content
+      // top and bottom. Sarah's rule: photos can crop to square, detail
+      // content should keep its desktop ratio on mobile too.
       type: "imageBand",
       spacingBefore: "tight",
       wide: true,
@@ -294,7 +314,6 @@ export const designLeadership: CaseStudy = {
           // picker.
           captionBg: "#E0CCFB",
           aspect: "400/600",
-          aspectMobile: "1/1",
         },
         {
           src: "/images/design-leadership/10-farmer-building-blocks.png",
@@ -302,7 +321,6 @@ export const designLeadership: CaseStudy = {
           caption: "Farmer Building Blocks: adoption, packs, roles & JTBD.",
           captionTone: "dark",
           aspect: "400/600",
-          aspectMobile: "1/1",
         },
         {
           src: "/images/design-leadership/11-roles-on-a-page.png",
@@ -312,7 +330,6 @@ export const designLeadership: CaseStudy = {
           // call, 2026-09-05) — exact hex from her own colour picker.
           captionBg: "#F7FEE7",
           aspect: "400/600",
-          aspectMobile: "1/1",
         },
       ],
     },
