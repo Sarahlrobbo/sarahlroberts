@@ -1,4 +1,7 @@
 ---
+// Footer illustration hidden 2026-09-24 until Sarah draws her own version; flip to
+// true and replace public/images/footer/illustration.png to bring it back.
+const showIllustration = false;
 // Figma (node 77:90208, "Navigation" — misnamed, this is the footer):
 // tagline + illustration, "Explore"/"Contact" link columns, a divider,
 // then a copyright line and a "Sarah Roberts" pill. The footer's own
@@ -42,9 +45,13 @@ const currentYear = new Date().getFullYear();
         <p class="text-style-intro text-[var(--color-text-secondary)] lg:w-[448px]">
           I help teams stop guessing what customers want, and start building what the research says they need.
         </p>
-        <div class="size-[150px] shrink-0 overflow-hidden rounded-[var(--radius-l)] mix-blend-multiply">
-          <img src="/images/footer/illustration.png" alt="" aria-hidden="true" class="size-full object-cover" />
-        </div>
+        {
+          showIllustration && (
+            <div class="size-[150px] shrink-0 overflow-hidden rounded-[var(--radius-l)] mix-blend-multiply">
+              <img src="/images/footer/illustration.png" alt="" aria-hidden="true" class="size-full object-cover" />
+            </div>
+          )
+        }
       </div>
 
       <div class="flex items-start gap-[var(--spacing-xlg)]">
@@ -58,7 +65,7 @@ const currentYear = new Date().getFullYear();
               href="/#work"
               class="text-style-body-semibold whitespace-nowrap text-[var(--color-text-secondary)] hover:text-[var(--color-text-brand)]"
             >
-              All Projects
+              Design in action
             </a>
             <a
               href="/about"

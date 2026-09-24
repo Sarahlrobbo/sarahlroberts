@@ -20,6 +20,9 @@ import type { CaseStudy } from "../../lib/case-study";
 //     for now, Sarah to finalise the copy.
 export const keepingKiwisSafe: CaseStudy = {
   slug: "keeping-kiwis-safe",
+  description:
+    "I facilitated a five-day Design Sprint and led the UX and UI for Plan My Walk, an app that has reached over 1 million users and was a Best Design Awards Finalist.",
+  ogImage: "/images/og/keeping-kiwis-safe.jpg",
   title: "The App Keeping Kiwis Safe \nOutdoors",
   authorName: "Sarah Roberts",
   backHref: "/",
@@ -27,7 +30,7 @@ export const keepingKiwisSafe: CaseStudy = {
     // Dark mountain photo — light title + nav for contrast.
     invertText: true,
     background: {
-      src: "/images/keeping-kiwis-safe/cover-bg.jpg",
+      src: "/images/keeping-kiwis-safe/cover-bg.webp",
       alt: "Tramper on a boardwalk track heading toward snow-covered mountains",
       aspect: "16/9",
     },
@@ -35,7 +38,7 @@ export const keepingKiwisSafe: CaseStudy = {
       // Hero-PMW.png — three phones: the Tongariro Northern Circuit topo map,
       // the Alpine Crossing track screen, and a Cass-Lagoon weather forecast.
       src: "/images/keeping-kiwis-safe/cover-float.png",
-      alt: "Plan My Walk app — a track map, a track detail screen, and a weather forecast",
+      alt: "Plan My Walk app: a track map, a track detail screen, and a weather forecast",
       aspect: "1800/1014",
     },
   },
@@ -139,7 +142,7 @@ export const keepingKiwisSafe: CaseStudy = {
       images: [
         {
           src: "/images/keeping-kiwis-safe/situation-old-tool.jpg",
-          alt: "MSC's old Plan My Trip web tool — a form of activity tiles over a mountain photo",
+          alt: "MSC's old Plan My Trip web tool: a form of activity tiles over a mountain photo",
           caption:
             "Plan My Trip: fill out a form, download a PDF. Not how people actually plan an adventure.",
           captionTone: "light",
@@ -177,7 +180,7 @@ export const keepingKiwisSafe: CaseStudy = {
           // compact 2-column layout ("Design Sprint - mobile2.png") — a
           // restacked composition Sarah built in Figma, same pattern as
           // design-leadership's wide-band mobile crops.
-          srcMobile: "/images/keeping-kiwis-safe/situation-design-sprint-mobile.png",
+          srcMobile: "/images/keeping-kiwis-safe/situation-design-sprint-mobile.webp",
           alt: "Design Sprint phases: Understand, Sketch, Decide, Prototype, Test",
           caption:
             "A 5-day Design Sprint with MSC’s stakeholders, moving from research to a tested prototype in a week.",
@@ -223,7 +226,7 @@ export const keepingKiwisSafe: CaseStudy = {
       images: [
         {
           youtubeId: "k4YzJ4wNcVM",
-          alt: "Plan My Walk “Want to be inspired?” promo — trampers walking a valley track toward snowy mountains",
+          alt: "Plan My Walk “Want to be inspired?” promo: trampers walking a valley track toward snowy mountains",
           aspect: "710/400",
         },
       ],
@@ -378,7 +381,7 @@ export const keepingKiwisSafe: CaseStudy = {
       // Figma has two extra "down" signal slots marked TBD (no down-signal
       // data for this case study) — omitted rather than invented.
       signals: [
-        { direction: "up", text: "1 million+ users — New Zealand’s go-to tramping planning tool" },
+        { direction: "up", text: "1 million+ users, New Zealand’s go-to tramping planning tool" },
         { direction: "up", text: "83,000+ downloads on Google Play alone" },
         { direction: "up", text: "5-star App Store rating" },
       ],

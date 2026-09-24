@@ -44,14 +44,14 @@ export const currentRolePhoto: AccentPhoto = {
 
 export const careerTimelinePhotos: AccentPhoto[] = [
   {
-    src: "/images/about/03-helping-trampers-stay-safe.png",
+    src: "/images/about/03-helping-trampers-stay-safe.webp",
     alt: "",
     caption: "Helping trampers stay safe.",
     aspect: "1/1",
     widthPx: 228,
   },
   {
-    src: "/images/about/05-data-at-fingertips.png",
+    src: "/images/about/05-data-at-fingertips.webp",
     alt: "",
     caption: "Data at your fingertips.",
     aspect: "1/1",
@@ -60,7 +60,7 @@ export const careerTimelinePhotos: AccentPhoto[] = [
 ];
 
 export const leadershipPhoto: AccentPhoto = {
-  src: "/images/about/04-team-learning.png",
+  src: "/images/about/04-team-learning.webp",
   alt: "",
   caption: "Team Learning.",
   aspect: "335/229",
@@ -160,7 +160,8 @@ export interface CraftTile {
   title: string;
   body: string;
   linkLabel: string;
-  linkHref: string;
+  /** Omit when the tile has nowhere to link yet; it then renders as a plain, non-clickable tile (and drops the arrow). */
+  linkHref?: string;
   accentColor: string;
   logo: string;
   logoAlt: string;
@@ -181,7 +182,6 @@ export const craftTiles: CraftTile[] = [
     title: "Interactive JTBD website",
     body: "Built and shipped using Cursor and GitHub, so customer insight lives alongside engineering work.",
     linkLabel: "Shaping Datapay's direction →",
-    linkHref: "#",
     accentColor: "#0ab8d7",
     logo: "/images/about/logos/datapay-icon.svg",
     logoAlt: "Datapay",
@@ -200,7 +200,7 @@ export const craftTiles: CraftTile[] = [
     // "Multi-platform design system") reads like it's about that case
     // study instead. Flagging to Sarah rather than silently repointing it,
     // same as the earlier Metlink/Hatch content mismatch.
-    linkHref: "/case-studies/helping-farmers-thrive",
+    linkHref: "/case-studies/design-leadership",
     accentColor: "#ffb2ea",
     logo: "/images/farmiq-thrive/farmiq-logo.svg",
     logoAlt: "FarmIQ",
@@ -212,7 +212,6 @@ export const craftTiles: CraftTile[] = [
     title: "FIF Report PDF and landing page",
     body: "Solo designer on the report customers paid $50 for, and the campaign landing page.",
     linkLabel: "Tax Time Calculator →",
-    linkHref: "#",
     accentColor: "#7e54e3",
     logo: "/images/about/logos/hatch-wordmark.svg",
     logoAlt: "Hatch",
@@ -224,7 +223,7 @@ export const craftTiles: CraftTile[] = [
     title: "Customer Advisory Board",
     body: "I design the agenda for our quarterly CAB sessions, product leaders help run them. Consistently rated customers' favourite part of the day.",
     linkLabel: "Shaping Datapay's AI direction →",
-    linkHref: "#",
+    linkHref: "/case-studies/designing-datapay",
     accentColor: "#343b74",
     logo: "/images/about/logos/datapay-icon.svg",
     logoAlt: "Datapay",
@@ -242,9 +241,9 @@ export interface BioPhoto {
 
 // Order + tooltip captions reference-matched from sarah-roberts-portfolio-2.
 export const bioPhotos: BioPhoto[] = [
-  { src: "/images/about/bio-mountains.png", alt: "Sarah in the mountains", tooltip: "In the mountains" },
-  { src: "/images/about/bio-me-chch.png", alt: "Sarah smiling by the river in Christchurch", tooltip: "Hi! 👋 That's me" },
-  { src: "/images/about/bio-hut.png", alt: "Sarah at a hut", tooltip: "In a hut" },
+  { src: "/images/about/bio-mountains.webp", alt: "Sarah in the mountains", tooltip: "In the mountains" },
+  { src: "/images/about/bio-me-chch.webp", alt: "Sarah smiling by the river in Christchurch", tooltip: "Hi! 👋 That's me" },
+  { src: "/images/about/bio-hut.webp", alt: "Sarah at a hut", tooltip: "In a hut" },
 ];
 
 export interface Testimonial {
@@ -252,6 +251,8 @@ export interface Testimonial {
   name: string;
   role: string;
   avatar: string;
+  /** Temporarily hides this testimonial on both the homepage and /about. Delete the flag to bring it back. */
+  hidden?: boolean;
 }
 
 // Real photos for Todd + Holly (Sarah supplied these); Cecilia, Lisa, and
@@ -282,6 +283,7 @@ export const testimonials: Testimonial[] = [
     name: "Cecilia Toh",
     role: "Senior Product Manager, Datapay",
     avatar: placeholderAvatar,
+    hidden: true,
   },
   {
     quote:
@@ -289,6 +291,7 @@ export const testimonials: Testimonial[] = [
     name: "Lisa Black",
     role: "Senior Payroll Leader, Farmers (Customer of Datapay)",
     avatar: placeholderAvatar,
+    hidden: true,
   },
   {
     quote:
@@ -296,5 +299,6 @@ export const testimonials: Testimonial[] = [
     name: "???",
     role: "Lead Engineer, Datapay",
     avatar: placeholderAvatar,
+    hidden: true,
   },
 ];

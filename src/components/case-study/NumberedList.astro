@@ -8,7 +8,7 @@ const { section } = Astro.props;
 ---
 
 <section class="mx-auto flex max-w-[1010px] flex-col gap-[var(--spacing-lg)] px-4 lg:mx-0 lg:ml-auto lg:mr-[var(--spacing-lg)] lg:px-0">
-  <p class="text-style-intro text-[var(--color-text-primary)] lg:w-[600px]">{section.heading}</p>
+  <h2 class="text-style-intro text-[var(--color-text-primary)] lg:w-[600px]">{section.heading}</h2>
 
   <div
     class:list={[
@@ -28,7 +28,7 @@ const { section } = Astro.props;
               section.columns !== 2 && "lg:w-[600px]",
             ]}
           >
-            <p class="text-style-body-semibold">{item.heading}</p>
+            <h3 class="text-style-body-semibold">{item.heading}</h3>
             <p>{item.body}</p>
           </div>
         </div>

@@ -61,7 +61,7 @@ export const projectCards: ProjectCard[] = [
     // matched the case study's real story. New cover: the Pay Run
     // self-service resolve/review screen (flagged items, AI-assisted
     // status) floating over a real workshop photo.
-    src: "/images/home/covers/datapay-ai-payroll.png",
+    src: "/images/home/covers/datapay-ai-payroll.webp",
     alt: "Datapay's Pay Run resolve screen, flagging items that need attention, floating over a workshop photo",
     aspect: "613/400",
     logoSrc: "/images/about/logos/datapay-icon.svg",
@@ -100,7 +100,7 @@ export const projectCards: ProjectCard[] = [
     // (Sarah's call, see src/data/case-studies/farmiq-thrive.ts) — the old
     // URL still resolves via the redirect in astro.config.mjs.
     href: "/case-studies/helping-farmers-thrive",
-    src: "/images/home/covers/farmiq-essential-app.png",
+    src: "/images/home/covers/farmiq-essential-app.webp",
     alt: "Farmer on a quad bike using the FarmIQ app, with the map and treatment-details screens alongside",
     aspect: "635/460",
     logoSrc: "/images/farmiq-thrive/farmiq-logo-white.svg",
@@ -160,7 +160,7 @@ export const projectCards: ProjectCard[] = [
     // above, not this topic. URL scheme assigned 2026-08-10 (Sarah's call);
     // 404s until the case study is built.
     href: "/case-studies/design-leadership",
-    src: "/images/home/covers/farmiq-design-team.png",
+    src: "/images/home/covers/farmiq-design-team.webp",
     alt: "FarmIQ design system libraries with the design team",
     // 624/460 — deliberately smaller than Figma's real 691/509 (node
     // 123:220205, "Frame 45" in the 3-row/6-card grid there). Tried the
@@ -209,8 +209,8 @@ export const projectCards: ProjectCard[] = [
     // URL scheme assigned 2026-08-10 (Sarah's call); 404s until the case
     // study is built.
     href: "/case-studies/keeping-kiwis-safe",
-    src: "/images/home/covers/plan-my-walk.png",
-    alt: "Plan My Walk app — the Tongariro Alpine Crossing track screen, over a tramper on the trail",
+    src: "/images/home/covers/plan-my-walk.webp",
+    alt: "Plan My Walk app showing the Tongariro Alpine Crossing track screen, over a tramper on the trail",
     // 613/400 — matches DataPay's box (index.astro row 1) exactly. Was
     // 557/400 (Sarah's own earlier correction, at the time read off a
     // Figma "Project Cover" instance that turned out on closer look to be
@@ -299,7 +299,7 @@ export const pausedProjectCards: ProjectCard[] = [
     title: "Tax Time Calculator",
     href: "#",
     src: "/images/home/covers/hatch-tax-time.png",
-    alt: "Hatch Tax Time Calculator case study cover (rest-state content doesn't match this slot's real hover content — see note above)",
+    alt: "Hatch Tax Time Calculator case study cover",
     aspect: "557/400",
     logoSrc: "/images/about/logos/hatch-wordmark.svg",
     logoAlt: "Hatch",
@@ -384,9 +384,9 @@ export interface HeroCover {
 // below 1440 only the aspect-ratio (w/h) is read from these values, so
 // scaling both by one factor is a no-op there.
 export const heroCovers: HeroCover[] = [
-  { src: "/images/home/hero/01-datapay.png", alt: "Datapay screens preview", top: 39, left: -220, width: 400, height: 276, rotate: 3.78 },
+  { src: "/images/home/hero/01-datapay.webp", alt: "Datapay screens preview", top: 39, left: -220, width: 400, height: 276, rotate: 3.78 },
   {
-    src: "/images/home/hero/02-fiq-diary.png",
+    src: "/images/home/hero/02-fiq-diary.webp",
     alt: "Farmer using FarmIQ in the field",
     top: 0,
     left: 28,
@@ -403,7 +403,7 @@ export const heroCovers: HeroCover[] = [
     height: 271,
     rotate: 0,
   },
-  { src: "/images/home/hero/04-list.png", alt: "Plan My Walk packing list on phone", top: 18, left: 501, width: 399, height: 274, rotate: -3.57 },
+  { src: "/images/home/hero/04-list.webp", alt: "Plan My Walk packing list on phone", top: 18, left: 501, width: 399, height: 274, rotate: -3.57 },
   {
     // Best-guess match, not folder-confirmed like the other four — see note above.
     src: "/images/home/hero/05-hatch-tax-time.png",

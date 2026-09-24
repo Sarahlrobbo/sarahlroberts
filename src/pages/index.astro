@@ -25,9 +25,24 @@ const heroFanHeight = Math.max(...heroCovers.map((c) => c.top + c.height));
 // can't drift out of sync if heroCovers ever changes.
 const heroFanMinLeft = Math.min(...heroCovers.map((c) => c.left));
 const heroFanWidth = Math.max(...heroCovers.map((c) => c.left + c.width)) - heroFanMinLeft;
+
+const personJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "Sarah Roberts",
+  jobTitle: "Design & Research Lead",
+  url: "https://sarahlroberts.com",
+  address: { "@type": "PostalAddress", addressLocality: "Christchurch", addressCountry: "NZ" },
+  sameAs: ["https://www.linkedin.com/in/sarahlroberts-christchurch/", "https://www.instagram.com/sarahlrobbo"],
+};
 ---
 
-<Layout title="Sarah Roberts — Design & Research Lead" description="Design & Research Lead, Christchurch, Aotearoa New Zealand.">
+<Layout
+  title="Sarah Roberts | Design & Research Lead"
+  description="Design & Research Lead, Christchurch, Aotearoa New Zealand."
+  jsonLd={personJsonLd}
+>
+  <main>
   <!-- NAV + HERO (Figma "My Role & Situation BG Dots" spans behind both) -->
   <div class="relative">
     <div aria-hidden="true" class="absolute inset-0 -z-10 left-1/2 w-screen -translate-x-1/2 bg-dot-grid"></div>
@@ -36,7 +51,7 @@ const heroFanWidth = Math.max(...heroCovers.map((c) => c.left + c.width)) - hero
     <section data-hero-root class="mx-auto flex max-w-[846px] flex-col items-center gap-[var(--spacing-lg)] px-4 pt-[var(--spacing-2xlg)] pb-[var(--spacing-2xlg)] text-center">
       <div class="flex flex-col items-center gap-[var(--spacing-sm)]">
         <p class="text-style-h4 text-[var(--color-text-brand)]">👋 Hi, I'm Sarah, Design &amp; Research Lead</p>
-        <h1 class="text-style-h2 text-[var(--color-text-brand)]">
+        <h1 id="page-title" tabindex="-1" class="text-style-h2 text-[var(--color-text-brand)]">
           I believe good product discovery starts with questions that become evidence.
         </h1>
       </div>
@@ -159,7 +174,7 @@ const heroFanWidth = Math.max(...heroCovers.map((c) => c.left + c.width)) - hero
     <h2 class="text-style-h2 text-center text-[var(--color-text-brand)]">Kind words from colleagues &amp; customers</h2>
     <div class="flex flex-col gap-[var(--spacing-2xlg)]">
       {
-        testimonials.map((t) => (
+        testimonials.filter((t) => !t.hidden).map((t) => (
           <div data-testimonial class="scroll-reveal testimonial-card flex w-full max-w-[640px] flex-col gap-[var(--spacing-md)] rounded-[var(--radius-xl)] p-[var(--spacing-lg)]">
             <p class="text-style-body text-[var(--color-text-primary)]" set:html={`&ldquo;${renderHighlight(t.quote)}&rdquo;`} />
             <div class="flex items-center gap-[var(--spacing-xmd)]">
@@ -225,6 +240,7 @@ const heroFanWidth = Math.max(...heroCovers.map((c) => c.left + c.width)) - hero
       }
     </div>
   </section>
+  </main>
 </Layout>
 
 <script>

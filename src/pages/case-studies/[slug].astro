@@ -13,6 +13,13 @@ export function getStaticPaths() {
 const { caseStudy } = Astro.props;
 ---
 
-<Layout title={`${caseStudy.title.replace("\n", " ")} — Sarah Roberts`}>
-  <CaseStudyTemplate caseStudy={caseStudy} />
+<Layout
+  title={`${caseStudy.title} | Sarah Roberts`}
+  description={caseStudy.description}
+  image={caseStudy.ogImage}
+  imageAlt={`Cover image for the case study: ${caseStudy.title.replace(/\s+/g, " ").trim()}`}
+>
+  <main>
+    <CaseStudyTemplate caseStudy={caseStudy} />
+  </main>
 </Layout>

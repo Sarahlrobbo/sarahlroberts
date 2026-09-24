@@ -34,6 +34,9 @@ import type { CaseStudy } from "../../lib/case-study";
 // below are typed exactly as they render in Figma.
 export const designLeadership: CaseStudy = {
   slug: "design-leadership",
+  description:
+    "I built a Design Team Charter, refreshed FarmIQ's customer understanding through JTBD, and led the shift to a governed multi-platform design system.",
+  ogImage: "/images/og/design-leadership.jpg",
   title: "Growing FarmIQ's Design Team, Practice & Systems",
   authorName: "Sarah Roberts",
   backHref: "/",
@@ -48,8 +51,8 @@ export const designLeadership: CaseStudy = {
   cover: {
     variant: "team",
     background: {
-      src: "/images/design-leadership/01-hero-board.png",
-      alt: "Team charter board — strengths, working styles, and collaboration agreements for Smita, Sarah, Holly, and Marco",
+      src: "/images/design-leadership/01-hero-board.webp",
+      alt: "Team charter board with strengths, working styles, and collaboration agreements for Smita, Sarah, Holly, and Marco",
       // Pre-cropped by Sarah in Figma to her exact chosen bottom edge, then
       // re-exported 2026-09-06 with the candy-heart stickers removed ("Cover-
       // Less Hearts.png" in New Website/Leadership/) — they read too playful
@@ -110,7 +113,7 @@ export const designLeadership: CaseStudy = {
       layout: "two-uneven",
       images: [
         {
-          src: "/images/design-leadership/07-brand-consistency.png",
+          src: "/images/design-leadership/07-brand-consistency.webp",
           alt: "Whilst at FIQ I uplifted the brand by adding consistency across the products.",
           caption: "Uplifting brand consistency across the products.",
           captionTone: "light",
@@ -118,7 +121,7 @@ export const designLeadership: CaseStudy = {
           aspectMobile: "1/1",
         },
         {
-          src: "/images/design-leadership/08-design-principles.png",
+          src: "/images/design-leadership/08-design-principles.webp",
           alt: "Design Principles Holly created with coaching.",
           caption: "Design Principles Holly created with coaching.",
           captionTone: "light",
@@ -161,14 +164,14 @@ export const designLeadership: CaseStudy = {
       layout: "two-equal",
       images: [
         {
-          src: "/images/design-leadership/02-situation-before.png",
+          src: "/images/design-leadership/02-situation-before.webp",
           alt: "Products before aligned design system.",
           caption: "Products before aligned design system.",
           captionTone: "dark",
           aspect: "600/400",
         },
         {
-          src: "/images/design-leadership/03-situation-after.png",
+          src: "/images/design-leadership/03-situation-after.webp",
           alt: "Products after understanding customers roles and JTBD.",
           caption: "Products after design system, roles & JTBD.",
           captionTone: "dark",
@@ -184,7 +187,7 @@ export const designLeadership: CaseStudy = {
       layout: "single",
       images: [
         {
-          src: "/images/design-leadership/04-situation-wide.png",
+          src: "/images/design-leadership/04-situation-wide.webp",
           // Mobile crop added 2026-09-22 — a genuinely different portrait
           // composition (Sarah built this in Figma, exported as "All
           // libraries-mobile.png"), not a CSS crop of the wide image: the
@@ -193,7 +196,7 @@ export const designLeadership: CaseStudy = {
           // into the middle card and lost the other three. Ratio (900/1717)
           // is just whatever height that stack needed, same pattern as
           // farmiq-thrive's 06-retiring-app-mobile.png.
-          srcMobile: "/images/design-leadership/04-situation-wide-mobile.png",
+          srcMobile: "/images/design-leadership/04-situation-wide-mobile.webp",
           alt: "Aligning all product and visual design across FarmIQ.",
           // Caption re-added 2026-09-22 (supersedes the 2026-09-05 removal
           // note below) — Sarah wants it on both breakpoints now.
@@ -257,11 +260,11 @@ export const designLeadership: CaseStudy = {
       layout: "single",
       images: [
         {
-          src: "/images/design-leadership/05-design-jams.png",
+          src: "/images/design-leadership/05-design-jams.webp",
           // Mobile crop added 2026-09-22 — restacked portrait composition
           // Sarah built in Figma ("DesignJam-mobile.png"), same pattern as
           // 04-situation-wide's mobile crop just above.
-          srcMobile: "/images/design-leadership/05-design-jams-mobile.png",
+          srcMobile: "/images/design-leadership/05-design-jams-mobile.webp",
           alt: "Cross-team DesignJams: faster, more collaborative, and genuinely fun. FWFP was a team effort with Holly, Marco, and me.",
           caption: "Cross-team DesignJams: faster, more collaborative, and genuinely fun.",
           captionTone: "dark",
@@ -306,7 +309,7 @@ export const designLeadership: CaseStudy = {
       layout: "three-grid",
       images: [
         {
-          src: "/images/design-leadership/09-customer-roles.png",
+          src: "/images/design-leadership/09-customer-roles.webp",
           alt: "Every customer we spoke to in discovery shared our roles.",
           caption: "Every customer in discovery shaped our roles.",
           // Solid band instead of overlaying the persona collage directly
@@ -323,7 +326,7 @@ export const designLeadership: CaseStudy = {
           aspect: "400/600",
         },
         {
-          src: "/images/design-leadership/11-roles-on-a-page.png",
+          src: "/images/design-leadership/11-roles-on-a-page.webp",
           alt: "Roles on a page helped Product understand customers needs.",
           caption: "Roles-on-a-page helped Product understand customers.",
           // Solid band instead of overlaying the grid directly (Sarah's
@@ -341,14 +344,14 @@ export const designLeadership: CaseStudy = {
       layout: "two-equal",
       images: [
         {
-          src: "/images/design-leadership/12-diary-desktop.png",
+          src: "/images/design-leadership/12-diary-desktop.webp",
           alt: "Diary: farm-wide view for in-field decisions.",
           caption: "Diary: farm-wide view for in-field decisions.",
           captionTone: "light",
           aspect: "600/400",
         },
         {
-          src: "/images/design-leadership/13-diary-mobile.png",
+          src: "/images/design-leadership/13-diary-mobile.webp",
           alt: "Diary on the mobile app: 80% CSAT on launch.",
           caption: "Diary on the mobile app: 80% CSAT on launch.",
           captionTone: "light",
@@ -378,7 +381,7 @@ export const designLeadership: CaseStudy = {
           aspect: "600/400",
         },
         {
-          src: "/images/design-leadership/15-shift-farmers.png",
+          src: "/images/design-leadership/15-shift-farmers.webp",
           alt: "Farmers happier to help with discovery, they could see our progress.",
           caption: "Farmers happier to help, they could see our progress.",
           captionTone: "dark",
@@ -431,7 +434,7 @@ export const designLeadership: CaseStudy = {
       slides: [
         {
           image: {
-            src: "/images/design-leadership/16-quote-todd.jpg",
+            src: "/images/design-leadership/16-quote-todd.webp",
             alt: "Todd White, Head of Product, FarmIQ, on farm with the team and their dogs",
             aspect: "834/440",
           },
@@ -453,7 +456,7 @@ export const designLeadership: CaseStudy = {
           // that assumption here since it's a genuine photo, not a
           // placeholder illustration.
           image: {
-            src: "/images/design-leadership/17-quote-holly.png",
+            src: "/images/design-leadership/17-quote-holly.webp",
             alt: "Holly Feary, Senior Product Designer, FarmIQ, on stage at a conference",
             aspect: "834/440",
           },

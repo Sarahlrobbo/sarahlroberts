@@ -57,7 +57,7 @@ const AVATAR_WIDTH_RATIO = 0.56;
 <div class="relative left-1/2 w-screen -translate-x-1/2 rounded-b-[var(--radius-xl)] bg-[#FFFCF2] lg:rounded-b-[var(--radius-2xlg)]">
   <Navigation authorName={authorName} />
 
-  <h1 class="text-style-h1 mx-auto max-w-[900px] px-4 pt-[var(--spacing-lg)] pb-[var(--spacing-2xlg)] text-center text-[var(--color-text-primary)] lg:px-0">
+  <h1 id="page-title" tabindex="-1" class="text-style-h1 mx-auto max-w-[900px] px-4 pt-[var(--spacing-lg)] pb-[var(--spacing-2xlg)] text-center text-[var(--color-text-primary)] lg:px-0">
     {titleLines.map((line, i) => (
       <>
         {i > 0 && <br />}

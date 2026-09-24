@@ -76,7 +76,7 @@ const titleColor = invertText ? "text-[var(--color-text-invert)]" : "text-[var(-
         tablet reads like a scaled-down desktop title instead.
       */
     }
-    <h1 class={`text-style-h1 max-w-[340px] px-4 text-center ${titleColor} sm:max-w-[450px] lg:max-w-[784px] lg:px-0`}>
+    <h1 id="page-title" tabindex="-1" class={`text-style-h1 max-w-[340px] px-4 text-center ${titleColor} sm:max-w-[450px] lg:max-w-[784px] lg:px-0`}>
       {titleLines.map((line, i) => (
         <>
           {i > 0 && <br />}

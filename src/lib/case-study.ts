@@ -251,6 +251,10 @@ export interface CaseStudy {
   slug: string;
   /** Hero title; `\n` marks the manual Figma line break. */
   title: string;
+  /** Meta description for search results and link previews (~155 chars). */
+  description?: string;
+  /** Link-preview image (1200x630), path under /public. */
+  ogImage?: string;
   cover:
     | {
         variant?: "photo";

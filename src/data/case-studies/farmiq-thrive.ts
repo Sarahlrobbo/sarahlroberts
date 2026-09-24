@@ -14,22 +14,25 @@ export const farmiqThrive: CaseStudy = {
   // other 3 go-live case studies (Sarah's call, 2026-08-10) — see the old
   // route's redirect stub at src/pages/case-studies/farmiq-thrive.astro.
   slug: "helping-farmers-thrive",
+  description:
+    "I led the redesign of FarmIQ's offline-first mobile app for farmers in the paddock, taking app stickiness to 32.4%, a 17.5% year-on-year increase.",
+  ogImage: "/images/og/farmiq-thrive.jpg",
   title: "Helping Farmers Thrive: \nCreating Their Essential App",
   authorName: "Sarah Roberts",
   backHref: "/",
   cover: {
     background: {
-      src: "/images/farmiq-thrive/01-hero-cover.jpg",
+      src: "/images/farmiq-thrive/01-hero-cover.webp",
       alt: "Farmer and dog at a paddock gate, FarmIQ app screens overlaid",
       aspect: "16/9",
     },
     deviceImage: {
-      src: "/images/farmiq-thrive/01-cover-top.png",
+      src: "/images/farmiq-thrive/01-cover-top.webp",
       alt: "FarmIQ mobile app screens: map view, treatment form, and field details",
       aspect: "1000/563",
     },
     deviceImageMobile: {
-      src: "/images/farmiq-thrive/01-cover-top-mobile.png",
+      src: "/images/farmiq-thrive/01-cover-top-mobile.webp",
       alt: "FarmIQ mobile app screens: map view, treatment form, and field details",
       aspect: "1000/1000",
     },
@@ -145,7 +148,7 @@ export const farmiqThrive: CaseStudy = {
       images: [
         {
           src: "/images/farmiq-thrive/06-retiring-app.jpg",
-          srcMobile: "/images/farmiq-thrive/06-retiring-app-mobile.png",
+          srcMobile: "/images/farmiq-thrive/06-retiring-app-mobile.webp",
           alt: "Retiring the classic app (far right).",
           caption: "Retiring the classic app (far right).",
           captionTone: "dark",
@@ -239,7 +242,7 @@ export const farmiqThrive: CaseStudy = {
           aspectMobile: "1/1",
         },
         {
-          src: "/images/farmiq-thrive/10-in-paddock-research.jpg",
+          src: "/images/farmiq-thrive/10-in-paddock-research.webp",
           alt: "In the paddock observing customers.",
           caption: "In the paddock observing customers.",
           captionTone: "light",

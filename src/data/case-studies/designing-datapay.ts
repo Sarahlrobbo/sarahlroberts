@@ -63,17 +63,20 @@ import type { CaseStudy } from "../../lib/case-study";
 // unchanged from the 09-16 build — confirmed by hash, not by assumption.
 export const designingDatapay: CaseStudy = {
   slug: "designing-datapay",
+  description:
+    "I built Datapay's D1–D5 framework for AI delegation, validated it with customers, and designed the two-sided workflow payroll consultants chose to start with.",
+  ogImage: "/images/og/designing-datapay.jpg",
   title: "Customers Delegating to AI, One Job at a Time",
   authorName: "Sarah Roberts",
   backHref: "/",
   cover: {
     background: {
-      src: "/images/designing-datapay/01-hero-cover.jpg",
+      src: "/images/designing-datapay/01-hero-cover.webp",
       alt: "Auckland skyline at dusk, viewed across the harbour",
       aspect: "16/9",
     },
     deviceImage: {
-      src: "/images/designing-datapay/01-cover-top.png",
+      src: "/images/designing-datapay/01-cover-top.webp",
       alt: "Datapay Pay Run Details screen showing anomaly detection flagging a gross pay variance",
       aspect: "1000/563",
     },
@@ -128,7 +131,7 @@ export const designingDatapay: CaseStudy = {
         {
           // Re-cropped 2026-09-17 — same office/harbour scene, new landscape
           // framing Sarah set up in Figma (was a tighter portrait crop).
-          src: "/images/designing-datapay/02-office-harbour.png",
+          src: "/images/designing-datapay/02-office-harbour.webp",
           alt: "A payroll professional at her desk, hand in her hair, with an Auckland harbour view behind her",
           caption: "Deadline-driven, high-stress work, especially around payday. Research showed us where to reduce the cognitive load.",
           aspect: "600/400",
@@ -173,13 +176,13 @@ export const designingDatapay: CaseStudy = {
       layout: "two-equal",
       images: [
         {
-          src: "/images/designing-datapay/04-research-illustration.png",
+          src: "/images/designing-datapay/04-research-illustration.webp",
           alt: "Illustration of a payroll professional at a desk surrounded by research quote bubbles",
           caption: "Synthesised from 21 research projects, five of mine. The theme was always accuracy and trust.",
           aspect: "600/400",
         },
         {
-          src: "/images/designing-datapay/05-payroll-ecosystem-diagram.png",
+          src: "/images/designing-datapay/05-payroll-ecosystem-diagram.webp",
           alt: "Diagram of payroll as an interconnected system of roles and controlled access",
           caption: "Employee, approver, payroll professional: data flows out and back. Auditor and secondary roles, a downstream, controlled view.",
           aspect: "600/400",
@@ -204,7 +207,7 @@ export const designingDatapay: CaseStudy = {
           // stack vertically with the delegation arrow running down the
           // left side instead of along the bottom.
           src: "/images/designing-datapay/08-situation-delegation-levels.png",
-          srcMobile: "/images/designing-datapay/08-situation-delegation-levels-mobile.png",
+          srcMobile: "/images/designing-datapay/08-situation-delegation-levels-mobile.webp",
           alt: "The five delegation levels from Human does to Routine in rules, with a Human-to-100%-AI-delegation scale",
           caption: "Five levels of delegation, from human does to AI autonomy.",
           aspect: "1358/396",
@@ -302,14 +305,14 @@ export const designingDatapay: CaseStudy = {
       layout: "two-uneven-reverse",
       images: [
         {
-          src: "/images/designing-datapay/12-grid-customer-journey-map.png",
-          alt: "Customer Journey Map — Pay Run Submission & Review, showing the Payroll Admin and Payroll Consultant tracks",
+          src: "/images/designing-datapay/12-grid-customer-journey-map.webp",
+          alt: "Customer Journey Map for Pay Run Submission & Review, showing the Payroll Admin and Payroll Consultant tracks",
           caption: "The winning AI job, confirming incoming data is correct, Admin submits and Consultant reviews.",
           captionTone: "dark",
           aspect: "880/473",
         },
         {
-          src: "/images/designing-datapay/13-grid-workshop-video-call.png",
+          src: "/images/designing-datapay/13-grid-workshop-video-call.webp",
           alt: "A grid of colleagues on a video call workshop",
           caption: "Workshops with customers: AI and reporting needs",
           captionTone: "light",
@@ -328,7 +331,7 @@ export const designingDatapay: CaseStudy = {
       images: [
         {
           src: "/images/designing-datapay/14-grid-payroll-admin-ui.png",
-          alt: "Payroll Admin's first agentic experience — prepares and submits screens",
+          alt: "Payroll Admin's first agentic experience, with screens that prepare and submit",
           caption: "Payroll Admin first agentic experience",
           captionTone: "light",
           fit: "contain",
@@ -407,7 +410,7 @@ export const designingDatapay: CaseStudy = {
           // source, framed for this slider's 834×440 box (not the same crop
           // as the Top-images band's own use of that photo).
           image: {
-            src: "/images/designing-datapay/18-quote-kathy-office.png",
+            src: "/images/designing-datapay/18-quote-kathy-office.webp",
             alt: "Two colleagues at their desks in an office with a harbour view",
             aspect: "834/440",
           },
@@ -421,7 +424,7 @@ export const designingDatapay: CaseStudy = {
           // Repeats the intro quote as the slider's last slide — same
           // pattern as farmiq-thrive.ts and keeping-kiwis-safe.ts.
           image: {
-            src: "/images/designing-datapay/19-quote-cab-participant.png",
+            src: "/images/designing-datapay/19-quote-cab-participant.webp",
             alt: "Two colleagues talking outdoors near a grassed courtyard",
             aspect: "834/440",
           },

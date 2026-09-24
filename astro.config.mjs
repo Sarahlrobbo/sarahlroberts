@@ -5,6 +5,8 @@ import tailwindcss from '@tailwindcss/vite';
 
 // https://astro.build/config
 export default defineConfig({
+  // Used for canonical URLs, Open Graph links, the sitemap and robots.txt.
+  site: 'https://sarahlroberts.com',
   // The FarmIQ Thrive case study's slug changed to match the URL scheme
   // used for the other 3 go-live case studies (Sarah's call, 2026-08-10,
   // see src/data/case-studies/farmiq-thrive.ts) — this keeps the old URL
