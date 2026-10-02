@@ -1,0 +1,10 @@
+# Real 301 redirects (Netlify reads this file) from the old Adobe Portfolio
+# URLs so saved links, LinkedIn posts and the CV keep working once
+# sarahlroberts.com points here. Answers confirmed with Sarah 2026-10-02.
+/about-me                 /about                                    301
+/projects                 /#work                                    301
+/contact                  /about                                    301
+/helping-farmers-thrive   /case-studies/helping-farmers-thrive      301
+/design-leadership        /case-studies/design-leadership           301
+/design-practice-farmiq   /case-studies/design-leadership           301
+/age-of-ai                /case-studies/designing-datapay           301

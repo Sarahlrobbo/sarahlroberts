@@ -1,0 +1,9 @@
+# Netlify build settings — kept in the repo so connecting the GitHub repo
+# auto-detects everything below with no manual typing in Netlify's UI.
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  # Astro 7 requires Node >= 22.12; Netlify's own default is older.
+  NODE_VERSION = "22.12.0"
