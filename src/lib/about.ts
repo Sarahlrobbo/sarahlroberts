@@ -271,10 +271,10 @@ export const testimonials: Testimonial[] = [
     quote:
       "Sarah uplifted how we did research at FarmIQ, and she ==made sure I was part of shaping it, not just delivering it.== Working closely with her on our design principles, I grew more confident making my own calls. The work we did together raised the bar for design output across the whole product.",
     name: "Holly Feary",
-    // Figma literally renders "(lled)" here — reads like a typo (maybe
-    // "(Lead)"?) but transcribed as-is rather than guessed at; flagged to
-    // Sarah to confirm the real wording.
-    role: "Senior Product Designer (lled), FarmIQ",
+    // Was "(lled)", a Figma typo flagged to Sarah — confirmed 2026-10-02:
+    // "(I led)", Sarah's own note that she led Holly at FarmIQ, not
+    // Holly's own title.
+    role: "Senior Product Designer (I led) at FarmIQ",
     avatar: "/images/about/10-avatar-holly-feary.png",
   },
   {
